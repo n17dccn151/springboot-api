@@ -2,7 +2,11 @@ package com.rockieslearning.crud.entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by TanVOD on Jun, 2021
@@ -30,6 +34,12 @@ public class User {
     @Column(name = "roles")
     private String roles;
 
+
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY , mappedBy = "user")
+    private Set<Order> orders = new HashSet<Order>();
+
+
     public User() {
 
     }
@@ -40,6 +50,15 @@ public class User {
         this.email = email;
         this.password = password;
         this.roles = roles;
+    }
+
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
 
     public Integer getUserId() {

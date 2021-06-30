@@ -64,7 +64,7 @@ public class CategoryController {
                                                                @RequestBody Category category){
         Category existCategory = categoryService.getCategoryById(categoryId);
         if(existCategory==null){
-            throw new FaResourceNotFoundException("Food not found");
+            throw new FaResourceNotFoundException("Category not found");
         }
         existCategory.setDescription(category.getDescription());
         existCategory.setName(category.getName());
@@ -85,7 +85,7 @@ public class CategoryController {
 
         Category category = categoryService.getCategoryById(categoryId);
         if(category==null){
-            throw new FaResourceNotFoundException("Food not found");
+            throw new FaResourceNotFoundException("Category not found");
         }
 
 
