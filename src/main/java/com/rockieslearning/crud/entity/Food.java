@@ -5,6 +5,7 @@ package com.rockieslearning.crud.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -13,7 +14,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by TanVOD on Jun, 2021
@@ -40,7 +41,7 @@ public class Food {
     private Float rating;
 
 
-    @JsonBackReference
+    @JsonBackReference(value = "category-food")
     @ManyToOne(fetch = FetchType.EAGER )
     @JoinColumn(name="category_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -58,6 +59,34 @@ public class Food {
 //    @LastModifiedDate
     @UpdateTimestamp
     private Date updatedDate;
+
+
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "food")
+    private OrderFood orderFood;
+
+
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "food")
+    private CartFood cartFood;
+
+
+    @JsonManagedReference(value = "food-comment")
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "food")
+    private Set<FoodComment> comments = new HashSet<FoodComment>();
+
+    @JsonManagedReference(value = "food-image")
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "food")
+    private List<FoodImage> images = new ArrayList<>();
+
+    @JsonManagedReference(value = "food-rating")
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "food")
+    private Set<FoodRating> ratings = new HashSet<FoodRating>();
+
 
 
     public Food() {
@@ -85,6 +114,13 @@ public class Food {
     }
 
 
+    public OrderFood getOrderFood() {
+        return orderFood;
+    }
+
+    public void setOrderFood(OrderFood orderFood) {
+        this.orderFood = orderFood;
+    }
 
     public Integer getFoodId() {
         return foodId;
@@ -148,5 +184,37 @@ public class Food {
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public CartFood getCartFood() {
+        return cartFood;
+    }
+
+    public void setCartFood(CartFood cartFood) {
+        this.cartFood = cartFood;
+    }
+
+    public Set<FoodComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<FoodComment> comments) {
+        this.comments = comments;
+    }
+
+    public List<FoodImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<FoodImage> images) {
+        this.images = images;
+    }
+
+    public Set<FoodRating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<FoodRating> ratings) {
+        this.ratings = ratings;
     }
 }

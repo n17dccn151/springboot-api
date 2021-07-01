@@ -17,7 +17,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "OREDR_FOODS")
+@Table(name = "ORDER_FOODS")
 public class OrderFood {
     @Id
     @GeneratedValue
@@ -37,11 +37,17 @@ public class OrderFood {
 //    private Set<OrderFood> orderFoods = new HashSet<OrderFood>();
 
 
-    @JsonBackReference
+    @JsonBackReference(value = "order-orderfood")
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name="order_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Order order;
+
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "food_id")
+    private Food food;
 
 
     public OrderFood() {
@@ -59,6 +65,14 @@ public class OrderFood {
         this.price = price;
         this.amount = amount;
         this.order = order;
+    }
+
+    public Food getFood() {
+        return food;
+    }
+
+    public void setFood(Food food) {
+        this.food = food;
     }
 
     public Integer getId() {

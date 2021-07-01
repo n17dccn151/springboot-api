@@ -1,11 +1,14 @@
 package com.rockieslearning.crud.service;
 
+import com.rockieslearning.crud.dto.CategoryDto;
+import com.rockieslearning.crud.dto.UserDto;
 import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.User;
 import com.rockieslearning.crud.exception.FaBadRequestException;
 import com.rockieslearning.crud.exception.FaResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -15,13 +18,15 @@ import java.util.List;
 
 public interface CategoryService {
 
-    public Category saveCategory(Category category) ;
+    public CategoryDto saveCategory(CategoryDto categoryDto) throws ParseException;
 
-    public List<Category> retrieveCategories();
+    public List<CategoryDto> retrieveCategories();
 
-    public Category getCategoryById(int id) ;
+    public CategoryDto getCategoryById(int id) ;
 
-    public void deleteCategory(Category category) ;
+    public void deleteCategory(Integer categoryId) throws ParseException;
+
+    public void updateCategory(Integer categoryId, CategoryDto categoryDto);
 
 
 }

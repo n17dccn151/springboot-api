@@ -2,6 +2,7 @@ package com.rockieslearning.crud.entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -35,30 +36,48 @@ public class User {
     private String roles;
 
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "user-order")
     @OneToMany(fetch = FetchType.LAZY , mappedBy = "user")
     private Set<Order> orders = new HashSet<Order>();
+
+
+
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "user")
+    private Cart cart;
+
+
+    @JsonManagedReference(value = "user-comment")
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "user")
+    private Set<FoodComment> comments = new HashSet<FoodComment>();
+
+
+    @JsonManagedReference(value = "user-rating")
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "user")
+    private Set<FoodRating> ratings = new HashSet<FoodRating>();
+
+
+    @JsonManagedReference(value = "user-detail")
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "user")
+    private Set<UserDetail> details = new HashSet<UserDetail>();
 
 
     public User() {
 
     }
 
-    public User(Integer userId, String phone, String email, String password, String roles) {
+    public User(Integer userId, String phone, String email, String password, String roles, Set<Order> orders, Cart cart, Set<FoodComment> comments, Set<FoodRating> ratings, Set<UserDetail> details) {
         this.userId = userId;
         this.phone = phone;
         this.email = email;
         this.password = password;
         this.roles = roles;
-    }
-
-
-    public Set<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Set<Order> orders) {
         this.orders = orders;
+        this.cart = cart;
+        this.comments = comments;
+        this.ratings = ratings;
+        this.details = details;
     }
 
     public Integer getUserId() {
@@ -99,5 +118,45 @@ public class User {
 
     public void setRoles(String roles) {
         this.roles = roles;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public Set<FoodComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<FoodComment> comments) {
+        this.comments = comments;
+    }
+
+    public Set<FoodRating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Set<FoodRating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public Set<UserDetail> getDetails() {
+        return details;
+    }
+
+    public void setDetails(Set<UserDetail> details) {
+        this.details = details;
     }
 }

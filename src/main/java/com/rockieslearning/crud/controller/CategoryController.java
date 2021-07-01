@@ -1,5 +1,6 @@
 package com.rockieslearning.crud.controller;
 
+import com.rockieslearning.crud.dto.CategoryDto;
 import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.User;
 import com.rockieslearning.crud.exception.FaResourceNotFoundException;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,32 +29,29 @@ public class CategoryController {
 
 
     @GetMapping("")
-    public ResponseEntity<List<Category>> getAllCategory(){
+    public ResponseEntity<List<CategoryDto>> getAllCategory(){
 
-        List<Category> categories = new ArrayList<>();
+        List<CategoryDto> categories = new ArrayList<>();
         categories = categoryService.retrieveCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<Category> getCategoryById(HttpServletRequest request,
+    public ResponseEntity<CategoryDto> getCategoryById(HttpServletRequest request,
                                             @PathVariable("categoryId") Integer categoryId){
 
 
-        Category category = categoryService.getCategoryById(categoryId);
-        if(category==null){
-            throw new FaResourceNotFoundException("Category not found");
-        }
-        return new ResponseEntity<>(category,HttpStatus.OK);
+        CategoryDto categoryDto = categoryService.getCategoryById(categoryId);
+        return new ResponseEntity<>(categoryDto,HttpStatus.OK);
     }
 
 
     @PostMapping("")
-    public ResponseEntity<Category> addCategory(HttpServletRequest request, @RequestBody Category category){
+    public ResponseEntity<CategoryDto> addCategory(HttpServletRequest request, @RequestBody CategoryDto categoryDto) throws ParseException {
 
 
-        Category categoryResult =  categoryService.saveCategory(category);
-        return new ResponseEntity<>(categoryResult, HttpStatus.CREATED);
+        CategoryDto saveCategory =  categoryService.saveCategory(categoryDto);
+        return new ResponseEntity<>(saveCategory, HttpStatus.CREATED);
     }
 
 
@@ -61,16 +60,8 @@ public class CategoryController {
     @PutMapping("/{categoryId}")
     public ResponseEntity<Map<String, Boolean>> updateCategory(HttpServletRequest request,
                                                                @PathVariable("categoryId") Integer categoryId,
-                                                               @RequestBody Category category){
-        Category existCategory = categoryService.getCategoryById(categoryId);
-        if(existCategory==null){
-            throw new FaResourceNotFoundException("Category not found");
-        }
-        existCategory.setDescription(category.getDescription());
-        existCategory.setName(category.getName());
-        existCategory.setImage(category.getImage());
-        existCategory.setFoods(category.getFoods());
-
+                                                               @RequestBody CategoryDto categoryDto){
+        categoryService.updateCategory(categoryId, categoryDto);
 
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
@@ -80,16 +71,9 @@ public class CategoryController {
 
     @DeleteMapping("/{categoryId}")
     public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,
-                                                               @PathVariable("categoryId") Integer categoryId){
+                                                               @PathVariable("categoryId") Integer categoryId) throws ParseException {
 
-
-        Category category = categoryService.getCategoryById(categoryId);
-        if(category==null){
-            throw new FaResourceNotFoundException("Category not found");
-        }
-
-
-        categoryService.deleteCategory(category);
+        categoryService.deleteCategory(categoryId);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);

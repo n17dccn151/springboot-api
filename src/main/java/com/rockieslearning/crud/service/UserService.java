@@ -1,11 +1,13 @@
 package com.rockieslearning.crud.service;
 
+import com.rockieslearning.crud.dto.UserDto;
 import com.rockieslearning.crud.entity.User;
 import com.rockieslearning.crud.exception.FaBadRequestException;
 import com.rockieslearning.crud.exception.FaResourceNotFoundException;
 import com.rockieslearning.crud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -15,14 +17,14 @@ import java.util.List;
 
 public interface UserService {
 
-    public User saveUser(User user);
+    public UserDto saveUser(UserDto userDto) throws ParseException;
 
-    public List<User> retrieveUsers();
+    public List<UserDto> retrieveUsers();
 
-    public User getUserById(int id);
+    public UserDto getUserById(int id);
 
-    public void deleteUser(User user);
+    public void deleteUser(Integer userId) throws ParseException;
 
-
+    public void updateUser(Integer userId, UserDto userDto);
 
 }

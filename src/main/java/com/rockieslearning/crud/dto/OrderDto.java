@@ -1,7 +1,9 @@
-package com.rockieslearning.crud.entity;
+package com.rockieslearning.crud.dto;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.rockieslearning.crud.entity.Food;
+import com.rockieslearning.crud.entity.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -15,65 +17,34 @@ import java.util.Set;
 /**
  * Created by TanVOD on Jun, 2021
  */
-@Entity
-@Table(name = "ORDERS")
-public class Order {
 
-    @Id
-    @GeneratedValue
+public class OrderDto {
+
+
     private Integer orderId;
 
 
-    @Column(name = "order_amount")
     private Integer amount;
 
-    @Column(name = "order_status")
     private String status;
 
-    @Column(name = "order_price")
+
     private Double price;
 
 
-    @CreationTimestamp
     private Date createdDate;
 
 
-    @UpdateTimestamp
     private Date updatedDate;
 
-    @JsonManagedReference(value = "order-orderfood")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "order")
-    private Set<OrderFood> orderFoods = new HashSet<OrderFood>();
 
-
-    @JsonBackReference(value = "user-order")
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name="user_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private User user;
-
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "food_id")
-//    private Food food;
+    private Set<OrderFoodDto> orderFoods = new HashSet<OrderFoodDto>();
 
 
 
-
-    public Order() {
-    }
+    private Integer userId;
 
 
-    public Order(Integer orderId,  Integer amount, String status, Double price, Date createdDate, Date updatedDate, Set<OrderFood> orderFoods, User user) {
-        this.orderId = orderId;
-
-        this.amount = amount;
-        this.status = status;
-        this.price = price;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
-        this.orderFoods = orderFoods;
-        this.user = user;
-    }
 
 
     public Integer getOrderId() {
@@ -124,19 +95,19 @@ public class Order {
         this.updatedDate = updatedDate;
     }
 
-    public Set<OrderFood> getOrderFoods() {
+    public Set<OrderFoodDto> getOrderFoods() {
         return orderFoods;
     }
 
-    public void setOrderFoods(Set<OrderFood> orderFoods) {
+    public void setOrderFoods(Set<OrderFoodDto> orderFoods) {
         this.orderFoods = orderFoods;
     }
 
-    public User getUser() {
-        return user;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

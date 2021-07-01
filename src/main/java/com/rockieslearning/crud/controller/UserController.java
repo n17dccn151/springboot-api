@@ -1,5 +1,6 @@
 package com.rockieslearning.crud.controller;
 
+import com.rockieslearning.crud.dto.UserDto;
 import com.rockieslearning.crud.entity.User;
 import com.rockieslearning.crud.exception.FaResourceNotFoundException;
 import com.rockieslearning.crud.repository.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,58 +27,44 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository repository;
+
 
 
     @GetMapping("")
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<UserDto>> getAllUsers(){
 
-        List<User> users = new ArrayList<>();
-        users = userService.retrieveUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        List<UserDto> userDtos = new ArrayList<>();
+        userDtos = userService.retrieveUsers();
+        return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUserById(HttpServletRequest request,
+    public ResponseEntity<UserDto> getUserById(HttpServletRequest request,
                                                     @PathVariable("userId") Integer userId){
 
-
-        User user = userService.getUserById(userId);
-        if(user==null){
-            throw new FaResourceNotFoundException("User not found");
-        }
-        return new ResponseEntity<>(user,HttpStatus.OK);
+        UserDto userDto = userService.getUserById(userId);
+        return new ResponseEntity<>(userDto,HttpStatus.OK);
     }
 
 
     @PostMapping("")
-    public ResponseEntity<User> addUser(HttpServletRequest request, @RequestBody User user){
+    public ResponseEntity<UserDto> addUser(HttpServletRequest request, @RequestBody UserDto userDto) throws ParseException {
 
-
-        User userResult =  userService.saveUser(user);
-        return new ResponseEntity<>(userResult, HttpStatus.CREATED);
+        UserDto saveUser =  userService.saveUser(userDto);
+        return new ResponseEntity<>(saveUser, HttpStatus.CREATED);
     }
 
 
 
 
     @PutMapping("/{userId}")
-    public ResponseEntity<Map<String, Boolean>> updateCategory(HttpServletRequest request,
+    public ResponseEntity<Map<String, Boolean>> updateUser(HttpServletRequest request,
                                                                @PathVariable("userId") Integer userId,
-                                                               @RequestBody User user){
+                                                               @RequestBody UserDto userDto){
 
-        User existUser = userService.getUserById(userId);
-        if(user==null){
-            throw new FaResourceNotFoundException("User not found");
-        }
+        userService.updateUser(userId, userDto);
 
-        existUser.setEmail(user.getEmail());
-        existUser.setPhone(user.getPhone());
-        existUser.setPassword(user.getPassword());
-        existUser.setRoles(user.getRoles());
 
-        userService.saveUser(existUser);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);
@@ -85,13 +73,10 @@ public class UserController {
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,
-                                                               @PathVariable("userId") Integer userId){
+                                                               @PathVariable("userId") Integer userId) throws ParseException {
 
-        User user = userService.getUserById(userId);
-        if(user==null){
-            throw new FaResourceNotFoundException("User not found");
-        }
-        userService.deleteUser(user);
+        userService.deleteUser(userId);
+
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);

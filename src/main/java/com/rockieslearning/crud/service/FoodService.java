@@ -1,10 +1,13 @@
 package com.rockieslearning.crud.service;
 
+import com.rockieslearning.crud.dto.CategoryDto;
+import com.rockieslearning.crud.dto.FoodDto;
 import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.Food;
 import com.rockieslearning.crud.exception.FaBadRequestException;
 import com.rockieslearning.crud.exception.FaResourceNotFoundException;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -12,14 +15,15 @@ import java.util.List;
  */
 public interface FoodService {
 
-    public Food saveFood(Food food);
+    public FoodDto saveFood(FoodDto foodDto) throws ParseException;
 
-    public List<Food> retrieveFoods();
+    public List<FoodDto> retrieveFoods();
 
-    public Food getFoodById(int id);
+    public FoodDto getFoodById(int id) ;
 
-    public void deleteFood(Food food);
+    public void deleteFood(Integer foodId) throws ParseException;
 
+    public void updateFood(Integer foodId, FoodDto foodDto);
 
 
 

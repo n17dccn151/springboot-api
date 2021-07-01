@@ -30,7 +30,7 @@ public class Category {
     @Column(name = "category_image")
     private String image;
 
-    @JsonManagedReference
+    @JsonManagedReference(value = "category-food")
     @OneToMany(fetch = FetchType.EAGER , mappedBy = "category")
     private Set<Food> foods = new HashSet<Food>();
 

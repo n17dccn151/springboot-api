@@ -1,5 +1,6 @@
 package com.rockieslearning.crud.controller;
 
+import com.rockieslearning.crud.dto.FoodDto;
 import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.Food;
 import com.rockieslearning.crud.entity.Food;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,55 +32,30 @@ public class FoodController {
     private FoodService foodService;
 
 
-    @Autowired
-    private CategoryService categoryService;
-
 
     @GetMapping("")
-    public ResponseEntity<List<Food>> getAllFood(){
+    public ResponseEntity<List<FoodDto>> getAllFood(){
 
-        List<Food> foods = new ArrayList<>();
-        foods = foodService.retrieveFoods();
-        return new ResponseEntity<>(foods, HttpStatus.OK);
+        List<FoodDto> foodDtos = new ArrayList<>();
+        foodDtos = foodService.retrieveFoods();
+        return new ResponseEntity<>(foodDtos, HttpStatus.OK);
     }
 
     @GetMapping("/{foodId}")
-    public ResponseEntity<Food> getFoodById(HttpServletRequest request,
+    public ResponseEntity<FoodDto> getFoodById(HttpServletRequest request,
                                                     @PathVariable("foodId") Integer foodId){
 
 
-        Food food = foodService.getFoodById(foodId);
-        if(food==null){
-            throw new FaResourceNotFoundException("Food not found");
-        }
-
-        return new ResponseEntity<>(food,HttpStatus.OK);
+        FoodDto foodDto = foodService.getFoodById(foodId);
+        return new ResponseEntity<>(foodDto,HttpStatus.OK);
     }
 
 
     @PostMapping("")
-    public ResponseEntity<Food> addFood(HttpServletRequest request, @RequestBody Map<String, Object> foodMap){
+    public ResponseEntity<FoodDto> addFood(HttpServletRequest request, @RequestBody FoodDto foodDto) throws ParseException {
 
-
-
-
-        String name = (String) foodMap.get("name");
-        Double price = Double.parseDouble(foodMap.get("price").toString());
-        String description = (String) foodMap.get("description");
-        Float rating = Float.parseFloat( foodMap.get("rating").toString());
-        Integer categoryId = Integer.parseInt(foodMap.get("category_id").toString());
-
-
-        Category category = categoryService.getCategoryById(categoryId);
-        System.out.println(category.getCategoryId());
-        if(category==null){
-            throw new FaResourceNotFoundException("Category not found");
-        }
-
-        Food foodResult = new Food(name,price,description,rating,category);
-
-        foodService.saveFood(foodResult);
-        return new ResponseEntity<>(foodResult, HttpStatus.CREATED);
+        FoodDto saveFood = foodService.saveFood(foodDto);
+        return new ResponseEntity<>(saveFood, HttpStatus.CREATED);
     }
 
 
@@ -87,28 +64,10 @@ public class FoodController {
     @PutMapping("/{foodId}")
     public ResponseEntity<Map<String, Boolean>> updateFood(HttpServletRequest request,
                                                                @PathVariable("foodId") Integer foodId,
-                                                               @RequestBody Map<String, Object> foodMap){
-
-        Food existFood = foodService.getFoodById(foodId);
-        if(existFood==null){
-            throw new FaResourceNotFoundException("Food not found");
-        }
-
-        String name = (String) foodMap.get("name");
-        Double price = Double.parseDouble(foodMap.get("price").toString());
-        String description = (String) foodMap.get("description");
-        Float rating = Float.parseFloat( foodMap.get("rating").toString());
+                                                               @RequestBody FoodDto foodDto){
 
 
-        existFood.setName(name);
-        existFood.setPrice(price);
-        existFood.setDescription(description);
-        existFood.setRating(rating);
-
-
-
-
-        foodService.saveFood(existFood);
+        foodService.updateFood(foodId, foodDto);
 
 
         Map<String, Boolean> map = new HashMap<>();
@@ -119,16 +78,13 @@ public class FoodController {
 
     @DeleteMapping("/{foodId}")
     public ResponseEntity<Map<String, Boolean>> deleteFood(HttpServletRequest request,
-                                                               @PathVariable("foodId") Integer foodId){
+                                                               @PathVariable("foodId") Integer foodId) throws ParseException {
 
 
-        Food food = foodService.getFoodById(foodId);
-        if(food==null){
-            throw new FaResourceNotFoundException("Food not found");
-        }
+
+        foodService.deleteFood(foodId);
 
 
-        foodService.deleteFood(food);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);
