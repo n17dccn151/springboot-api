@@ -52,9 +52,7 @@ public class Order {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "food_id")
-//    private Food food;
+
 
 
 
@@ -63,9 +61,8 @@ public class Order {
     }
 
 
-    public Order(Integer orderId,  Integer amount, String status, Double price, Date createdDate, Date updatedDate, Set<OrderFood> orderFoods, User user) {
+    public Order(Integer orderId, Integer amount, String status, Double price, Date createdDate, Date updatedDate, Set<OrderFood> orderFoods, User user) {
         this.orderId = orderId;
-
         this.amount = amount;
         this.status = status;
         this.price = price;
@@ -74,7 +71,6 @@ public class Order {
         this.orderFoods = orderFoods;
         this.user = user;
     }
-
 
     public Integer getOrderId() {
         return orderId;

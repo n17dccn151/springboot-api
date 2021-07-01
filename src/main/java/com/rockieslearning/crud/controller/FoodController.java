@@ -50,6 +50,15 @@ public class FoodController {
         return new ResponseEntity<>(foodDto,HttpStatus.OK);
     }
 
+//
+//    @GetMapping("")
+//    @ResponseBody
+//    public ResponseEntity<String> getFoodByCategoryId(HttpServletRequest request,
+//                                                       @RequestParam Integer categoryId){
+//
+//        return new ResponseEntity<>("hello"+ categoryId,HttpStatus.OK);
+//    }
+
 
     @PostMapping("")
     public ResponseEntity<FoodDto> addFood(HttpServletRequest request, @RequestBody FoodDto foodDto) throws ParseException {

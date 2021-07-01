@@ -12,6 +12,9 @@ public class FoodImageDto {
 
     private String url;
 
+    private Integer food_id;
+
+
     public Integer getId() {
         return id;
     }
@@ -26,5 +29,13 @@ public class FoodImageDto {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Integer getFood_id() {
+        return food_id;
+    }
+
+    public void setFood_id(Integer food_id) {
+        this.food_id = food_id;
     }
 }

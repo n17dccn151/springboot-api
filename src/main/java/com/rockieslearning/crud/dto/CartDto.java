@@ -20,12 +20,10 @@ public class CartDto {
     private Integer amount;
 
 
-    private Set<CartFoodDto> cartFoodDtos = new HashSet<CartFoodDto>();
+    private Set<CartFoodDto> cartFoods = new HashSet<CartFoodDto>();
 
 
     private Integer userId;
-
-
 
 
     public Integer getCartId() {
@@ -44,12 +42,12 @@ public class CartDto {
         this.amount = amount;
     }
 
-    public Set<CartFoodDto> getCartFoodDtos() {
-        return cartFoodDtos;
+    public Set<CartFoodDto> getCartFoods() {
+        return cartFoods;
     }
 
-    public void setCartFoodDtos(Set<CartFoodDto> cartFoodDtos) {
-        this.cartFoodDtos = cartFoodDtos;
+    public void setCartFoods(Set<CartFoodDto> cartFoods) {
+        this.cartFoods = cartFoods;
     }
 
     public Integer getUserId() {
@@ -59,6 +57,4 @@ public class CartDto {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-
-
 }

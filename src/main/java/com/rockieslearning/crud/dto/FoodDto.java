@@ -34,8 +34,8 @@ public class FoodDto {
 
     private Float rating;
 
-
     private Integer categoryid;
+
 
     private List<FoodImageDto> images;
 

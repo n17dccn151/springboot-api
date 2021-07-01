@@ -27,11 +27,6 @@ public class CartFood {
 
 
 
-//    @JsonManagedReference
-//    @OneToMany(fetch = FetchType.LAZY , mappedBy = "food")
-//    private Set<OrderFood> orderFoods = new HashSet<OrderFood>();
-
-
     @JsonBackReference(value = "cart-cartfood")
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name="cart_id")
@@ -40,7 +35,8 @@ public class CartFood {
 
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+//    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "food_id")
     private Food food;
 

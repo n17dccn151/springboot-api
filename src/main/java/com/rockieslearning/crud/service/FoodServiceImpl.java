@@ -8,7 +8,10 @@ import com.rockieslearning.crud.exception.FaAuthException;
 import com.rockieslearning.crud.exception.FaBadRequestException;
 import com.rockieslearning.crud.exception.FaResourceNotFoundException;
 import com.rockieslearning.crud.mapper.CategoryMapper;
+import com.rockieslearning.crud.mapper.FoodImageMapper;
 import com.rockieslearning.crud.mapper.FoodMapper;
+import com.rockieslearning.crud.repository.CategoryRepository;
+import com.rockieslearning.crud.repository.FoodImageRepository;
 import com.rockieslearning.crud.repository.FoodRepository;
 import com.rockieslearning.crud.repository.FoodRepository;
 import org.apache.coyote.http11.filters.VoidOutputFilter;
@@ -31,18 +34,44 @@ public class FoodServiceImpl implements FoodService{
     private FoodRepository repository;
 
     @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private FoodImageRepository foodImageRepository;
+
+    @Autowired
     private FoodMapper mapper;
 
+    @Autowired
+    private FoodImageMapper foodImageMapper;
 
-    public FoodServiceImpl(FoodRepository repository, FoodMapper modelMapper) {
+
+    public FoodServiceImpl(FoodRepository repository, CategoryRepository categoryRepository, FoodMapper mapper) {
         this.repository = repository;
-        this.mapper = modelMapper;
+        this.categoryRepository = categoryRepository;
+        this.mapper = mapper;
     }
 
     @Override
     public FoodDto saveFood(FoodDto foodDto) throws FaBadRequestException, ParseException {
-        Food food = mapper.toEntity(foodDto);
-        return mapper.toDto(repository.save(food));
+
+
+        Food food = new Food();
+        food = mapper.toEntity(foodDto);
+
+        int foodId = repository.save(food).getFoodId();
+        System.out.println(foodId);
+
+
+        foodDto.getImages().forEach(e->{
+            e.setFood_id(foodId);
+            foodImageRepository.save( foodImageMapper.toEntity(e));
+        });
+
+
+        //repository.save(food);
+
+        return mapper.toDto(food);
     }
 
 
@@ -50,7 +79,6 @@ public class FoodServiceImpl implements FoodService{
     @Override
     public List<FoodDto> retrieveFoods() {
         List<Food> foods =  repository.findAll();
-
         return mapper.toListDto(foods);
     }
 
@@ -58,6 +86,8 @@ public class FoodServiceImpl implements FoodService{
     public FoodDto getFoodById(int id) throws FaResourceNotFoundException {
         return mapper.toDto(repository.findById(id).get());
     }
+
+
 
     @Override
     public void deleteFood(Integer foodId) throws ParseException {
@@ -67,16 +97,27 @@ public class FoodServiceImpl implements FoodService{
 
     @Override
     public void updateFood(Integer foodId, FoodDto foodDto) {
-        Food existFood = repository.findById(foodId).get();
+
+
+//        Food existFood = repository.findById(foodId).get();
+//        existFood.setName(foodDto.getName());
+//        existFood.setPrice(foodDto.getPrice());
+//        existFood.setDescription(foodDto.getDescription());
+
+
+        //existFood.setRating(foodDto.getRating());
 
 
 
-        existFood.setName(foodDto.getName());
-        existFood.setPrice(foodDto.getPrice());
-        existFood.setDescription(foodDto.getDescription());
-        existFood.setRating(foodDto.getRating());
+//        existFood.setImages(foodImageMapper.toListEntity(foodDto.getImages()));
+//
+//        repository.save(existFood);
 
-        repository.save(existFood);
+
+        Food food= new Food();
+        food = mapper.toEntity(foodDto);
+        repository.save(food);
+
     }
 
 

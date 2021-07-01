@@ -37,7 +37,7 @@ public class CartMapper {
             CartFoodDtoSet.add(CartFoodMapper.toDto(e));
         });
 
-        dto.setCartFoodDtos(CartFoodDtoSet);
+        dto.setCartFoods(CartFoodDtoSet);
 
 
 

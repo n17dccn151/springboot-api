@@ -62,17 +62,20 @@ public class Food {
 
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "food")
-    private OrderFood orderFood;
+//    @OneToOne(fetch = FetchType.LAZY,
+//            cascade =  CascadeType.ALL,
+//            mappedBy = "food")
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "food")
+    private Set<OrderFood> orderFoods;
 
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "food")
-    private CartFood cartFood;
+//    @OneToOne(fetch = FetchType.LAZY,
+//            cascade =  CascadeType.ALL,
+//            mappedBy = "food")
+
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "food")
+    private Set<CartFood> cartFoods;
 
 
     @JsonManagedReference(value = "food-comment")
@@ -114,12 +117,21 @@ public class Food {
     }
 
 
-    public OrderFood getOrderFood() {
-        return orderFood;
+//    public OrderFood getOrderFood() {
+//        return orderFood;
+//    }
+//
+//    public void setOrderFood(OrderFood orderFood) {
+//        this.orderFood = orderFood;
+//    }
+
+
+    public Set<OrderFood> getOrderFoods() {
+        return orderFoods;
     }
 
-    public void setOrderFood(OrderFood orderFood) {
-        this.orderFood = orderFood;
+    public void setOrderFoods(Set<OrderFood> orderFoods) {
+        this.orderFoods = orderFoods;
     }
 
     public Integer getFoodId() {
@@ -186,12 +198,21 @@ public class Food {
         this.updatedDate = updatedDate;
     }
 
-    public CartFood getCartFood() {
-        return cartFood;
+//    public CartFood getCartFood() {
+//        return cartFood;
+//    }
+//
+//    public void setCartFood(CartFood cartFood) {
+//        this.cartFood = cartFood;
+//    }
+
+
+    public Set<CartFood> getCartFoods() {
+        return cartFoods;
     }
 
-    public void setCartFood(CartFood cartFood) {
-        this.cartFood = cartFood;
+    public void setCartFoods(Set<CartFood> cartFoods) {
+        this.cartFoods = cartFoods;
     }
 
     public Set<FoodComment> getComments() {

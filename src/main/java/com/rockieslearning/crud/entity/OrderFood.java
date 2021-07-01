@@ -45,7 +45,8 @@ public class OrderFood {
 
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    //@OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "food_id")
     private Food food;
 

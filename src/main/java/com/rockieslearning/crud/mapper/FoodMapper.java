@@ -1,7 +1,10 @@
 package com.rockieslearning.crud.mapper;
 
+import com.rockieslearning.crud.dto.CategoryDto;
 import com.rockieslearning.crud.dto.FoodDto;
+import com.rockieslearning.crud.dto.FoodImageDto;
 import com.rockieslearning.crud.entity.Food;
+import com.rockieslearning.crud.entity.FoodImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +20,9 @@ public class FoodMapper {
 
     @Autowired
     FoodImageMapper foodImageMapper;
+
+    @Autowired
+    CategoryMapper categoryMapper;
 
 
 
@@ -44,6 +50,17 @@ public class FoodMapper {
         return listDto;
     }
 
+    public List<Food> toListEntity(List<FoodDto> listDto) {
+        List<Food> listEti = new ArrayList<>();
+
+        listDto.forEach(e->{
+            listEti.add(this.toEntity(e));
+        });
+        return listEti;
+    }
+
+
+
 
     public Food toEntity(FoodDto dto) {
         Food entity = new Food();
@@ -52,6 +69,27 @@ public class FoodMapper {
         entity.setPrice(dto.getPrice());
         entity.setDescription(dto.getDescription());
         entity.setRating(dto.getRating());
+
+
+
+
+
+
+
+//        List<FoodImage>  images = new ArrayList<>();
+//        images  = foodImageMapper.toListEntity(dto.getImages());
+//        entity.setImages(images);
+//
+//
+//        entity.getImages().forEach(e->{
+//            System.out.println("___"+e.getImage());
+//        });
+
+
+
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryId(dto.getCategoryid());
+        entity.setCategory(categoryMapper.toEntity(categoryDto));
 
 
 

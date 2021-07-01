@@ -21,7 +21,6 @@ public class CartFoodDto {
 
     private Integer amount;
 
-
     private String foodName;
 
     private String foodImage;
