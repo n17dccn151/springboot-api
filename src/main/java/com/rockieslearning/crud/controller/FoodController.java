@@ -1,11 +1,9 @@
 package com.rockieslearning.crud.controller;
 
 import com.rockieslearning.crud.dto.FoodDto;
-import com.rockieslearning.crud.entity.Category;
+import com.rockieslearning.crud.dto.FoodImageDto;
+import com.rockieslearning.crud.entity.*;
 import com.rockieslearning.crud.entity.Food;
-import com.rockieslearning.crud.entity.Food;
-import com.rockieslearning.crud.entity.User;
-import com.rockieslearning.crud.exception.FaResourceNotFoundException;
 import com.rockieslearning.crud.service.CategoryService;
 import com.rockieslearning.crud.service.FoodService;
 import com.rockieslearning.crud.service.FoodService;
@@ -50,14 +48,59 @@ public class FoodController {
         return new ResponseEntity<>(foodDto,HttpStatus.OK);
     }
 
-//
-//    @GetMapping("")
-//    @ResponseBody
-//    public ResponseEntity<String> getFoodByCategoryId(HttpServletRequest request,
-//                                                       @RequestParam Integer categoryId){
-//
-//        return new ResponseEntity<>("hello"+ categoryId,HttpStatus.OK);
-//    }
+    @GetMapping("/{foodId}/images")
+    public ResponseEntity<List<FoodImageDto>> getFoodImageById(HttpServletRequest request,
+                                               @PathVariable("foodId") Integer foodId){
+
+        List<FoodImageDto> foodImageDtos  =new ArrayList<>();
+        foodImageDtos = foodService.getFoodImageByFoodId(foodId);
+
+        return new ResponseEntity<>(foodImageDtos,HttpStatus.OK);
+    }
+
+
+    @PutMapping("/images/{imageId}")
+    public ResponseEntity<List<FoodImageDto>> updateFoodImageById(HttpServletRequest request,
+                                                                  @RequestBody FoodImageDto  foodImageDto,
+                                                                  @PathVariable("imageId") Integer imageId){
+
+        List<FoodImageDto> foodImageDtos  =new ArrayList<>();
+        foodService.updateImage(imageId, foodImageDto);
+
+        return new ResponseEntity<>(foodImageDtos,HttpStatus.OK);
+    }
+
+
+
+    @DeleteMapping("/images/{imageId}")
+    public ResponseEntity<Map<String, Boolean>> deleteFoodImageById(HttpServletRequest request,
+                                                                  @PathVariable("imageId") Integer imageId){
+
+
+        foodService.deleteImage(imageId);
+
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("success", true);
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+
+
+    @PostMapping("/{foodId}/images")
+    public ResponseEntity<List<FoodImageDto>> updateFoodImageById(HttpServletRequest request,
+                                                                  @PathVariable("foodId") Integer foodId,
+                                                                  @RequestBody FoodImageDto  foodImageDto){
+
+        List<FoodImageDto> foodImageDtos  =new ArrayList<>();
+        foodService.createImage(foodId, foodImageDto);
+
+        return new ResponseEntity<>(foodImageDtos,HttpStatus.OK);
+    }
+
+
+
+
+
 
 
     @PostMapping("")
@@ -77,8 +120,6 @@ public class FoodController {
 
 
         foodService.updateFood(foodId, foodDto);
-
-
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);

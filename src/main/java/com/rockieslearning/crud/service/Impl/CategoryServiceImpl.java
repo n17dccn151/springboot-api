@@ -1,15 +1,15 @@
-package com.rockieslearning.crud.service;
+package com.rockieslearning.crud.service.Impl;
 
 import com.rockieslearning.crud.dto.CategoryDto;
-import com.rockieslearning.crud.dto.UserDto;
+
 import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.User;
-import com.rockieslearning.crud.exception.FaAuthException;
-import com.rockieslearning.crud.exception.FaBadRequestException;
-import com.rockieslearning.crud.exception.FaResourceNotFoundException;
+import com.rockieslearning.crud.exception.BadRequestException;
+import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.mapper.CategoryMapper;
-import com.rockieslearning.crud.mapper.UserMapper;
+
 import com.rockieslearning.crud.repository.CategoryRepository;
+import com.rockieslearning.crud.service.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 
 @Service
-public class CategoryServiceImpl implements  CategoryService {
+public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository repository;
 
@@ -38,7 +38,7 @@ public class CategoryServiceImpl implements  CategoryService {
 
 
     @Override
-    public CategoryDto saveCategory(CategoryDto categoryDto) throws FaBadRequestException, ParseException {
+    public CategoryDto saveCategory(CategoryDto categoryDto) throws BadRequestException, ParseException {
         Category category = mapper.toEntity(categoryDto);
         return mapper.toDto(repository.save(category));
     }
@@ -51,7 +51,7 @@ public class CategoryServiceImpl implements  CategoryService {
     }
 
     @Override
-    public CategoryDto getCategoryById(int id) throws FaResourceNotFoundException {
+    public CategoryDto getCategoryById(int id) throws ResourceNotFoundException {
         return mapper.toDto(repository.findById(id).get());
     }
 

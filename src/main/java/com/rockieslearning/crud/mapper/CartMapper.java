@@ -27,8 +27,8 @@ public class CartMapper {
 
 
         CartDto dto = new CartDto();
-        dto.setCartId(entity.getCartId());
-        dto.setAmount(entity.getAmount());
+        dto.setId(entity.getCartId());
+
         dto.setUserId(entity.getUser().getUserId());
 
 
@@ -58,8 +58,8 @@ public class CartMapper {
 
     public Cart toEntity(CartDto dto) {
         Cart entity = new Cart();
-        entity.setCartId(dto.getCartId());
-        entity.setAmount(dto.getAmount());
+        entity.setCartId(dto.getId());
+
         return entity;
     }
 }

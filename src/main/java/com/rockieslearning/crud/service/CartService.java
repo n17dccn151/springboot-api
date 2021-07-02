@@ -18,7 +18,10 @@ public interface CartService {
 
     public void deleteCart(Integer CartId) throws ParseException;
 
-    public void updateCart(Integer CartId, CartDto  CartDto);
+    public CartDto getCartByUserId(int id) ;
 
+    CartDto addToCart(Integer userId, Integer foodId);
+
+    CartDto updateCart(Integer userId, Integer foodId, Integer qty);
 
 }

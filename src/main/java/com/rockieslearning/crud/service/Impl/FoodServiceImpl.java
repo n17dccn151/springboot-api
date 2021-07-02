@@ -1,12 +1,13 @@
-package com.rockieslearning.crud.service;
+package com.rockieslearning.crud.service.Impl;
 
 import com.rockieslearning.crud.dto.FoodDto;
+import com.rockieslearning.crud.dto.FoodImageDto;
 import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.Food;
 import com.rockieslearning.crud.entity.Food;
-import com.rockieslearning.crud.exception.FaAuthException;
-import com.rockieslearning.crud.exception.FaBadRequestException;
-import com.rockieslearning.crud.exception.FaResourceNotFoundException;
+import com.rockieslearning.crud.entity.FoodImage;
+import com.rockieslearning.crud.exception.BadRequestException;
+import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.mapper.CategoryMapper;
 import com.rockieslearning.crud.mapper.FoodImageMapper;
 import com.rockieslearning.crud.mapper.FoodMapper;
@@ -14,6 +15,7 @@ import com.rockieslearning.crud.repository.CategoryRepository;
 import com.rockieslearning.crud.repository.FoodImageRepository;
 import com.rockieslearning.crud.repository.FoodRepository;
 import com.rockieslearning.crud.repository.FoodRepository;
+import com.rockieslearning.crud.service.FoodService;
 import org.apache.coyote.http11.filters.VoidOutputFilter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ import java.util.stream.Collectors;
  */
 
 @Service
-public class FoodServiceImpl implements FoodService{
+public class FoodServiceImpl implements FoodService {
 
     @Autowired
     private FoodRepository repository;
@@ -52,26 +54,14 @@ public class FoodServiceImpl implements FoodService{
         this.mapper = mapper;
     }
 
+
+
     @Override
-    public FoodDto saveFood(FoodDto foodDto) throws FaBadRequestException, ParseException {
-
-
-        Food food = new Food();
-        food = mapper.toEntity(foodDto);
+    public FoodDto saveFood(FoodDto foodDto) throws BadRequestException, ParseException {
+        Food food = mapper.toEntity(foodDto);
 
         int foodId = repository.save(food).getFoodId();
-        System.out.println(foodId);
-
-
-        foodDto.getImages().forEach(e->{
-            e.setFood_id(foodId);
-            foodImageRepository.save( foodImageMapper.toEntity(e));
-        });
-
-
-        //repository.save(food);
-
-        return mapper.toDto(food);
+        return mapper.toDto(repository.getById(foodId));
     }
 
 
@@ -83,7 +73,7 @@ public class FoodServiceImpl implements FoodService{
     }
 
     @Override
-    public FoodDto getFoodById(int id) throws FaResourceNotFoundException {
+    public FoodDto getFoodById(int id) throws ResourceNotFoundException {
         return mapper.toDto(repository.findById(id).get());
     }
 
@@ -99,32 +89,47 @@ public class FoodServiceImpl implements FoodService{
     public void updateFood(Integer foodId, FoodDto foodDto) {
 
 
-//        Food existFood = repository.findById(foodId).get();
-//        existFood.setName(foodDto.getName());
-//        existFood.setPrice(foodDto.getPrice());
-//        existFood.setDescription(foodDto.getDescription());
-
-
-        //existFood.setRating(foodDto.getRating());
-
-
-
-//        existFood.setImages(foodImageMapper.toListEntity(foodDto.getImages()));
-//
-//        repository.save(existFood);
-
-
-        Food food= new Food();
-        food = mapper.toEntity(foodDto);
+        Food food = mapper.toEntity(foodDto);
+        food.setFoodId(foodId);
         repository.save(food);
 
     }
 
+    @Override
+    public List<FoodDto> getFoodByCategoryId(int id) {
 
+        Category category = categoryRepository.getById(id);
+        List<Food> foods = repository.findByCategory(category);
+        return mapper.toListDto(foods);
+    }
 
+    @Override
+    public List<FoodImageDto> getFoodImageByFoodId(Integer foodId) {
+        Food food = repository.getById(foodId);
+        List<FoodImage> images = foodImageRepository.getAllByFood(food);
 
+        return foodImageMapper.toListDto(images);
+    }
 
-    
+    @Override
+    public void updateImage(Integer imageId, FoodImageDto foodImageDto) {
+        FoodImage foodImage = foodImageRepository.getById(imageId);
+        foodImage.setImage(foodImageDto.getUrl());
+        foodImageRepository.save(foodImage);
+    }
+
+    @Override
+    public FoodImageDto createImage(Integer foodId, FoodImageDto foodImageDto) {
+        FoodImage foodImage = foodImageMapper.toEntity(foodImageDto);
+        foodImageRepository.save(foodImage);
+
+        return  foodImageMapper.toDto(foodImage);
+    }
+
+    @Override
+    public void deleteImage(Integer imageId) {
+        foodImageRepository.deleteById(imageId);
+    }
 
 
 }

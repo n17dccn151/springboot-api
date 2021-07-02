@@ -23,8 +23,8 @@ public class OrderFoodMapper {
 
 
         if(entity.getFood()!=null){
-            dto.setFoodName(entity.getFood().getName());
-            dto.setFoodImage(entity.getFood().getImages().get(0).getImage());
+            dto.setName(entity.getFood().getName());
+            dto.setImage(entity.getFood().getImages().get(0).getImage());
         }
 
         return dto;

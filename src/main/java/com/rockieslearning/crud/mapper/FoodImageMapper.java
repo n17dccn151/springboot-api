@@ -27,7 +27,7 @@ public class FoodImageMapper {
         FoodImageDto dto = new FoodImageDto();
         dto.setId(entity.getId());
         dto.setUrl(entity.getImage());
-        dto.setFood_id(entity.getFood().getFoodId());
+//        dto.setFood_id(entity.getFood().getFoodId());
         return dto;
     }
 
@@ -58,7 +58,7 @@ public class FoodImageMapper {
         entity.setImage(dto.getUrl());
 
         FoodDto foodDto = new FoodDto();
-        foodDto.setFoodId(dto.getFood_id());
+//        foodDto.setFoodId(dto.getFood_id());
 
 
 

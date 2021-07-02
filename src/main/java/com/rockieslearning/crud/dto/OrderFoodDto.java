@@ -1,12 +1,5 @@
 package com.rockieslearning.crud.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.rockieslearning.crud.entity.Food;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import javax.persistence.*;
-
 /**
  * Created by TanVOD on Jun, 2021
  */
@@ -23,9 +16,9 @@ public class OrderFoodDto {
     private Integer amount;
 
 
-    private String foodName;
+    private String name;
 
-    private String foodImage;
+    private String image;
 
 
 
@@ -59,19 +52,19 @@ public class OrderFoodDto {
         this.amount = amount;
     }
 
-    public String getFoodName() {
-        return foodName;
+    public String getName() {
+        return name;
     }
 
-    public void setFoodName(String foodName) {
-        this.foodName = foodName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getFoodImage() {
-        return foodImage;
+    public String getImage() {
+        return image;
     }
 
-    public void setFoodImage(String foodImage) {
-        this.foodImage = foodImage;
+    public void setImage(String image) {
+        this.image = image;
     }
 }

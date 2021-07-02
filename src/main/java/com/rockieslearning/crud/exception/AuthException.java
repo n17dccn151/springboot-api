@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * Created by TanVOD on Jun, 2021
  */
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class FaResourceNotFoundException extends RuntimeException {
+@ResponseStatus(HttpStatus.UNAUTHORIZED)
+public class AuthException extends RuntimeException{
 
-    public FaResourceNotFoundException(String message){
+    public AuthException(String message){
         super(message);
     }
+
 }

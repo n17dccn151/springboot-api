@@ -1,11 +1,9 @@
 package com.rockieslearning.crud.service;
 
 import com.rockieslearning.crud.dto.CategoryDto;
-import com.rockieslearning.crud.dto.UserDto;
+
 import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.User;
-import com.rockieslearning.crud.exception.FaBadRequestException;
-import com.rockieslearning.crud.exception.FaResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;

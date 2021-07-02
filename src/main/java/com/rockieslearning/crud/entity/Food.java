@@ -65,16 +65,16 @@ public class Food {
 //    @OneToOne(fetch = FetchType.LAZY,
 //            cascade =  CascadeType.ALL,
 //            mappedBy = "food")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "food")
+    @OneToMany(fetch = FetchType.LAZY , mappedBy = "food")
     private Set<OrderFood> orderFoods;
 
 
-    @JsonIgnore
 //    @OneToOne(fetch = FetchType.LAZY,
 //            cascade =  CascadeType.ALL,
 //            mappedBy = "food")
 
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "food")
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY , mappedBy = "food")
     private Set<CartFood> cartFoods;
 
 

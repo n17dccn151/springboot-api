@@ -24,12 +24,12 @@ public class OrderDto {
     private Integer orderId;
 
 
-    private Integer amount;
+
 
     private String status;
 
 
-    private Double price;
+
 
 
     private Date createdDate;
@@ -55,13 +55,7 @@ public class OrderDto {
         this.orderId = orderId;
     }
 
-    public Integer getAmount() {
-        return amount;
-    }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
 
     public String getStatus() {
         return status;
@@ -71,13 +65,7 @@ public class OrderDto {
         this.status = status;
     }
 
-    public Double getPrice() {
-        return price;
-    }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 
     public Date getCreatedDate() {
         return createdDate;

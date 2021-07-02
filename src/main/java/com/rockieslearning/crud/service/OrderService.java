@@ -1,7 +1,7 @@
 package com.rockieslearning.crud.service;
 
 import com.rockieslearning.crud.dto.OrderDto;
-import com.rockieslearning.crud.dto.UserDto;
+import com.rockieslearning.crud.dto.OrderRequestDto;
 import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.Order;
 
@@ -21,4 +21,10 @@ public interface OrderService {
     public void deleteOrder(Integer orderId) throws ParseException;
 
     public void updateOrder(Integer orderId, OrderDto  orderDto);
+
+    public OrderDto createNewOrder(OrderRequestDto orderRequestDto);
+
+    public List<OrderDto> getListOrderByUserId(int id) ;
+
+    OrderDto createNewOrderFromCart(Integer userId);
 }

@@ -30,8 +30,8 @@ public class OrderMapper {
 
         OrderDto dto = new OrderDto();
         dto.setOrderId(entity.getOrderId());
-        dto.setPrice(entity.getPrice());
-        dto.setAmount(entity.getAmount());
+//        dto.setPrice(entity.getPrice());
+//        dto.setAmount(entity.getAmount());
         dto.setStatus(entity.getStatus());
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setUpdatedDate(entity.getUpdatedDate());
@@ -65,8 +65,8 @@ public class OrderMapper {
     public Order toEntity(OrderDto dto) {
         Order entity = new Order();
         entity.setOrderId(dto.getOrderId());
-        entity.setPrice(dto.getPrice());
-        entity.setAmount(dto.getAmount());
+//        entity.setPrice(dto.getPrice());
+//        entity.setAmount(dto.getAmount());
         entity.setStatus(dto.getStatus());
         entity.setCreatedDate(dto.getCreatedDate());
         entity.setUpdatedDate(dto.getUpdatedDate());

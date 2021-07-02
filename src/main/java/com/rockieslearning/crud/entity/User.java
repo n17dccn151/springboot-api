@@ -43,7 +43,6 @@ public class User {
 
 
     @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
             mappedBy = "user")
     private Cart cart;
 

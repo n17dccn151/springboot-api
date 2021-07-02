@@ -26,8 +26,6 @@ public class CartController {
 
 
 
-
-
     @GetMapping("")
     public ResponseEntity<List<CartDto>> getAllCart(){
 
@@ -45,79 +43,41 @@ public class CartController {
         return new ResponseEntity<>(cartDto,HttpStatus.OK);
     }
 
-/*
-    @PostMapping("")
-    public ResponseEntity<Cart> addCart(HttpServletRequest request, @RequestBody Map<String, Object> CartMap){
+
+
+    @PostMapping("/add/food/{foodId}/user/{userId}")
+    public ResponseEntity<CartDto> addCart(HttpServletRequest request, @PathVariable("foodId") Integer foodId
+                                                                        , @PathVariable("userId") Integer userId){
+
+        CartDto CartResult = cartService.addToCart(userId, foodId);
 
 
 
-
-
-        Integer userId = Integer.parseInt(CartMap.get("userId").toString());
-        Double price = Double.parseDouble(CartMap.get("price").toString());
-        Integer amount = Integer.parseInt(CartMap.get("amount").toString());
-        String status = (String) CartMap.get("status");
-        Integer foodId = Integer.parseInt(CartMap.get("foodId").toString());
-
-
-
-
-
-        User user = userService.getUserById(userId);
-        if(user==null){
-            throw new FaResourceNotFoundException("user not found");
-        }
-
-        Food food = foodService.getFoodById(foodId);
-        if(food==null){
-            throw new FaResourceNotFoundException("food not found");
-        }
-
-        Cart Cart = new Cart();
-        Cart.setAmount(amount);
-        Cart.setPrice(price);
-        Cart.setStatus(status);
-        Cart.setUser(user);
-        //
-
-        CartFood  CartFood = new CartFood();
-        CartFood.setFood(food);
-        CartFood.setCart(Cart);
-//        CartFood
-
-
-        Cart CartResult =  CartService.saveCart(Cart);
         return new ResponseEntity<>(CartResult, HttpStatus.CREATED);
     }
 
 
-*/
+    @PostMapping("/add/food/{foodId}/qty/{qty}/user/{userId}")
+    public ResponseEntity<CartDto> addCartQty(HttpServletRequest request
+            , @PathVariable("foodId") Integer foodId
+            , @PathVariable("qty") Integer qty
+            , @PathVariable("userId") Integer userId){
 
-//    @PutMapping("/{CartId}")
-//    public ResponseEntity<Map<String, Boolean>> updateCart(HttpServletRequest request,
-//                                                               @PathVariable("CartId") Integer CartId,
-//                                                               @RequestBody Cart Cart){
-//        Cart existCart = CartService.getCartById(CartId);
-//        if(existCart==null){
-//            throw new FaResourceNotFoundException("Cart not found");
-//        }
-//        existCart.setPrice(Cart.getPrice());
-//        existCart.setAmount(Cart.getAmount());
-//        existCart.setStatus(Cart.getStatus());
-//        existCart.setCartFoods(Cart.getCartFoods());
-//
-//
-//        Map<String, Boolean> map = new HashMap<>();
-//        map.put("success", true);
-//        return new ResponseEntity<>(map, HttpStatus.OK);
-//    }
+        CartDto CartResult = cartService.updateCart(userId, foodId, qty);
+
+
+
+        return new ResponseEntity<>(CartResult, HttpStatus.CREATED);
+    }
+
+
+
+
 
 
     @DeleteMapping("/{cartId}")
     public ResponseEntity<Map<String, Boolean>> deleteCart(HttpServletRequest request,
                                                             @PathVariable("cartId") Integer cartId) throws ParseException {
-
-
 
         cartService.deleteCart(cartId);
         Map<String, Boolean> map = new HashMap<>();

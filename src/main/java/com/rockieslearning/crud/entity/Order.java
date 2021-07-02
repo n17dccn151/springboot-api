@@ -24,14 +24,14 @@ public class Order {
     private Integer orderId;
 
 
-    @Column(name = "order_amount")
-    private Integer amount;
+//    @Column(name = "order_amount")
+//    private Integer amount;
 
     @Column(name = "order_status")
     private String status;
 
-    @Column(name = "order_price")
-    private Double price;
+//    @Column(name = "order_price")
+//    private Double price;
 
 
     @CreationTimestamp
@@ -42,14 +42,13 @@ public class Order {
     private Date updatedDate;
 
     @JsonManagedReference(value = "order-orderfood")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "order")
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "order", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<OrderFood> orderFoods = new HashSet<OrderFood>();
 
 
     @JsonBackReference(value = "user-order")
     @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name="user_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
 
@@ -60,12 +59,9 @@ public class Order {
     public Order() {
     }
 
-
-    public Order(Integer orderId, Integer amount, String status, Double price, Date createdDate, Date updatedDate, Set<OrderFood> orderFoods, User user) {
+    public Order(Integer orderId, String status, Date createdDate, Date updatedDate, Set<OrderFood> orderFoods, User user) {
         this.orderId = orderId;
-        this.amount = amount;
         this.status = status;
-        this.price = price;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
         this.orderFoods = orderFoods;
@@ -80,13 +76,7 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public Integer getAmount() {
-        return amount;
-    }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
 
     public String getStatus() {
         return status;
@@ -96,13 +86,7 @@ public class Order {
         this.status = status;
     }
 
-    public Double getPrice() {
-        return price;
-    }
 
-    public void setPrice(Double price) {
-        this.price = price;
-    }
 
     public Date getCreatedDate() {
         return createdDate;

@@ -43,6 +43,15 @@ public class CartFood {
     public CartFood() {
     }
 
+
+    public CartFood( Cart cart, Food food, Integer amount) {
+
+        this.amount = amount;
+        this.cart = cart;
+        this.food = food;
+    }
+
+
     public CartFood(Integer id, Integer amount, Cart cart, Food food) {
         this.id = id;
         this.amount = amount;

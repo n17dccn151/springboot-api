@@ -28,8 +28,10 @@ public class UserDetail {
     @Column(name = "phone_number")
     private String phone;
 
-    @Column(name = "email")
-    private String email;
+    @Column(name = "address")
+    private String address;
+
+
 
     @JsonBackReference(value = "user-detail")
     @ManyToOne(fetch = FetchType.LAZY )
@@ -41,12 +43,12 @@ public class UserDetail {
     }
 
 
-    public UserDetail(Integer id, String firstName, String lastName, String phone, String email, User user) {
+    public UserDetail(Integer id, String firstName, String lastName, String phone, String address, User user) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
-        this.email = email;
+        this.address = address;
         this.user = user;
     }
 
@@ -82,12 +84,12 @@ public class UserDetail {
         this.phone = phone;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAddress() {
+        return address;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public User getUser() {

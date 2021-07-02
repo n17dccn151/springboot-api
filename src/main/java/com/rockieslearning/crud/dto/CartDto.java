@@ -1,10 +1,5 @@
 package com.rockieslearning.crud.dto;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.rockieslearning.crud.entity.CartFood;
-import com.rockieslearning.crud.entity.User;
-
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,10 +9,11 @@ import java.util.Set;
 
 public class CartDto {
 
-    private Integer cartId;
+
+    private Integer id;
 
 
-    private Integer amount;
+
 
 
     private Set<CartFoodDto> cartFoods = new HashSet<CartFoodDto>();
@@ -26,21 +22,15 @@ public class CartDto {
     private Integer userId;
 
 
-    public Integer getCartId() {
-        return cartId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCartId(Integer cartId) {
-        this.cartId = cartId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Integer getAmount() {
-        return amount;
-    }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
 
     public Set<CartFoodDto> getCartFoods() {
         return cartFoods;

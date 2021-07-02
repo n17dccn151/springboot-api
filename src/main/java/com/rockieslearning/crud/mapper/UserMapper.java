@@ -42,7 +42,7 @@ public class UserMapper {
         entity.setPhone(dto.getPhone());
         entity.setEmail(dto.getEmail());
         entity.setRoles(dto.getRoles());
-        dto.setPassword(entity.getPassword());
+        entity.setPassword(dto.getPassword());
         return entity;
     }
 }

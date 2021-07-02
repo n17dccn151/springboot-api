@@ -26,7 +26,7 @@ public class FoodCommentDto {
     private Food food;
 
 
-    private UserDto userDto;
+
 
 
     public Integer getId() {
@@ -53,11 +53,5 @@ public class FoodCommentDto {
         this.food = food;
     }
 
-    public UserDto getUserDto() {
-        return userDto;
-    }
 
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
-    }
 }

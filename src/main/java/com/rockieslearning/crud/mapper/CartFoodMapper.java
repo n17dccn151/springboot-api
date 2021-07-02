@@ -16,14 +16,15 @@ import java.util.List;
 public class CartFoodMapper {
     public CartFoodDto toDto(CartFood entity) {
         CartFoodDto dto = new CartFoodDto();
-        dto.setId(entity.getId());
+        dto.setId(entity.getFood().getFoodId());
         dto.setAmount(entity.getAmount());
 
 
 
         if(entity.getFood()!=null){
-            dto.setFoodName(entity.getFood().getName());
-            dto.setFoodImage(entity.getFood().getImages().get(0).getImage());
+            dto.setName(entity.getFood().getName());
+            dto.setImage(entity.getFood().getImages().get(0).getImage());
+            dto.setPrice(entity.getFood().getPrice());
         }
 
         return dto;

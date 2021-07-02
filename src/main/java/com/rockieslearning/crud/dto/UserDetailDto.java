@@ -17,14 +17,13 @@ public class UserDetailDto {
 
     private Integer id;
 
-
     private String firstName;
 
     private String lastName;
 
     private String phone;
 
-    private String email;
+    private String address;
 
     public Integer getId() {
         return id;
@@ -33,6 +32,8 @@ public class UserDetailDto {
     public void setId(Integer id) {
         this.id = id;
     }
+
+
 
     public String getFirstName() {
         return firstName;
@@ -58,11 +59,11 @@ public class UserDetailDto {
         this.phone = phone;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAddress() {
+        return address;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

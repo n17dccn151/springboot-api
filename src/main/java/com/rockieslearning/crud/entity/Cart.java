@@ -24,17 +24,15 @@ public class Cart {
     private Integer cartId;
 
 
-    @Column(name = "amount")
-    private Integer amount;
 
 
 
     @JsonManagedReference(value = "cart-cartfood")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "cart")
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "cart", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<CartFood> cartFoods = new HashSet<CartFood>();
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -44,9 +42,14 @@ public class Cart {
     public Cart() {
     }
 
-    public Cart(Integer cartId, Integer amount, Set<CartFood> cartFoods, User user) {
+
+    public Cart(User user) {
+        this.user = user;
+    }
+
+
+    public Cart(Integer cartId,  Set<CartFood> cartFoods, User user) {
         this.cartId = cartId;
-        this.amount = amount;
         this.cartFoods = cartFoods;
         this.user = user;
     }
@@ -60,13 +63,6 @@ public class Cart {
         this.cartId = cartId;
     }
 
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
 
     public Set<CartFood> getCartFoods() {
         return cartFoods;

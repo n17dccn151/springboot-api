@@ -65,6 +65,4 @@ public class UserDto {
     public void setRoles(String roles) {
         this.roles = roles;
     }
-
-
 }

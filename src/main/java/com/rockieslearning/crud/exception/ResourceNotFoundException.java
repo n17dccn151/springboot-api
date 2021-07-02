@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 /**
  * Created by TanVOD on Jun, 2021
  */
-@ResponseStatus(HttpStatus.BAD_REQUEST)
-public class FaBadRequestException extends RuntimeException {
-    public FaBadRequestException(String message){
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends RuntimeException {
+
+    public ResourceNotFoundException(String message){
         super(message);
     }
 }

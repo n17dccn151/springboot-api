@@ -3,7 +3,6 @@ package com.rockieslearning.crud.controller;
 import com.rockieslearning.crud.dto.CategoryDto;
 import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.User;
-import com.rockieslearning.crud.exception.FaResourceNotFoundException;
 import com.rockieslearning.crud.service.CategoryService;
 import com.rockieslearning.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
