@@ -34,15 +34,13 @@ public class FoodController {
     @GetMapping("")
     public ResponseEntity<List<FoodDto>> getAllFood(){
 
-        List<FoodDto> foodDtos = new ArrayList<>();
-        foodDtos = foodService.retrieveFoods();
+        List<FoodDto> foodDtos  = foodService.retrieveFoods();
         return new ResponseEntity<>(foodDtos, HttpStatus.OK);
     }
 
     @GetMapping("/{foodId}")
     public ResponseEntity<FoodDto> getFoodById(HttpServletRequest request,
                                                     @PathVariable("foodId") Integer foodId){
-
 
         FoodDto foodDto = foodService.getFoodById(foodId);
         return new ResponseEntity<>(foodDto,HttpStatus.OK);
@@ -52,22 +50,20 @@ public class FoodController {
     public ResponseEntity<List<FoodImageDto>> getFoodImageById(HttpServletRequest request,
                                                @PathVariable("foodId") Integer foodId){
 
-        List<FoodImageDto> foodImageDtos  =new ArrayList<>();
-        foodImageDtos = foodService.getFoodImageByFoodId(foodId);
-
+        List<FoodImageDto> foodImageDtos  = foodService.getFoodImageByFoodId(foodId);
         return new ResponseEntity<>(foodImageDtos,HttpStatus.OK);
     }
 
 
     @PutMapping("/images/{imageId}")
-    public ResponseEntity<List<FoodImageDto>> updateFoodImageById(HttpServletRequest request,
+    public ResponseEntity<Map<String, Boolean>> updateFoodImageById(HttpServletRequest request,
                                                                   @RequestBody FoodImageDto  foodImageDto,
                                                                   @PathVariable("imageId") Integer imageId){
 
-        List<FoodImageDto> foodImageDtos  =new ArrayList<>();
         foodService.updateImage(imageId, foodImageDto);
-
-        return new ResponseEntity<>(foodImageDtos,HttpStatus.OK);
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("success", true);
+        return new ResponseEntity<>(map,HttpStatus.OK);
     }
 
 

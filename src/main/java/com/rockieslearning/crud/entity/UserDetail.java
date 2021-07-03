@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class UserDetail {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_details_seq")
     private Integer id;
 
 

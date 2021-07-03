@@ -25,7 +25,7 @@ import java.util.*;
 public class Food {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "foods_seq")
     private Integer foodId;
 
     @Column(name = "food_name")

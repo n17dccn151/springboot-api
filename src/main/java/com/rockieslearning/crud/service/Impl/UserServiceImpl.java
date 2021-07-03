@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
         existUser.setEmail(userDto.getEmail());
         existUser.setPhone(userDto.getPhone());
         existUser.setPassword(userDto.getPassword());
-        existUser.setRoles(userDto.getRoles());
+        //existUser.setRoles(userDto.getRoles());
 
         try {
             repository.save(existUser);
@@ -106,11 +106,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User validateUser(UserDto userDto) {
 
-        User user =  repository.findUserByPhone(userDto.getPhone());
-        if(!BCrypt.checkpw(userDto.getPassword(), user.getPassword())){
-            throw new AuthException("Invalid phone/password");
-        }
-        return user;
+//        User user =  repository.findUserByPhone(userDto.getPhone());
+//        if(!BCrypt.checkpw(userDto.getPassword(), user.getPassword())){
+//            throw new AuthException("Invalid phone/password");
+//        }
+//        return user;
+        return null;
     }
 
     @Override

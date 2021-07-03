@@ -17,7 +17,7 @@ public class CartFood {
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cart_foods_seq")
     private Integer id;
 
 

@@ -19,7 +19,7 @@ public class CartDto {
     private Set<CartFoodDto> cartFoods = new HashSet<CartFoodDto>();
 
 
-    private Integer userId;
+    private Long userId;
 
 
     public Integer getId() {
@@ -40,11 +40,11 @@ public class CartDto {
         this.cartFoods = cartFoods;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 }

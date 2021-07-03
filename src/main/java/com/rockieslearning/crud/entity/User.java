@@ -4,8 +4,13 @@ package com.rockieslearning.crud.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.NaturalId;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,25 +20,47 @@ import java.util.Set;
 
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "USERS", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "phone_number"
+        }),
+        @UniqueConstraint(columnNames = {
+                "email"
+        })
+})
 public class User {
 
 
     @Id
-    @GeneratedValue
-    private Integer userId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq")
+    private Long userId;
 
+
+    @NotBlank
     @Column(name = "phone_number")
     private String phone;
 
     @Column(name = "email")
+    @NaturalId
+    @NotBlank
+    @Size(max = 50)
+    @Email
     private String email;
 
+
     @Column(name = "password")
+    @NotBlank
+    @Size(min=6, max = 100)
     private String password;
 
-    @Column(name = "roles")
-    private String roles;
+
+
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
 
     @JsonManagedReference(value = "user-order")
@@ -66,7 +93,23 @@ public class User {
 
     }
 
-    public User(Integer userId, String phone, String email, String password, String roles, Set<Order> orders, Cart cart, Set<FoodComment> comments, Set<FoodRating> ratings, Set<UserDetail> details) {
+
+
+    public User(String phone, String email, String password) {
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+    }
+
+
+    public User(String phone, String email, String password, Set<Role> roles) {
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    public User(Long userId, String phone, String email, String password, Set<Role> roles, Set<Order> orders, Cart cart, Set<FoodComment> comments, Set<FoodRating> ratings, Set<UserDetail> details) {
         this.userId = userId;
         this.phone = phone;
         this.email = email;
@@ -79,11 +122,11 @@ public class User {
         this.details = details;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -111,11 +154,11 @@ public class User {
         this.password = password;
     }
 
-    public String getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(String roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 

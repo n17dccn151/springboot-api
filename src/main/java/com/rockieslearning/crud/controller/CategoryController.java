@@ -30,8 +30,7 @@ public class CategoryController {
     @GetMapping("")
     public ResponseEntity<List<CategoryDto>> getAllCategory(){
 
-        List<CategoryDto> categories = new ArrayList<>();
-        categories = categoryService.retrieveCategories();
+        List<CategoryDto> categories = categoryService.retrieveCategories();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
@@ -46,7 +45,8 @@ public class CategoryController {
 
 
     @PostMapping("")
-    public ResponseEntity<CategoryDto> addCategory(HttpServletRequest request, @RequestBody CategoryDto categoryDto) throws ParseException {
+    public ResponseEntity<CategoryDto> addCategory(HttpServletRequest request,
+                                                   @RequestBody CategoryDto categoryDto) throws ParseException {
 
 
         CategoryDto saveCategory =  categoryService.saveCategory(categoryDto);
@@ -60,8 +60,8 @@ public class CategoryController {
     public ResponseEntity<Map<String, Boolean>> updateCategory(HttpServletRequest request,
                                                                @PathVariable("categoryId") Integer categoryId,
                                                                @RequestBody CategoryDto categoryDto){
-        categoryService.updateCategory(categoryId, categoryDto);
 
+        categoryService.updateCategory(categoryId, categoryDto);
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);

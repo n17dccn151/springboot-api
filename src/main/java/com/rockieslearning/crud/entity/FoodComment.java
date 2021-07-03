@@ -16,7 +16,7 @@ public class FoodComment {
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "food_comments_seq")
     private Integer id;
 
     @Column(name = "comment")

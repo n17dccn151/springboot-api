@@ -20,11 +20,8 @@ import java.util.Set;
 @Table(name = "CARTS")
 public class Cart {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "carts_seq")
     private Integer cartId;
-
-
-
 
 
     @JsonManagedReference(value = "cart-cartfood")

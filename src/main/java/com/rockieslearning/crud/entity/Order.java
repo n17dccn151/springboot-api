@@ -20,7 +20,7 @@ import java.util.Set;
 public class Order {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orders_seq")
     private Integer orderId;
 
 

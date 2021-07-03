@@ -1,14 +1,11 @@
 package com.rockieslearning.crud.controller;
 
-import com.rockieslearning.crud.Constants;
 import com.rockieslearning.crud.dto.CartDto;
 import com.rockieslearning.crud.dto.OrderDto;
-import com.rockieslearning.crud.dto.UserDetailDto;
 import com.rockieslearning.crud.dto.UserDto;
 import com.rockieslearning.crud.entity.User;
 import com.rockieslearning.crud.entity.UserDetail;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
-import com.rockieslearning.crud.repository.UserRepository;
 import com.rockieslearning.crud.service.CartService;
 import com.rockieslearning.crud.service.OrderService;
 import com.rockieslearning.crud.service.UserService;
@@ -42,13 +39,13 @@ public class UserController {
 
 
 
-    @PostMapping ("/login")
-    public ResponseEntity<Map<String, String>> loginUser(@RequestBody UserDto userDto){
-
-        User user  = userService.validateUser(userDto);
-
-       return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
-    }
+//    @PostMapping ("/login")
+//    public ResponseEntity<Map<String, String>> loginUser(@RequestBody UserDto userDto){
+//
+//        User user  = userService.validateUser(userDto);
+//
+//       return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
+//    }
 
 
     @PostMapping("/register")
@@ -62,21 +59,21 @@ public class UserController {
 
 
 
-    private Map<String, String> generateJWTToken (User user){
-        long timestamp = System.currentTimeMillis();
-        String token  = Jwts.builder().signWith(SignatureAlgorithm.HS256, Constants.API_SECRET_KEY)
-                .setIssuedAt(new Date(timestamp))
-                .setExpiration(new Date(timestamp+ Constants.TOKEN_VALIDITY))
-                .claim("userId", user.getUserId())
-                .claim("roles", user.getRoles())
-                .claim("phone", user.getPhone())
-                .claim("email", user.getEmail())
-                .compact();
-
-        Map<String, String> map = new HashMap<>();
-        map.put("token", token);
-        return map;
-    }
+//    private Map<String, String> generateJWTToken (User user){
+//        long timestamp = System.currentTimeMillis();
+//        String token  = Jwts.builder().signWith(SignatureAlgorithm.HS256, Constants.API_SECRET_KEY)
+//                .setIssuedAt(new Date(timestamp))
+//                .setExpiration(new Date(timestamp+ Constants.TOKEN_VALIDITY))
+//                .claim("userId", user.getUserId())
+//                .claim("roles", user.getRoles())
+//                .claim("phone", user.getPhone())
+//                .claim("email", user.getEmail())
+//                .compact();
+//
+//        Map<String, String> map = new HashMap<>();
+//        map.put("token", token);
+//        return map;
+//    }
 
 
 
@@ -94,15 +91,8 @@ public class UserController {
     public ResponseEntity<UserDto> getUserById(HttpServletRequest request,
                                                     @PathVariable("userId") Integer userId) throws ResourceNotFoundException {
 
-        try {
-            System.out.println("sjdhjashd");
-            UserDto userDto = userService.getUserById(userId);
-            return new ResponseEntity<>(userDto,HttpStatus.OK);
-        }
-        catch (Exception e){
-            throw new ResourceNotFoundException("asdajsdhjasd jahsdjas ");
-        }
-
+        UserDto userDto = userService.getUserById(userId);
+        return new ResponseEntity<>(userDto,HttpStatus.OK);
 
     }
 
@@ -112,13 +102,13 @@ public class UserController {
         List<UserDetail> userDetails =new ArrayList<>();
         userDetails = userService.getListDetailByUserId(userId);
         return new ResponseEntity<>(userDetails,HttpStatus.OK);
+
     }
 
 
     @GetMapping("{userId}/cart")
     public ResponseEntity<CartDto> getCartByUserId(HttpServletRequest request,
                                                    @PathVariable("userId") Integer userId){
-
 
         CartDto cartDto = cartService.getCartByUserId(userId);
         return new ResponseEntity<>(cartDto,HttpStatus.OK);
@@ -130,7 +120,6 @@ public class UserController {
                                                           @PathVariable("userId") Integer userId){
 
         List<OrderDto> orderDtos = orderService.getListOrderByUserId(userId);
-
         return new ResponseEntity<>(orderDtos,HttpStatus.OK);
     }
 
@@ -156,7 +145,6 @@ public class UserController {
                                                                @RequestBody UserDto userDto){
 
         userService.updateUser(userId, userDto);
-
 
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);

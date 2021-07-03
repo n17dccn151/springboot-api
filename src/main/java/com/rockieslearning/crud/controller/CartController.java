@@ -50,9 +50,6 @@ public class CartController {
                                                                         , @PathVariable("userId") Integer userId){
 
         CartDto CartResult = cartService.addToCart(userId, foodId);
-
-
-
         return new ResponseEntity<>(CartResult, HttpStatus.CREATED);
     }
 
@@ -64,9 +61,6 @@ public class CartController {
             , @PathVariable("userId") Integer userId){
 
         CartDto CartResult = cartService.updateCart(userId, foodId, qty);
-
-
-
         return new ResponseEntity<>(CartResult, HttpStatus.CREATED);
     }
 

@@ -5,6 +5,8 @@ import com.rockieslearning.crud.entity.Cart;
 import com.rockieslearning.crud.entity.CartFood;
 import com.rockieslearning.crud.entity.Food;
 import com.rockieslearning.crud.entity.User;
+import com.rockieslearning.crud.exception.BadRequestException;
+import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.mapper.CartMapper;
 import com.rockieslearning.crud.repository.CartFoodRepository;
 import com.rockieslearning.crud.repository.CartRepository;
@@ -45,17 +47,26 @@ public class CartServiceImpl implements CartService {
     private CartMapper mapper;
 
 
-    public CartServiceImpl(CartRepository repository, CartMapper mapper) {
+    public CartServiceImpl(CartRepository repository, UserRepository userRepository, CartRepository cartRepository, CartFoodRepository cartFoodRepository, FoodRepository foodRepository, CartMapper mapper) {
         this.repository = repository;
+        this.userRepository = userRepository;
+        this.cartRepository = cartRepository;
+        this.cartFoodRepository = cartFoodRepository;
+        this.foodRepository = foodRepository;
         this.mapper = mapper;
     }
 
-
-
     @Override
-    public CartDto saveCart(CartDto CartDto) throws ParseException {
+    public CartDto saveCart(CartDto CartDto) throws BadRequestException {
         Cart Cart = mapper.toEntity(CartDto);
-        return mapper.toDto(repository.save(Cart));
+
+        try {
+            return mapper.toDto(repository.save(Cart));
+        }catch (Exception e){
+            throw  new BadRequestException("invalid Request");
+
+        }
+
     }
 
     @Override
@@ -65,23 +76,26 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartDto getCartById(int id) {
-        return mapper.toDto(repository.findById(id).get());
+    public CartDto getCartById(int id) throws  ResourceNotFoundException{
+        Cart cart = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id: " + id));
+        return mapper.toDto(cart);
     }
 
     @Override
-    public void deleteCart(Integer CartId) throws ParseException {
-        Cart Cart = repository.findById(CartId).get();
+    public void deleteCart(Integer CartId) {
+        Cart Cart = repository.findById(CartId).orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id "));
         repository.delete(Cart);
     }
 
 
 
     @Override
-    public CartDto getCartByUserId(int id) {
-        User user = userRepository.getById(id);
+    public CartDto getCartByUserId(int id) throws ResourceNotFoundException {
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + id));;
 
         Cart cart = repository.findByUser(user);
+        if(cart==null)
+            new ResourceNotFoundException("Cart not found ");
 
         return mapper.toDto(cart);
     }
@@ -114,6 +128,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartDto updateCart(Integer userId, Integer foodId, Integer qty) {
+
         User user = userRepository.getById(userId);
         Cart cart = cartRepository.findByUser(user);
         Food food = foodRepository.getById(foodId);
@@ -122,7 +137,6 @@ public class CartServiceImpl implements CartService {
         if(cart==null){
             cart = repository.save(new Cart(user));
         }
-
 
         CartFood cartFood = cartFoodRepository.findCartFoodByFoodAndCart(food, cart);
         if(cartFood == null){

@@ -1,6 +1,5 @@
 package com.rockieslearning.crud;
 
-import com.rockieslearning.crud.filter.AuthFilter;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,14 +24,14 @@ public class SpringBootCrudApplication {
 	}
 
 
-	@Bean
-	public FilterRegistrationBean<AuthFilter> filterRegistrationBean(){
-		FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>();
-		AuthFilter authFilter = new AuthFilter();
-		registrationBean.setFilter(authFilter);
-		registrationBean.addUrlPatterns("/api/orders/*", "/api/cart/*");
-		return registrationBean;
-	}
+//	@Bean
+//	public FilterRegistrationBean<AuthFilter> filterRegistrationBean(){
+//		FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>();
+//		AuthFilter authFilter = new AuthFilter();
+//		registrationBean.setFilter(authFilter);
+//		registrationBean.addUrlPatterns("/api/orders/*", "/api/cart/*");
+//		return registrationBean;
+//	}
 
 
 }

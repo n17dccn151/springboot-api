@@ -29,9 +29,6 @@ public class OrderController {
     private OrderService orderService;
 
 
-
-
-
     @GetMapping("")
     public ResponseEntity<List<OrderDto>> getAllOrder(){
 
@@ -50,11 +47,11 @@ public class OrderController {
 
 
     @PostMapping("")
-    public ResponseEntity<OrderDto> addOrder(HttpServletRequest request, @RequestBody OrderRequestDto orderRequestDto){
+    public ResponseEntity<OrderDto> addOrder(HttpServletRequest request,
+                                             @RequestBody OrderRequestDto orderRequestDto){
 
 
 
-        System.out.println("asd"+orderRequestDto.getUserId()+ "____"+orderRequestDto.getOrderFoods().size());
         OrderDto orderDto = orderService.createNewOrder(orderRequestDto);
         return new ResponseEntity<>(orderDto, HttpStatus.CREATED);
     }

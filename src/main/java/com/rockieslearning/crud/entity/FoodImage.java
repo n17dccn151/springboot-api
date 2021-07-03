@@ -15,7 +15,7 @@ public class FoodImage {
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "food_images_seq")
     private Integer id;
 
     @Column(name = "image")

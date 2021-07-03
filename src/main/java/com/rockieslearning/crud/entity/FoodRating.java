@@ -17,7 +17,7 @@ public class FoodRating {
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "food_ratings_seq")
     private Integer id;
 
     @Column(name = "rate")
