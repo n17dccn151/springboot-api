@@ -13,6 +13,7 @@ import com.rockieslearning.crud.service.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 
 @Service
+@Transactional
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository repository;
@@ -38,9 +40,17 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     @Override
-    public CategoryDto saveCategory(CategoryDto categoryDto) throws BadRequestException, ParseException {
+    public CategoryDto saveCategory(CategoryDto categoryDto) throws BadRequestException {
         Category category = mapper.toEntity(categoryDto);
-        return mapper.toDto(repository.save(category));
+
+        try {
+            return mapper.toDto(repository.save(category));
+        }
+        catch (Exception e){
+            throw  new BadRequestException("invalid Request");
+        }
+
+
     }
 
     @Override
@@ -52,28 +62,37 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getCategoryById(int id) throws ResourceNotFoundException {
-        return mapper.toDto(repository.findById(id).get());
+        return mapper.toDto(repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found for this id: " + id)));
     }
 
     @Override
-    public void deleteCategory(Integer categoryId) throws ParseException {
-        Category category = repository.findById(categoryId).get();
+    public void deleteCategory(Integer categoryId) throws ResourceNotFoundException {
+        Category category = repository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found for this id: " + categoryId));
         repository.delete(category);
     }
 
     @Override
-    public void updateCategory(Integer categoryId, CategoryDto categoryDto) {
+    public void updateCategory(Integer categoryId, CategoryDto categoryDto) throws ResourceNotFoundException ,BadRequestException {
 
 
-        Category existCategory = repository.findById(categoryId).get();
+        Category existCategory = repository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found for this id: " + categoryId));
 
 
         existCategory.setDescription(categoryDto.getDescription());
         existCategory.setName(categoryDto.getName());
         existCategory.setImage(categoryDto.getImage());
 
+        try {
+            repository.save(existCategory);
+        }
+        catch (Exception e){
+            throw  new BadRequestException("invalid Request");
+        }
 
-        repository.save(existCategory);
+
     }
 
 

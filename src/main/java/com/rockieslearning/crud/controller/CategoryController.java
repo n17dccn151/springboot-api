@@ -8,6 +8,7 @@ import com.rockieslearning.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("")
     public ResponseEntity<List<CategoryDto>> getAllCategory(){
 
@@ -34,6 +36,7 @@ public class CategoryController {
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/{categoryId}")
     public ResponseEntity<CategoryDto> getCategoryById(HttpServletRequest request,
                                             @PathVariable("categoryId") Integer categoryId){
@@ -44,6 +47,7 @@ public class CategoryController {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<CategoryDto> addCategory(HttpServletRequest request,
                                                    @RequestBody CategoryDto categoryDto) throws ParseException {
@@ -56,6 +60,7 @@ public class CategoryController {
 
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{categoryId}")
     public ResponseEntity<Map<String, Boolean>> updateCategory(HttpServletRequest request,
                                                                @PathVariable("categoryId") Integer categoryId,
@@ -68,6 +73,7 @@ public class CategoryController {
 }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{categoryId}")
     public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,
                                                                @PathVariable("categoryId") Integer categoryId) throws ParseException {

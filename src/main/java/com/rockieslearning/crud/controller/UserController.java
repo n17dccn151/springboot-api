@@ -14,6 +14,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,46 +40,8 @@ public class UserController {
 
 
 
-//    @PostMapping ("/login")
-//    public ResponseEntity<Map<String, String>> loginUser(@RequestBody UserDto userDto){
-//
-//        User user  = userService.validateUser(userDto);
-//
-//       return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
-//    }
 
-
-    @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> registerUser(@RequestBody UserDto userDto){
-
-        userService.registerUser(userDto);
-        Map<String, String> map = new HashMap<>();
-        map.put("message", "registered successfully");
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
-
-
-//    private Map<String, String> generateJWTToken (User user){
-//        long timestamp = System.currentTimeMillis();
-//        String token  = Jwts.builder().signWith(SignatureAlgorithm.HS256, Constants.API_SECRET_KEY)
-//                .setIssuedAt(new Date(timestamp))
-//                .setExpiration(new Date(timestamp+ Constants.TOKEN_VALIDITY))
-//                .claim("userId", user.getUserId())
-//                .claim("roles", user.getRoles())
-//                .claim("phone", user.getPhone())
-//                .claim("email", user.getEmail())
-//                .compact();
-//
-//        Map<String, String> map = new HashMap<>();
-//        map.put("token", token);
-//        return map;
-//    }
-
-
-
-
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("")
     public ResponseEntity<List<UserDto>> getAllUsers(){
 
@@ -87,6 +50,7 @@ public class UserController {
         return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getUserById(HttpServletRequest request,
                                                     @PathVariable("userId") Integer userId) throws ResourceNotFoundException {
@@ -96,6 +60,7 @@ public class UserController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{userId}/detail")
     public ResponseEntity<List<UserDetail>> getUserDetailById(HttpServletRequest request,
                                                                @PathVariable("userId") Integer userId){
@@ -106,6 +71,7 @@ public class UserController {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("{userId}/cart")
     public ResponseEntity<CartDto> getCartByUserId(HttpServletRequest request,
                                                    @PathVariable("userId") Integer userId){
@@ -115,6 +81,7 @@ public class UserController {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("{userId}/orders")
     public ResponseEntity<List<OrderDto>> getOrderByUserId(HttpServletRequest request,
                                                           @PathVariable("userId") Integer userId){
@@ -127,10 +94,9 @@ public class UserController {
 
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<UserDto> addUser(HttpServletRequest request, @RequestBody UserDto userDto) throws ParseException {
-
-
 
         UserDto saveUser =  userService.saveUser(userDto);
         return new ResponseEntity<>(saveUser, HttpStatus.CREATED);
@@ -139,19 +105,20 @@ public class UserController {
 
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{userId}")
     public ResponseEntity<Map<String, Boolean>> updateUser(HttpServletRequest request,
                                                                @PathVariable("userId") Integer userId,
                                                                @RequestBody UserDto userDto){
 
         userService.updateUser(userId, userDto);
-
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{userId}")
     public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,
                                                                @PathVariable("userId") Integer userId) throws ParseException {

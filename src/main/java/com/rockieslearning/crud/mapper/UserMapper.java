@@ -5,7 +5,9 @@ import com.rockieslearning.crud.entity.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by TanVOD on Jul, 2021
@@ -20,6 +22,12 @@ public class UserMapper {
         dto.setPhone(entity.getPhone());
         dto.setEmail(entity.getEmail());
 
+        Set<String> roles = new HashSet<>();
+        entity.getRoles().forEach(r->{
+            roles.add(r.getName().name());
+        });
+
+        dto.setRoles(roles);
 
         dto.setPassword(entity.getPassword());
         return dto;

@@ -1,13 +1,16 @@
 package com.rockieslearning.crud.controller;
 
 
-import com.rockieslearning.crud.entity.User;
-import com.rockieslearning.crud.repository.UserRepository;
+import com.rockieslearning.crud.dto.CategoryDto;
+import com.rockieslearning.crud.dto.FoodDto;
+import com.rockieslearning.crud.service.CategoryService;
+import com.rockieslearning.crud.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -15,17 +18,44 @@ import java.util.List;
 @RequestMapping("/api/public")
 public class PublicController {
 
+	@Autowired
+	private CategoryService categoryService;
 
 	@Autowired
-	UserRepository userRepository;
-	@RequestMapping({ "/a" })
-	public List<User> all() {
-		return userRepository.findAll();
+	private FoodService foodService;
+
+
+	@GetMapping("/categories")
+	public ResponseEntity<List<CategoryDto>> getAllCategory(){
+
+		List<CategoryDto> categories = categoryService.retrieveCategories();
+		return new ResponseEntity<>(categories, HttpStatus.OK);
 	}
 
-	@RequestMapping({ "/hello" })
-	public String firstPage() {
-		return "hello";
+	@GetMapping("/categories/{categoryId}")
+	public ResponseEntity<CategoryDto> getCategoryById(HttpServletRequest request,
+													   @PathVariable("categoryId") Integer categoryId){
+
+
+		CategoryDto categoryDto = categoryService.getCategoryById(categoryId);
+		return new ResponseEntity<>(categoryDto,HttpStatus.OK);
 	}
+
+	@GetMapping("/foods")
+	public ResponseEntity<List<FoodDto>> getAllFood(){
+
+		List<FoodDto> foodDtos  = foodService.retrieveFoods();
+		return new ResponseEntity<>(foodDtos, HttpStatus.OK);
+	}
+
+	@GetMapping("/foods/{foodId}")
+	public ResponseEntity<FoodDto> getFoodById(HttpServletRequest request,
+											   @PathVariable("foodId") Integer foodId){
+
+		FoodDto foodDto = foodService.getFoodById(foodId);
+		return new ResponseEntity<>(foodDto,HttpStatus.OK);
+	}
+
+
 
 }

@@ -3,11 +3,14 @@ package com.rockieslearning.crud.service.Impl;
 import com.rockieslearning.crud.dto.OrderDto;
 import com.rockieslearning.crud.dto.OrderRequestDto;
 import com.rockieslearning.crud.entity.*;
+import com.rockieslearning.crud.exception.BadRequestException;
+import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.mapper.OrderMapper;
 import com.rockieslearning.crud.repository.*;
 import com.rockieslearning.crud.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.util.List;
@@ -18,6 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
 
@@ -39,9 +43,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     CartFoodRepository cartFoodRepository;
 
-
-
-
     @Autowired
     private OrderMapper mapper;
 
@@ -57,9 +58,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto saveOrder(OrderDto orderDto) throws ParseException {
+    public OrderDto saveOrder(OrderDto orderDto) throws BadRequestException {
         Order order = mapper.toEntity(orderDto);
-        return mapper.toDto(repository.save(order));
+
+        try {
+            return mapper.toDto(repository.save(order));
+        } catch (Exception e) {
+            throw new BadRequestException("invalid Request");
+        }
+
     }
 
     @Override
@@ -69,22 +76,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto getOrderById(int id) {
-        return mapper.toDto(repository.findById(id).get());
+    public OrderDto getOrderById(int id) throws ResourceNotFoundException{
+        Order order = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id: " + id));
+
+        return mapper.toDto(order);
     }
 
     @Override
-    public void deleteOrder(Integer orderId) throws ParseException {
-        Order order = repository.findById(orderId).get();
+    public void deleteOrder(Integer orderId) throws ResourceNotFoundException {
+        Order order = repository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id: " + orderId));
         repository.delete(order);
     }
 
     @Override
-    public void updateOrder(Integer orderId, OrderDto orderDto) {
+    public void updateOrder(Integer orderId, OrderDto orderDto) throws  ResourceNotFoundException {
 
-
-
-        Order existOrder = repository.findById(orderId).get();
+        Order existOrder = repository.findById(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id: " + orderId));
 
 //        existOrder.setPrice(orderDto.getPrice());
 //        existOrder.setAmount(orderDto.getAmount());
@@ -94,8 +104,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto createNewOrder(OrderRequestDto orderRequestDto) {
-
+    public OrderDto createNewOrder(OrderRequestDto orderRequestDto) throws ResourceNotFoundException, BadRequestException {
 
 /*{
         "userId": 7,
@@ -106,38 +115,33 @@ public class OrderServiceImpl implements OrderService {
             }
         ]
 }*/
-
-
-
         Order order =  new Order();
         order.setStatus("Ordered");
 
-
-        User user = userRepository.getById(orderRequestDto.getUserId());
+        User user = userRepository.findById(orderRequestDto.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + orderRequestDto.getUserId()));
         order.setUser(user);
+        Order saveOrder;
+        try {
+             saveOrder  = repository.save(order);
 
 
-        Order saveOrder = repository.save(order);
+            orderRequestDto.getOrderFoods().forEach(e->{
 
+                Food food = new Food();
+                food = foodRepository.getById(e.getId());
 
+                OrderFood orderFood  = new OrderFood();
+                orderFood.setOrder(saveOrder);
+                orderFood.setFood(food);
+                orderFood.setAmount(e.getAmount());
+                orderFood.setPrice(food.getPrice());
+                orderFoodRepository.save(orderFood);
 
-
-        orderRequestDto.getOrderFoods().forEach(e->{
-
-
-
-            Food food = new Food();
-            food = foodRepository.getById(e.getId());
-            System.out.println("_______________"+ food.getFoodId());
-
-            OrderFood orderFood  = new OrderFood();
-            orderFood.setOrder(saveOrder);
-            orderFood.setFood(food);
-            orderFood.setAmount(e.getAmount());
-            orderFood.setPrice(food.getPrice());
-            orderFoodRepository.save(orderFood);
-
-        });
+            });
+        } catch (Exception e) {
+            throw new BadRequestException("invalid Request");
+        }
 
         return mapper.toDto(saveOrder);
     }

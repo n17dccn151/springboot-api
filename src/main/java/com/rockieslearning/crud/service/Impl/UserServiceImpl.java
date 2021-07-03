@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -63,7 +65,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(int id) throws ResourceNotFoundException{
 
-        User user = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + id));
+        User user = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + id));
         return mapper.toDto(user);
     }
 
@@ -71,7 +74,8 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Integer userId) throws ResourceNotFoundException {
 
 
-        User user = repository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + userId));
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + userId));
         repository.delete(user);
     }
 
@@ -79,7 +83,8 @@ public class UserServiceImpl implements UserService {
     public void updateUser(Integer userId, UserDto userDto) throws ResourceNotFoundException, BadRequestException{
 
 
-        User existUser = repository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + userId));
+        User existUser = repository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + userId));
 
 
         existUser.setEmail(userDto.getEmail());
@@ -98,48 +103,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDetail> getListDetailByUserId(Integer userId) throws ResourceNotFoundException {
         List<UserDetail> userDetails = new ArrayList<>();
-        User user = repository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + userId));
+
+        User user = repository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + userId));
+
         userDetails = userDetailRepository.findByUser(user);
         return  userDetails;
     }
 
-    @Override
-    public User validateUser(UserDto userDto) {
 
-//        User user =  repository.findUserByPhone(userDto.getPhone());
-//        if(!BCrypt.checkpw(userDto.getPassword(), user.getPassword())){
-//            throw new AuthException("Invalid phone/password");
-//        }
-//        return user;
-        return null;
-    }
 
-    @Override
-    public UserDto registerUser(UserDto userDto) {
-
-        User user = mapper.toEntity(userDto);
-        user.setPassword(BCrypt.hashpw(userDto.getPassword(), BCrypt.gensalt(10)));
-        User saveUser = new User();
-        try {
-            saveUser = repository.save(user);
-        }
-        catch (Exception e){
-            throw  new BadRequestException("invalid Request");
-        }
-        return mapper.toDto(saveUser);
-
-    }
 
     @Override
     public UserDto saveUser(UserDto userDto) throws BadRequestException {
         User user = mapper.toEntity(userDto);
         User saveUser = new User();
+
         try {
             saveUser = repository.save(user);
         }
         catch (Exception e){
             throw  new BadRequestException("invalid Request");
         }
+
         return mapper.toDto(saveUser);
     }
 

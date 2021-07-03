@@ -10,6 +10,7 @@ import com.rockieslearning.crud.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +32,7 @@ public class FoodController {
 
 
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("")
     public ResponseEntity<List<FoodDto>> getAllFood(){
 
@@ -38,6 +40,7 @@ public class FoodController {
         return new ResponseEntity<>(foodDtos, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/{foodId}")
     public ResponseEntity<FoodDto> getFoodById(HttpServletRequest request,
                                                     @PathVariable("foodId") Integer foodId){
@@ -46,6 +49,7 @@ public class FoodController {
         return new ResponseEntity<>(foodDto,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     @GetMapping("/{foodId}/images")
     public ResponseEntity<List<FoodImageDto>> getFoodImageById(HttpServletRequest request,
                                                @PathVariable("foodId") Integer foodId){
@@ -55,6 +59,7 @@ public class FoodController {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/images/{imageId}")
     public ResponseEntity<Map<String, Boolean>> updateFoodImageById(HttpServletRequest request,
                                                                   @RequestBody FoodImageDto  foodImageDto,
@@ -68,6 +73,7 @@ public class FoodController {
 
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/images/{imageId}")
     public ResponseEntity<Map<String, Boolean>> deleteFoodImageById(HttpServletRequest request,
                                                                   @PathVariable("imageId") Integer imageId){
@@ -82,6 +88,7 @@ public class FoodController {
 
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{foodId}/images")
     public ResponseEntity<List<FoodImageDto>> updateFoodImageById(HttpServletRequest request,
                                                                   @PathVariable("foodId") Integer foodId,
@@ -99,6 +106,7 @@ public class FoodController {
 
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<FoodDto> addFood(HttpServletRequest request, @RequestBody FoodDto foodDto) throws ParseException {
 
@@ -109,6 +117,7 @@ public class FoodController {
 
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{foodId}")
     public ResponseEntity<Map<String, Boolean>> updateFood(HttpServletRequest request,
                                                                @PathVariable("foodId") Integer foodId,
@@ -122,6 +131,7 @@ public class FoodController {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{foodId}")
     public ResponseEntity<Map<String, Boolean>> deleteFood(HttpServletRequest request,
                                                                @PathVariable("foodId") Integer foodId) throws ParseException {

@@ -29,12 +29,17 @@ public class JwtUtils {
             .setSubject((userPrincipal.getUsername()))
             .setIssuedAt(new Date())
             .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .claim("userId", userPrincipal.getUserId())
             .signWith(SignatureAlgorithm.HS512, jwtSecret)
             .compact();
     }
 
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public Long getUserIdFromJwtToken(String token) {
+        return Long.parseLong(Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().get("userId").toString());
     }
 
     public boolean validateJwtToken(String authToken) {

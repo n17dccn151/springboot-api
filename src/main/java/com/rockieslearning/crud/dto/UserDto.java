@@ -21,7 +21,7 @@ public class UserDto {
 
     private String password;
 
-    private String roles;
+    private Set<String> roles;
 
     //private Set<UserDetailDto> userDetailDto;
 
@@ -58,11 +58,11 @@ public class UserDto {
         this.password = password;
     }
 
-    public String getRoles() {
+    public Set<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(String roles) {
+    public void setRoles(Set<String> roles) {
         this.roles = roles;
     }
 }

@@ -31,7 +31,4 @@ public interface UserService {
 
     public List<UserDetail> getListDetailByUserId(Integer userId) throws ResourceNotFoundException;
 
-    User validateUser(UserDto userDto);
-
-    UserDto registerUser(UserDto userDto);
 }

@@ -84,7 +84,7 @@ public class AuthController {
         if (userRepository.existsByPhone(signUpRequest.getPhone())) {
             return ResponseEntity
                 .badRequest()
-                .body(new MessageResponse("Error: Username is already taken!"));
+                .body(new MessageResponse("Error: Phone is already taken!"));
         }
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {

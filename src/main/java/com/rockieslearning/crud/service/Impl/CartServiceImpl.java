@@ -42,7 +42,6 @@ public class CartServiceImpl implements CartService {
     FoodRepository foodRepository;
 
 
-
     @Autowired
     private CartMapper mapper;
 
@@ -82,7 +81,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void deleteCart(Integer CartId) {
+    public void deleteCart(Integer CartId) throws ResourceNotFoundException {
         Cart Cart = repository.findById(CartId).orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id "));
         repository.delete(Cart);
     }
@@ -101,12 +100,10 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartDto addToCart(Integer userId, Integer foodId) {
+    public CartDto addToCart(Integer userId, Integer foodId) throws BadRequestException {
         User user = userRepository.getById(userId);
         Cart cart = cartRepository.findByUser(user);
         Food food = foodRepository.getById(foodId);
-
-
 
         if(cart==null){
             cart = repository.save(new Cart(user));

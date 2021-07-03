@@ -5,6 +5,7 @@ import com.rockieslearning.crud.dto.FoodDto;
 import com.rockieslearning.crud.dto.FoodImageDto;
 import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.Food;
+import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
 
 import java.text.ParseException;
@@ -15,27 +16,27 @@ import java.util.List;
  */
 public interface FoodService {
 
-    public FoodDto saveFood(FoodDto foodDto) throws ParseException;
+    public FoodDto saveFood(FoodDto foodDto) throws BadRequestException;
 
     public List<FoodDto> retrieveFoods();
 
     public FoodDto getFoodById(int id) throws ResourceNotFoundException;
 
 
-    public void deleteFood(Integer foodId) throws ParseException;
+    public void deleteFood(Integer foodId) throws ResourceNotFoundException;
 
-    public void updateFood(Integer foodId, FoodDto foodDto);
-
-
-    public List<FoodDto> getFoodByCategoryId(int id) ;
+    public void updateFood(Integer foodId, FoodDto foodDto) throws ResourceNotFoundException, BadRequestException;
 
 
-    List<FoodImageDto> getFoodImageByFoodId(Integer foodId);
+    public List<FoodDto> getFoodByCategoryId(int id) throws ResourceNotFoundException;
 
 
-    void updateImage(Integer imageId, FoodImageDto foodImageDto);
+    List<FoodImageDto> getFoodImageByFoodId(Integer foodId) throws ResourceNotFoundException;
 
-    FoodImageDto createImage(Integer foodId, FoodImageDto foodImageDto);
 
-    void deleteImage(Integer imageId);
+    void updateImage(Integer imageId, FoodImageDto foodImageDto) throws ResourceNotFoundException, BadRequestException;
+
+    FoodImageDto createImage(Integer foodId, FoodImageDto foodImageDto) throws  BadRequestException;
+
+    void deleteImage(Integer imageId) throws ResourceNotFoundException;
 }
