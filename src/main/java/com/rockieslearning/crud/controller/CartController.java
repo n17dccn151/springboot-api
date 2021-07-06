@@ -1,6 +1,8 @@
 package com.rockieslearning.crud.controller;
 
 import com.rockieslearning.crud.dto.CartDto;
+import com.rockieslearning.crud.dto.CartFoodDto;
+import com.rockieslearning.crud.dto.CategoryDto;
 import com.rockieslearning.crud.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +28,7 @@ public class CartController {
     private CartService cartService;
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @GetMapping("")
     public ResponseEntity<List<CartDto>> getAllCart(){
 
@@ -35,45 +37,38 @@ public class CartController {
         return new ResponseEntity<>(cartDtos, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/{cartId}")
-    public ResponseEntity<CartDto> getCartById(HttpServletRequest request,
-                                                 @PathVariable("cartId") Integer cartId){
-
-
-        CartDto cartDto = cartService.getCartById(cartId);
-        return new ResponseEntity<>(cartDto,HttpStatus.OK);
-    }
 
 
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/add/food/{foodId}/user/{userId}")
-    public ResponseEntity<CartDto> addCart(HttpServletRequest request, @PathVariable("foodId") Integer foodId
-                                                                        , @PathVariable("userId") Integer userId){
-
-        CartDto CartResult = cartService.addToCart(userId, foodId);
-        return new ResponseEntity<>(CartResult, HttpStatus.CREATED);
-    }
-
-
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/add/food/{foodId}/qty/{qty}/user/{userId}")
-    public ResponseEntity<CartDto> addCartQty(HttpServletRequest request
-            , @PathVariable("foodId") Integer foodId
-            , @PathVariable("qty") Integer qty
-            , @PathVariable("userId") Integer userId){
-
-        CartDto CartResult = cartService.updateCart(userId, foodId, qty);
-        return new ResponseEntity<>(CartResult, HttpStatus.CREATED);
-    }
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @GetMapping("/{cartId}")
+//    public ResponseEntity<CartDto> getCartById(HttpServletRequest request,
+//                                                 @PathVariable("cartId") Integer cartId){
+//
+//
+//        CartDto cartDto = cartService.getCartById(cartId);
+//        return new ResponseEntity<>(cartDto,HttpStatus.OK);
+//    }
+//
+//
+//
+//
+//
+//    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+//    @PostMapping("")
+//    public ResponseEntity<CartDto> addCartQty(HttpServletRequest request
+//            , @RequestBody CartFoodDto cartFoodDto){
+//
+//        int userId = (Integer) request.getAttribute("userId");
+//        CartDto CartResult = cartService.updateCart(userId, cartFoodDto);
+//        return new ResponseEntity<>(CartResult, HttpStatus.CREATED);
+//    }
 
 
 
 
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{cartId}")
     public ResponseEntity<Map<String, Boolean>> deleteCart(HttpServletRequest request,
                                                             @PathVariable("cartId") Integer cartId) throws ParseException {

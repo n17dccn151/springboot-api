@@ -32,7 +32,7 @@ public class FoodController {
 
 
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+
     @GetMapping("")
     public ResponseEntity<List<FoodDto>> getAllFood(){
 
@@ -40,7 +40,7 @@ public class FoodController {
         return new ResponseEntity<>(foodDtos, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+
     @GetMapping("/{foodId}")
     public ResponseEntity<FoodDto> getFoodById(HttpServletRequest request,
                                                     @PathVariable("foodId") Integer foodId){
@@ -49,7 +49,7 @@ public class FoodController {
         return new ResponseEntity<>(foodDto,HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+
     @GetMapping("/{foodId}/images")
     public ResponseEntity<List<FoodImageDto>> getFoodImageById(HttpServletRequest request,
                                                @PathVariable("foodId") Integer foodId){
@@ -59,7 +59,7 @@ public class FoodController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PutMapping("/images/{imageId}")
     public ResponseEntity<Map<String, Boolean>> updateFoodImageById(HttpServletRequest request,
                                                                   @RequestBody FoodImageDto  foodImageDto,
@@ -73,7 +73,7 @@ public class FoodController {
 
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @DeleteMapping("/images/{imageId}")
     public ResponseEntity<Map<String, Boolean>> deleteFoodImageById(HttpServletRequest request,
                                                                   @PathVariable("imageId") Integer imageId){
@@ -88,7 +88,6 @@ public class FoodController {
 
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{foodId}/images")
     public ResponseEntity<List<FoodImageDto>> updateFoodImageById(HttpServletRequest request,
                                                                   @PathVariable("foodId") Integer foodId,
@@ -106,7 +105,6 @@ public class FoodController {
 
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<FoodDto> addFood(HttpServletRequest request, @RequestBody FoodDto foodDto) throws ParseException {
 
@@ -117,21 +115,19 @@ public class FoodController {
 
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{foodId}")
-    public ResponseEntity<Map<String, Boolean>> updateFood(HttpServletRequest request,
+    public ResponseEntity<FoodDto> updateFood(HttpServletRequest request,
                                                                @PathVariable("foodId") Integer foodId,
                                                                @RequestBody FoodDto foodDto){
 
 
-        foodService.updateFood(foodId, foodDto);
-        Map<String, Boolean> map = new HashMap<>();
-        map.put("success", true);
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        FoodDto updateFood = foodService.updateFood(foodId, foodDto);
+
+        return new ResponseEntity<>(updateFood, HttpStatus.OK);
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @DeleteMapping("/{foodId}")
     public ResponseEntity<Map<String, Boolean>> deleteFood(HttpServletRequest request,
                                                                @PathVariable("foodId") Integer foodId) throws ParseException {

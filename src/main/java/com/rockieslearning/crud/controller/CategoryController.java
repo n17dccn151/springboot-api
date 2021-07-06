@@ -28,7 +28,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+
     @GetMapping("")
     public ResponseEntity<List<CategoryDto>> getAllCategory(){
 
@@ -36,7 +36,7 @@ public class CategoryController {
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+
     @GetMapping("/{categoryId}")
     public ResponseEntity<CategoryDto> getCategoryById(HttpServletRequest request,
                                             @PathVariable("categoryId") Integer categoryId){
@@ -47,7 +47,7 @@ public class CategoryController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PostMapping("")
     public ResponseEntity<CategoryDto> addCategory(HttpServletRequest request,
                                                    @RequestBody CategoryDto categoryDto) throws ParseException {
@@ -60,20 +60,19 @@ public class CategoryController {
 
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @PutMapping("/{categoryId}")
-    public ResponseEntity<Map<String, Boolean>> updateCategory(HttpServletRequest request,
+    public ResponseEntity<CategoryDto> updateCategory(HttpServletRequest request,
                                                                @PathVariable("categoryId") Integer categoryId,
                                                                @RequestBody CategoryDto categoryDto){
 
-        categoryService.updateCategory(categoryId, categoryDto);
-        Map<String, Boolean> map = new HashMap<>();
-        map.put("success", true);
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        CategoryDto updateCategory = categoryService.updateCategory(categoryId, categoryDto);
+
+        return new ResponseEntity<>(updateCategory, HttpStatus.OK);
 }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @DeleteMapping("/{categoryId}")
     public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,
                                                                @PathVariable("categoryId") Integer categoryId) throws ParseException {

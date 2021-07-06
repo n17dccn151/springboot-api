@@ -8,9 +8,6 @@ import com.rockieslearning.crud.entity.Food;
 import com.rockieslearning.crud.entity.FoodImage;
 import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
-import com.rockieslearning.crud.mapper.CategoryMapper;
-import com.rockieslearning.crud.mapper.FoodImageMapper;
-import com.rockieslearning.crud.mapper.FoodMapper;
 import com.rockieslearning.crud.repository.CategoryRepository;
 import com.rockieslearning.crud.repository.FoodImageRepository;
 import com.rockieslearning.crud.repository.FoodRepository;
@@ -41,23 +38,16 @@ public class FoodServiceImpl implements FoodService {
     @Autowired
     private FoodImageRepository foodImageRepository;
 
-    @Autowired
-    private FoodMapper mapper;
 
-    @Autowired
-    private FoodImageMapper foodImageMapper;
-
-    public FoodServiceImpl(FoodRepository repository, CategoryRepository categoryRepository, FoodImageRepository foodImageRepository, FoodMapper mapper, FoodImageMapper foodImageMapper) {
+    public FoodServiceImpl(FoodRepository repository, CategoryRepository categoryRepository, FoodImageRepository foodImageRepository) {
         this.repository = repository;
         this.categoryRepository = categoryRepository;
         this.foodImageRepository = foodImageRepository;
-        this.mapper = mapper;
-        this.foodImageMapper = foodImageMapper;
     }
 
     @Override
     public FoodDto saveFood(FoodDto foodDto) throws BadRequestException {
-        Food food = mapper.toEntity(foodDto);
+        Food food = new FoodDto().toEntity(foodDto);
 
         int foodId;
 
@@ -68,7 +58,7 @@ public class FoodServiceImpl implements FoodService {
 
 
         }
-        return mapper.toDto(repository.getById(foodId));
+        return new FoodDto().toDto(repository.getById(foodId));
     }
 
 
@@ -76,12 +66,12 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public List<FoodDto> retrieveFoods() {
         List<Food> foods =  repository.findAll();
-        return mapper.toListDto(foods);
+        return new FoodDto().toListDto(foods);
     }
 
     @Override
     public FoodDto getFoodById(int id) throws ResourceNotFoundException {
-        return mapper.toDto(repository.findById(id)
+        return new FoodDto().toDto(repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Food not found for this id: " + id)));
 
     }
@@ -97,12 +87,14 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void updateFood(Integer foodId, FoodDto foodDto) throws BadRequestException {
-        Food food = mapper.toEntity(foodDto);
+    public FoodDto updateFood(Integer foodId, FoodDto foodDto) throws BadRequestException {
+        Food food = new FoodDto().toEntity(foodDto);
         food.setFoodId(foodId);
 
         try {
-            repository.save(food);
+            FoodDto updateFood = new FoodDto();
+            return updateFood.toDto(repository.save(food));
+
         } catch (Exception e) {
             throw new BadRequestException("invalid Request");
 
@@ -119,7 +111,7 @@ public class FoodServiceImpl implements FoodService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Food not found for this id: " + id));
         List<Food> foods = repository.findByCategory(category);
-        return mapper.toListDto(foods);
+        return new FoodDto().toListDto(foods);
     }
 
     @Override
@@ -128,7 +120,7 @@ public class FoodServiceImpl implements FoodService {
                 .orElseThrow(() -> new ResourceNotFoundException("Food not found for this id: " + foodId));;
         List<FoodImage> images = foodImageRepository.getAllByFood(food);
 
-        return foodImageMapper.toListDto(images);
+        return new FoodImageDto().toListDto(images);
     }
 
     @Override
@@ -141,14 +133,12 @@ public class FoodServiceImpl implements FoodService {
             foodImageRepository.save(foodImage);
         } catch (Exception e) {
             throw new BadRequestException("invalid Request");
-
-
         }
     }
 
     @Override
     public FoodImageDto createImage(Integer foodId, FoodImageDto foodImageDto) throws BadRequestException {
-        FoodImage foodImage = foodImageMapper.toEntity(foodImageDto);
+        FoodImage foodImage = new FoodImageDto().toEntity(foodImageDto);
 
         try {
             foodImageRepository.save(foodImage);
@@ -158,7 +148,7 @@ public class FoodServiceImpl implements FoodService {
         }
 
 
-        return  foodImageMapper.toDto(foodImage);
+        return  new FoodImageDto().toDto(foodImage);
     }
 
     @Override

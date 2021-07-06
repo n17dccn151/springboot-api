@@ -1,13 +1,13 @@
 package com.rockieslearning.crud.service.Impl;
 
 import com.rockieslearning.crud.dto.CartDto;
+import com.rockieslearning.crud.dto.CartFoodDto;
 import com.rockieslearning.crud.entity.Cart;
 import com.rockieslearning.crud.entity.CartFood;
 import com.rockieslearning.crud.entity.Food;
 import com.rockieslearning.crud.entity.User;
 import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
-import com.rockieslearning.crud.mapper.CartMapper;
 import com.rockieslearning.crud.repository.CartFoodRepository;
 import com.rockieslearning.crud.repository.CartRepository;
 import com.rockieslearning.crud.repository.FoodRepository;
@@ -42,25 +42,20 @@ public class CartServiceImpl implements CartService {
     FoodRepository foodRepository;
 
 
-    @Autowired
-    private CartMapper mapper;
-
-
-    public CartServiceImpl(CartRepository repository, UserRepository userRepository, CartRepository cartRepository, CartFoodRepository cartFoodRepository, FoodRepository foodRepository, CartMapper mapper) {
+    public CartServiceImpl(CartRepository repository, UserRepository userRepository, CartRepository cartRepository, CartFoodRepository cartFoodRepository, FoodRepository foodRepository) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.cartRepository = cartRepository;
         this.cartFoodRepository = cartFoodRepository;
         this.foodRepository = foodRepository;
-        this.mapper = mapper;
     }
 
     @Override
     public CartDto saveCart(CartDto CartDto) throws BadRequestException {
-        Cart Cart = mapper.toEntity(CartDto);
+        Cart Cart = new CartDto().toEntity(CartDto);
 
         try {
-            return mapper.toDto(repository.save(Cart));
+            return new CartDto().toDto(repository.save(Cart));
         }catch (Exception e){
             throw  new BadRequestException("invalid Request");
 
@@ -71,13 +66,13 @@ public class CartServiceImpl implements CartService {
     @Override
     public List<CartDto> retrieveCarts() {
         List<Cart> Carts =  repository.findAll();
-        return mapper.toListDto(Carts);
+        return new CartDto().toListDto(Carts);
     }
 
     @Override
     public CartDto getCartById(int id) throws  ResourceNotFoundException{
         Cart cart = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id: " + id));
-        return mapper.toDto(cart);
+        return new CartDto().toDto(cart);
     }
 
     @Override
@@ -89,18 +84,18 @@ public class CartServiceImpl implements CartService {
 
 
     @Override
-    public CartDto getCartByUserId(int id) throws ResourceNotFoundException {
+    public CartDto getCartByUserId(Long id) throws ResourceNotFoundException {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + id));;
 
         Cart cart = repository.findByUser(user);
         if(cart==null)
-            new ResourceNotFoundException("Cart not found ");
+            throw new ResourceNotFoundException("Cart not found ");
 
-        return mapper.toDto(cart);
+        return new CartDto().toDto(cart);
     }
 
     @Override
-    public CartDto addToCart(Integer userId, Integer foodId) throws BadRequestException {
+    public CartDto addToCart(Long userId, Integer foodId) throws BadRequestException {
         User user = userRepository.getById(userId);
         Cart cart = cartRepository.findByUser(user);
         Food food = foodRepository.getById(foodId);
@@ -119,12 +114,12 @@ public class CartServiceImpl implements CartService {
         }
 
 
-        return mapper.toDto(repository.getById(cart.getCartId()));
+        return new CartDto().toDto(repository.getById(cart.getCartId()));
     }
 
 
     @Override
-    public CartDto updateCart(Integer userId, Integer foodId, Integer qty) {
+    public CartDto updateCart(Long userId, Integer foodId, Integer qty) {
 
         User user = userRepository.getById(userId);
         Cart cart = cartRepository.findByUser(user);
@@ -144,7 +139,30 @@ public class CartServiceImpl implements CartService {
         }
 
 
-        return mapper.toDto(repository.getById(cart.getCartId()));
+        return new CartDto().toDto(repository.getById(cart.getCartId()));
+    }
+
+    @Override
+    public CartDto updateCart(Long userId, CartFoodDto cartFoodDto) {
+        User user = userRepository.getById(userId);
+        Cart cart = cartRepository.findByUser(user);
+        Food food = foodRepository.getById(cartFoodDto.getId());
+
+
+        if(cart==null){
+            cart = repository.save(new Cart(user));
+        }
+
+        CartFood cartFood = cartFoodRepository.findCartFoodByFoodAndCart(food, cart);
+        if(cartFood == null){
+            cartFoodRepository.save(new CartFood(cart, food, cartFoodDto.getAmount()));
+        }else{
+            cartFood.setAmount(cartFood.getAmount()+cartFoodDto.getAmount());
+            cartFoodRepository.save(cartFood);
+        }
+
+
+        return new CartDto().toDto(repository.getById(cart.getCartId()));
     }
 
 }

@@ -5,7 +5,6 @@ import com.rockieslearning.crud.dto.OrderRequestDto;
 import com.rockieslearning.crud.entity.*;
 import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
-import com.rockieslearning.crud.mapper.OrderMapper;
 import com.rockieslearning.crud.repository.*;
 import com.rockieslearning.crud.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -43,26 +44,22 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     CartFoodRepository cartFoodRepository;
 
-    @Autowired
-    private OrderMapper mapper;
 
-
-    public OrderServiceImpl(OrderRepository repository, UserRepository userRepository, FoodRepository foodRepository, OrderFoodRepository orderFoodRepository, CartRepository cartRepository, CartFoodRepository cartFoodRepository, OrderMapper mapper) {
+    public OrderServiceImpl(OrderRepository repository, UserRepository userRepository, FoodRepository foodRepository, OrderFoodRepository orderFoodRepository, CartRepository cartRepository, CartFoodRepository cartFoodRepository) {
         this.repository = repository;
         this.userRepository = userRepository;
         this.foodRepository = foodRepository;
         this.orderFoodRepository = orderFoodRepository;
         this.cartRepository = cartRepository;
         this.cartFoodRepository = cartFoodRepository;
-        this.mapper = mapper;
     }
 
     @Override
     public OrderDto saveOrder(OrderDto orderDto) throws BadRequestException {
-        Order order = mapper.toEntity(orderDto);
+        Order order = new OrderDto().toEntity(orderDto);
 
         try {
-            return mapper.toDto(repository.save(order));
+            return new OrderDto().toDto(repository.save(order));
         } catch (Exception e) {
             throw new BadRequestException("invalid Request");
         }
@@ -72,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDto> retrieveOrders() {
         List<Order> orders =  repository.findAll();
-        return mapper.toListDto(orders);
+        return new OrderDto().toListDto(orders);
     }
 
     @Override
@@ -80,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id: " + id));
 
-        return mapper.toDto(order);
+        return new OrderDto().toDto(order);
     }
 
     @Override
@@ -116,7 +113,16 @@ public class OrderServiceImpl implements OrderService {
         ]
 }*/
         Order order =  new Order();
-        order.setStatus("Ordered");
+
+        for (Object s : OrderStatusName.values())
+        {
+            if (orderRequestDto.getStatus().equals(s.toString()))
+            {
+                order.setStatus(s.toString());
+            }
+        }
+
+
 
         User user = userRepository.findById(orderRequestDto.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + orderRequestDto.getUserId()));
@@ -143,19 +149,19 @@ public class OrderServiceImpl implements OrderService {
             throw new BadRequestException("invalid Request");
         }
 
-        return mapper.toDto(saveOrder);
+        return new OrderDto().toDto(saveOrder);
     }
 
     @Override
-    public List<OrderDto> getListOrderByUserId(int id) {
+    public List<OrderDto> getListOrderByUserId(Long id) {
         User user = userRepository.getById(id);
         List<Order> orders = repository.findByUser(user);
 
-        return mapper.toListDto(orders);
+        return new OrderDto().toListDto(orders);
     }
 
     @Override
-    public OrderDto createNewOrderFromCart(Integer userId) {
+    public OrderDto createNewOrderFromCart(Long userId) {
 
         User user = userRepository.getById(userId);
         Cart cart = cartRepository.findByUser(user);
@@ -183,7 +189,7 @@ public class OrderServiceImpl implements OrderService {
 
         cartRepository.delete(cart);
 
-        return mapper.toDto(saveOrder);
+        return new OrderDto().toDto(saveOrder);
     }
 
 

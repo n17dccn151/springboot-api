@@ -41,7 +41,6 @@ public class UserController {
 
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("")
     public ResponseEntity<List<UserDto>> getAllUsers(){
 
@@ -50,20 +49,19 @@ public class UserController {
         return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getUserById(HttpServletRequest request,
-                                                    @PathVariable("userId") Integer userId) throws ResourceNotFoundException {
+                                                    @PathVariable("userId") Long userId) throws ResourceNotFoundException {
 
         UserDto userDto = userService.getUserById(userId);
         return new ResponseEntity<>(userDto,HttpStatus.OK);
 
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @GetMapping("/{userId}/detail")
     public ResponseEntity<List<UserDetail>> getUserDetailById(HttpServletRequest request,
-                                                               @PathVariable("userId") Integer userId){
+                                                               @PathVariable("userId") Long userId){
         List<UserDetail> userDetails =new ArrayList<>();
         userDetails = userService.getListDetailByUserId(userId);
         return new ResponseEntity<>(userDetails,HttpStatus.OK);
@@ -71,20 +69,19 @@ public class UserController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @GetMapping("{userId}/cart")
     public ResponseEntity<CartDto> getCartByUserId(HttpServletRequest request,
-                                                   @PathVariable("userId") Integer userId){
+                                                   @PathVariable("userId") Long userId){
 
         CartDto cartDto = cartService.getCartByUserId(userId);
         return new ResponseEntity<>(cartDto,HttpStatus.OK);
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("{userId}/orders")
     public ResponseEntity<List<OrderDto>> getOrderByUserId(HttpServletRequest request,
-                                                          @PathVariable("userId") Integer userId){
+                                                          @PathVariable("userId") Long userId){
 
         List<OrderDto> orderDtos = orderService.getListOrderByUserId(userId);
         return new ResponseEntity<>(orderDtos,HttpStatus.OK);
@@ -92,9 +89,6 @@ public class UserController {
 
 
 
-
-
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("")
     public ResponseEntity<UserDto> addUser(HttpServletRequest request, @RequestBody UserDto userDto) throws ParseException {
 
@@ -105,23 +99,21 @@ public class UserController {
 
 
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{userId}")
-    public ResponseEntity<Map<String, Boolean>> updateUser(HttpServletRequest request,
-                                                               @PathVariable("userId") Integer userId,
+    public ResponseEntity<UserDto> updateUser(HttpServletRequest request,
+                                                               @PathVariable("userId") Long userId,
                                                                @RequestBody UserDto userDto){
 
-        userService.updateUser(userId, userDto);
-        Map<String, Boolean> map = new HashMap<>();
-        map.put("success", true);
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        UserDto updateUser =  userService.updateUser(userId, userDto);
+
+        return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @DeleteMapping("/{userId}")
     public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,
-                                                               @PathVariable("userId") Integer userId) throws ParseException {
+                                                               @PathVariable("userId") Long userId) throws ParseException {
 
         userService.deleteUser(userId);
 

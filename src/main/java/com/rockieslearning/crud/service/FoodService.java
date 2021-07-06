@@ -25,7 +25,7 @@ public interface FoodService {
 
     public void deleteFood(Integer foodId) throws ResourceNotFoundException;
 
-    public void updateFood(Integer foodId, FoodDto foodDto) throws ResourceNotFoundException, BadRequestException;
+    public FoodDto updateFood(Integer foodId, FoodDto foodDto) throws ResourceNotFoundException, BadRequestException;
 
 
     public List<FoodDto> getFoodByCategoryId(int id) throws ResourceNotFoundException;

@@ -3,6 +3,8 @@ package com.rockieslearning.crud.dto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rockieslearning.crud.entity.Food;
+import com.rockieslearning.crud.entity.Order;
+import com.rockieslearning.crud.entity.OrderFood;
 import com.rockieslearning.crud.entity.User;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
@@ -10,9 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by TanVOD on Jun, 2021
@@ -24,11 +24,7 @@ public class OrderDto {
     private Integer orderId;
 
 
-
-
     private String status;
-
-
 
 
 
@@ -44,6 +40,61 @@ public class OrderDto {
 
     private Long userId;
 
+
+
+
+
+
+
+
+    public OrderDto toDto(Order entity) {
+
+
+
+        OrderDto dto = new OrderDto();
+        dto.setOrderId(entity.getOrderId());
+//        dto.setPrice(entity.getPrice());
+//        dto.setAmount(entity.getAmount());
+        dto.setStatus(entity.getStatus());
+        dto.setCreatedDate(entity.getCreatedDate());
+        dto.setUpdatedDate(entity.getUpdatedDate());
+        dto.setUserId(entity.getUser().getUserId());
+
+
+        Set<OrderFoodDto> orderFoodDtoSet  = new HashSet<>();
+        entity.getOrderFoods().forEach(e->{
+            orderFoodDtoSet.add(new OrderFoodDto().toDto(e));
+        });
+
+        dto.setOrderFoods(orderFoodDtoSet);
+
+
+
+        return dto;
+    }
+
+
+    public List<OrderDto> toListDto(List<Order> listEntity) {
+        List<OrderDto> listDto = new ArrayList<>();
+
+        listEntity.forEach(e->{
+            listDto.add(this.toDto(e));
+        });
+
+        return listDto;
+    }
+
+
+    public Order toEntity(OrderDto dto) {
+        Order entity = new Order();
+        entity.setOrderId(dto.getOrderId());
+//        entity.setPrice(dto.getPrice());
+//        entity.setAmount(dto.getAmount());
+        entity.setStatus(dto.getStatus());
+        entity.setCreatedDate(dto.getCreatedDate());
+        entity.setUpdatedDate(dto.getUpdatedDate());
+        return entity;
+    }
 
 
 

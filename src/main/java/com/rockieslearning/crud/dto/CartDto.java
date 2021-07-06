@@ -1,6 +1,10 @@
 package com.rockieslearning.crud.dto;
 
+import com.rockieslearning.crud.entity.Cart;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -20,6 +24,51 @@ public class CartDto {
 
 
     private Long userId;
+
+
+
+
+    public CartDto toDto(Cart entity) {
+
+
+
+        CartDto dto = new CartDto();
+        dto.setId(entity.getCartId());
+
+        dto.setUserId(entity.getUser().getUserId());
+
+
+        Set<CartFoodDto> CartFoodDtoSet  = new HashSet<>();
+        entity.getCartFoods().forEach(e->{
+            CartFoodDtoSet.add(new CartFoodDto().toDto(e));
+        });
+
+        dto.setCartFoods(CartFoodDtoSet);
+
+
+
+        return dto;
+    }
+
+
+    public List<CartDto> toListDto(List<Cart> listEntity) {
+        List<CartDto> listDto = new ArrayList<>();
+
+        listEntity.forEach(e->{
+            listDto.add(this.toDto(e));
+        });
+
+        return listDto;
+    }
+
+
+    public Cart toEntity(CartDto dto) {
+        Cart entity = new Cart();
+        entity.setCartId(dto.getId());
+
+        return entity;
+    }
+
 
 
     public Integer getId() {

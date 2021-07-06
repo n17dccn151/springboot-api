@@ -12,10 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by TanVOD on Jun, 2021
@@ -38,6 +35,80 @@ public class FoodDto {
 
 
     private List<FoodImageDto> images;
+
+
+    public FoodDto toDto(Food entity) {
+        FoodDto dto = new FoodDto();
+        dto.setFoodId(entity.getFoodId());
+        dto.setName(entity.getName());
+        dto.setPrice(entity.getPrice());
+        dto.setRating(entity.getRating());
+        dto.setDescription(entity.getDescription());
+        dto.setCategoryid(entity.getCategory().getCategoryId());
+
+        dto.setImages(new FoodImageDto().toListDto(entity.getImages()));
+        return dto;
+    }
+
+
+    public List<FoodDto> toListDto(List<Food> listEntity) {
+        List<FoodDto> listDto = new ArrayList<>();
+
+        listEntity.forEach(e->{
+            listDto.add(this.toDto(e));
+        });
+
+        return listDto;
+    }
+
+    public List<Food> toListEntity(List<FoodDto> listDto) {
+        List<Food> listEti = new ArrayList<>();
+
+        listDto.forEach(e->{
+            listEti.add(this.toEntity(e));
+        });
+        return listEti;
+    }
+
+
+
+
+    public Food toEntity(FoodDto dto) {
+        Food entity = new Food();
+        entity.setFoodId(dto.getFoodId());
+        entity.setName(dto.getName());
+        entity.setPrice(dto.getPrice());
+        entity.setDescription(dto.getDescription());
+        entity.setRating(dto.getRating());
+
+
+
+
+
+
+
+//        List<FoodImage>  images = new ArrayList<>();
+//        images  = foodImageMapper.toListEntity(dto.getImages());
+//        entity.setImages(images);
+//
+//
+//        entity.getImages().forEach(e->{
+//            System.out.println("___"+e.getImage());
+//        });
+
+
+
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setCategoryId(dto.getCategoryid());
+        entity.setCategory(new CategoryDto().toEntity(categoryDto));
+
+
+
+        return entity;
+    }
+
+
+
 
 
 

@@ -30,7 +30,7 @@ public class OrderController {
     private OrderService orderService;
 
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @GetMapping("")
     public ResponseEntity<List<OrderDto>> getAllOrder(){
 
@@ -39,7 +39,7 @@ public class OrderController {
         return new ResponseEntity<>(orderDtos, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderDto> getOrderById(HttpServletRequest request,
                                                     @PathVariable("orderId") Integer orderId){
@@ -49,33 +49,31 @@ public class OrderController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("")
-    public ResponseEntity<OrderDto> addOrder(HttpServletRequest request,
-                                             @RequestBody OrderRequestDto orderRequestDto){
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PostMapping("")
+//    public ResponseEntity<OrderDto> addOrder(HttpServletRequest request,
+//                                             @RequestBody OrderRequestDto orderRequestDto){
+//
+//
+//
+//        OrderDto orderDto = orderService.createNewOrder(orderRequestDto);
+//        return new ResponseEntity<>(orderDto, HttpStatus.CREATED);
+//    }
+//
+//
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PostMapping("/user/{userId}")
+//    public ResponseEntity<OrderDto> addOrderFromCart(HttpServletRequest request,
+//                                                     @PathVariable("userId") Integer userId){
+//
+//        OrderDto orderDto = orderService.createNewOrderFromCart(userId);
+//        return new ResponseEntity<>(orderDto, HttpStatus.CREATED);
+//    }
 
 
 
-        OrderDto orderDto = orderService.createNewOrder(orderRequestDto);
-        return new ResponseEntity<>(orderDto, HttpStatus.CREATED);
-    }
 
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/user/{userId}")
-    public ResponseEntity<OrderDto> addOrderFromCart(HttpServletRequest request,
-                                                     @PathVariable("userId") Integer userId){
-
-        OrderDto orderDto = orderService.createNewOrderFromCart(userId);
-        return new ResponseEntity<>(orderDto, HttpStatus.CREATED);
-    }
-
-
-
-
-
-
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{OrderId}")
     public ResponseEntity<Map<String, Boolean>> deleteOrder(HttpServletRequest request,
                                                                @PathVariable("OrderId") Integer orderId) throws ParseException {

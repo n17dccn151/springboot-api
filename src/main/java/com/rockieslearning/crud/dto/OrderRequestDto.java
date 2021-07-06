@@ -11,16 +11,30 @@ public class OrderRequestDto {
 
 
 
-    private Integer userId;
+    private Long userId;
+
+    private String status;
 
     private Set<OrderFoodRequestDto> orderFoods = new HashSet<OrderFoodRequestDto>();
 
 
-    public Integer getUserId() {
+
+
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

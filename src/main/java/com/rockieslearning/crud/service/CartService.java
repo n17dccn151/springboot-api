@@ -1,6 +1,7 @@
 package com.rockieslearning.crud.service;
 
 import com.rockieslearning.crud.dto.CartDto;
+import com.rockieslearning.crud.dto.CartFoodDto;
 import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
 
@@ -20,10 +21,12 @@ public interface CartService {
 
     public void deleteCart(Integer CartId) throws  ResourceNotFoundException;
 
-    public CartDto getCartByUserId(int id) throws ResourceNotFoundException;
+    public CartDto getCartByUserId(Long id) throws ResourceNotFoundException;
 
-    CartDto addToCart(Integer userId, Integer foodId);
+    CartDto addToCart(Long userId, Integer foodId);
 
-    CartDto updateCart(Integer userId, Integer foodId, Integer qty);
+    CartDto updateCart(Long userId, Integer foodId, Integer qty);
+
+    CartDto updateCart(Long userId, CartFoodDto cartFoodDto);
 
 }

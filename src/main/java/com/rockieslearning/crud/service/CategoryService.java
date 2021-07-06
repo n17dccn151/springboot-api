@@ -26,7 +26,7 @@ public interface CategoryService {
 
     public void deleteCategory(Integer categoryId)  throws ResourceNotFoundException;
 
-    public void updateCategory(Integer categoryId, CategoryDto categoryDto) throws ResourceNotFoundException ,BadRequestException ;
+    public CategoryDto updateCategory(Integer categoryId, CategoryDto categoryDto) throws ResourceNotFoundException ,BadRequestException ;
 
 
 }

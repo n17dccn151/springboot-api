@@ -6,6 +6,9 @@ import com.rockieslearning.crud.entity.User;
 import com.rockieslearning.crud.entity.UserDetail;
 import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
+import com.rockieslearning.crud.payload.request.LoginRequest;
+import com.rockieslearning.crud.payload.request.SignupRequest;
+import com.rockieslearning.crud.payload.response.JwtResponse;
 import com.rockieslearning.crud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,12 +26,16 @@ public interface UserService {
 
     public List<UserDto> retrieveUsers();
 
-    public UserDto getUserById(int id)  throws ResourceNotFoundException;
+    public UserDto getUserById(Long id)  throws ResourceNotFoundException;
 
-    public void deleteUser(Integer userId) throws ResourceNotFoundException;
+    public void deleteUser(Long userId) throws ResourceNotFoundException;
 
-    public void updateUser(Integer userId, UserDto userDto)throws ResourceNotFoundException, BadRequestException;
+    public UserDto updateUser(Long userId, UserDto userDto)throws ResourceNotFoundException, BadRequestException;
 
-    public List<UserDetail> getListDetailByUserId(Integer userId) throws ResourceNotFoundException;
+    public List<UserDetail> getListDetailByUserId(Long userId) throws ResourceNotFoundException;
 
+
+    public JwtResponse signIn(LoginRequest loginRequest);
+
+    public UserDto signUp(SignupRequest signupRequest);
 }

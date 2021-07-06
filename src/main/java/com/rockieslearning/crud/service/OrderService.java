@@ -26,7 +26,7 @@ public interface OrderService {
 
     public OrderDto createNewOrder(OrderRequestDto orderRequestDto) throws BadRequestException;
 
-    public List<OrderDto> getListOrderByUserId(int id) ;
+    public List<OrderDto> getListOrderByUserId(Long id) ;
 
-    OrderDto createNewOrderFromCart(Integer userId) ;
+    OrderDto createNewOrderFromCart(Long userId) ;
 }
