@@ -14,8 +14,10 @@ import com.rockieslearning.crud.repository.FoodRepository;
 import com.rockieslearning.crud.repository.UserRepository;
 import com.rockieslearning.crud.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.util.List;
 
@@ -24,6 +26,7 @@ import java.util.List;
  */
 
 @Service
+@Transactional
 public class CartServiceImpl implements CartService {
 
     @Autowired
@@ -77,8 +80,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void deleteCart(Integer CartId) throws ResourceNotFoundException {
-        Cart Cart = repository.findById(CartId).orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id "));
-        repository.delete(Cart);
+        Cart cart = repository.findById(CartId).orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id "));
+        repository.delete(cart);
     }
 
 
@@ -94,53 +97,9 @@ public class CartServiceImpl implements CartService {
         return new CartDto().toDto(cart);
     }
 
-    @Override
-    public CartDto addToCart(Long userId, Integer foodId) throws BadRequestException {
-        User user = userRepository.getById(userId);
-        Cart cart = cartRepository.findByUser(user);
-        Food food = foodRepository.getById(foodId);
-
-        if(cart==null){
-            cart = repository.save(new Cart(user));
-        }
 
 
-        CartFood cartFood = cartFoodRepository.findCartFoodByFoodAndCart(food, cart);
-        if(cartFood == null){
-            cartFoodRepository.save(new CartFood(cart, food, 1));
-        }else{
-            cartFood.setAmount(cartFood.getAmount()+1);
-            cartFoodRepository.save(cartFood);
-        }
 
-
-        return new CartDto().toDto(repository.getById(cart.getCartId()));
-    }
-
-
-    @Override
-    public CartDto updateCart(Long userId, Integer foodId, Integer qty) {
-
-        User user = userRepository.getById(userId);
-        Cart cart = cartRepository.findByUser(user);
-        Food food = foodRepository.getById(foodId);
-
-
-        if(cart==null){
-            cart = repository.save(new Cart(user));
-        }
-
-        CartFood cartFood = cartFoodRepository.findCartFoodByFoodAndCart(food, cart);
-        if(cartFood == null){
-            cartFoodRepository.save(new CartFood(cart, food, qty));
-        }else{
-            cartFood.setAmount(cartFood.getAmount()+qty);
-            cartFoodRepository.save(cartFood);
-        }
-
-
-        return new CartDto().toDto(repository.getById(cart.getCartId()));
-    }
 
     @Override
     public CartDto updateCart(Long userId, CartFoodDto cartFoodDto) {
@@ -154,15 +113,25 @@ public class CartServiceImpl implements CartService {
         }
 
         CartFood cartFood = cartFoodRepository.findCartFoodByFoodAndCart(food, cart);
+
+
+
         if(cartFood == null){
             cartFoodRepository.save(new CartFood(cart, food, cartFoodDto.getAmount()));
         }else{
-            cartFood.setAmount(cartFood.getAmount()+cartFoodDto.getAmount());
-            cartFoodRepository.save(cartFood);
+
+            if(cartFoodDto.getAmount()==0){
+                cartFoodRepository.deleteById(cartFood.getId());
+
+            }else{
+                cartFood.setAmount(cartFoodDto.getAmount());
+                cartFoodRepository.save(cartFood);
+
+            }
         }
 
-
-        return new CartDto().toDto(repository.getById(cart.getCartId()));
+        Cart s = repository.findById(cart.getCartId()).orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id: " ));
+        return new CartDto().toDto(s);
     }
 
 }

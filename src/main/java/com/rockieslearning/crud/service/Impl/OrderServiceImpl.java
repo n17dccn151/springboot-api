@@ -1,7 +1,6 @@
 package com.rockieslearning.crud.service.Impl;
 
 import com.rockieslearning.crud.dto.OrderDto;
-import com.rockieslearning.crud.dto.OrderRequestDto;
 import com.rockieslearning.crud.entity.*;
 import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
@@ -10,6 +9,7 @@ import com.rockieslearning.crud.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import springfox.documentation.schema.Enums;
 
 import java.text.ParseException;
 import java.util.HashSet;
@@ -88,20 +88,31 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrder(Integer orderId, OrderDto orderDto) throws  ResourceNotFoundException {
+    public OrderDto updateOrder(Integer orderId, OrderDto orderDto) throws  ResourceNotFoundException {
 
         Order existOrder = repository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id: " + orderId));
 
 //        existOrder.setPrice(orderDto.getPrice());
 //        existOrder.setAmount(orderDto.getAmount());
-        existOrder.setStatus(orderDto.getStatus());
 
-        //existOrder.setOrderFoods(orderDto.getOrderFoods());
+        for (Object s : OrderStatusName.values())
+        {
+            if (orderDto.getStatus().equals(s.toString()))
+            {
+                existOrder.setStatus(s.toString());
+                return new OrderDto().toDto(repository.save(existOrder));
+            }
+        }
+
+        throw new BadRequestException("Invalid request");
+
+
+
     }
 
     @Override
-    public OrderDto createNewOrder(OrderRequestDto orderRequestDto) throws ResourceNotFoundException, BadRequestException {
+    public OrderDto createNewOrder(Long userId, OrderDto orderDto) throws ResourceNotFoundException, BadRequestException {
 
 /*{
         "userId": 7,
@@ -113,26 +124,18 @@ public class OrderServiceImpl implements OrderService {
         ]
 }*/
         Order order =  new Order();
-
-        for (Object s : OrderStatusName.values())
-        {
-            if (orderRequestDto.getStatus().equals(s.toString()))
-            {
-                order.setStatus(s.toString());
-            }
-        }
-
-
-
-        User user = userRepository.findById(orderRequestDto.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + orderRequestDto.getUserId()));
+        order.setStatus("ORDERED");
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " +userId));
         order.setUser(user);
         Order saveOrder;
+
+
         try {
              saveOrder  = repository.save(order);
 
 
-            orderRequestDto.getOrderFoods().forEach(e->{
+            orderDto.getOrderFoods().forEach(e->{
 
                 Food food = new Food();
                 food = foodRepository.getById(e.getId());
@@ -167,7 +170,7 @@ public class OrderServiceImpl implements OrderService {
         Cart cart = cartRepository.findByUser(user);
 
         Order order =  new Order();
-        order.setStatus("Ordered");
+        order.setStatus("ORDERED");
         order.setUser(user);
 
 
@@ -187,9 +190,9 @@ public class OrderServiceImpl implements OrderService {
             orderFoodRepository.save(orderFood);
         });
 
-        cartRepository.delete(cart);
+        cartFoodRepository.deleteAllByCart(cart);
 
-        return new OrderDto().toDto(saveOrder);
+        return new OrderDto().toDto(repository.getById(saveOrder.getOrderId()));
     }
 
 

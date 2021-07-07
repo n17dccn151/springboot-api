@@ -1,7 +1,6 @@
 package com.rockieslearning.crud.service;
 
 import com.rockieslearning.crud.dto.OrderDto;
-import com.rockieslearning.crud.dto.OrderRequestDto;
 import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.Order;
 import com.rockieslearning.crud.exception.BadRequestException;
@@ -22,9 +21,9 @@ public interface OrderService {
 
     public void deleteOrder(Integer orderId) throws ResourceNotFoundException;
 
-    public void updateOrder(Integer orderId, OrderDto  orderDto)throws ResourceNotFoundException, BadRequestException;
+    public OrderDto updateOrder(Integer orderId, OrderDto  orderDto)throws ResourceNotFoundException, BadRequestException;
 
-    public OrderDto createNewOrder(OrderRequestDto orderRequestDto) throws BadRequestException;
+    public OrderDto createNewOrder(Long userId, OrderDto orderDto) throws BadRequestException;
 
     public List<OrderDto> getListOrderByUserId(Long id) ;
 

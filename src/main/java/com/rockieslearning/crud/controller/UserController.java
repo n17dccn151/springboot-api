@@ -49,6 +49,7 @@ public class UserController {
         return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 
+
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getUserById(HttpServletRequest request,
                                                     @PathVariable("userId") Long userId) throws ResourceNotFoundException {
@@ -70,22 +71,10 @@ public class UserController {
 
 
 
-    @GetMapping("{userId}/cart")
-    public ResponseEntity<CartDto> getCartByUserId(HttpServletRequest request,
-                                                   @PathVariable("userId") Long userId){
-
-        CartDto cartDto = cartService.getCartByUserId(userId);
-        return new ResponseEntity<>(cartDto,HttpStatus.OK);
-    }
 
 
-    @GetMapping("{userId}/orders")
-    public ResponseEntity<List<OrderDto>> getOrderByUserId(HttpServletRequest request,
-                                                          @PathVariable("userId") Long userId){
 
-        List<OrderDto> orderDtos = orderService.getListOrderByUserId(userId);
-        return new ResponseEntity<>(orderDtos,HttpStatus.OK);
-    }
+
 
 
 
@@ -111,15 +100,15 @@ public class UserController {
 
 
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,
-                                                               @PathVariable("userId") Long userId) throws ParseException {
-
-        userService.deleteUser(userId);
-
-        Map<String, Boolean> map = new HashMap<>();
-        map.put("success", true);
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
+//    @DeleteMapping("/{userId}")
+//    public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,
+//                                                               @PathVariable("userId") Long userId) throws ParseException {
+//
+//        userService.deleteUser(userId);
+//
+//        Map<String, Boolean> map = new HashMap<>();
+//        map.put("success", true);
+//        return new ResponseEntity<>(map, HttpStatus.OK);
+//    }
 
 }

@@ -1,5 +1,6 @@
 package com.rockieslearning.crud.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rockieslearning.crud.entity.OrderFood;
 
 import java.util.ArrayList;
@@ -14,15 +15,18 @@ public class OrderFoodDto {
 
     private Integer id;
 
-
-    private Double price;
-
-
     private Integer amount;
 
 
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Double price;
+
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String name;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String image;
 
 

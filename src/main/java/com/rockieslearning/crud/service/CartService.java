@@ -23,9 +23,7 @@ public interface CartService {
 
     public CartDto getCartByUserId(Long id) throws ResourceNotFoundException;
 
-    CartDto addToCart(Long userId, Integer foodId);
 
-    CartDto updateCart(Long userId, Integer foodId, Integer qty);
 
     CartDto updateCart(Long userId, CartFoodDto cartFoodDto);
 

@@ -54,15 +54,10 @@ public class FoodImageDto {
 
     public FoodImage toEntity(FoodImageDto dto) {
         FoodImage entity = new FoodImage();
-        entity.setId(dto.getId());
+        //entity.setId(dto.getId());
         entity.setImage(dto.getUrl());
-
         FoodDto foodDto = new FoodDto();
-//        foodDto.setFoodId(dto.getFood_id());
-
-
-
-        entity.setFood(new FoodDto().toEntity(foodDto));
+        //entity.setFood(new FoodDto().toEntity(foodDto));
 
 
 

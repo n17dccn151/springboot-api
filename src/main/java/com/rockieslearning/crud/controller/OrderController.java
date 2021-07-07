@@ -1,7 +1,6 @@
 package com.rockieslearning.crud.controller;
 
 import com.rockieslearning.crud.dto.OrderDto;
-import com.rockieslearning.crud.dto.OrderRequestDto;
 import com.rockieslearning.crud.entity.*;
 import com.rockieslearning.crud.entity.Order;
 import com.rockieslearning.crud.service.FoodService;
@@ -48,27 +47,25 @@ public class OrderController {
         return new ResponseEntity<>(orderDto,HttpStatus.OK);
     }
 
+//    @GetMapping()
+//    public ResponseEntity<List<OrderDto>> getOrderByUserId(HttpServletRequest request,
+//                                                           @RequestParam("userId") Long userId){
+//
+//        List<OrderDto> orderDtos = orderService.getListOrderByUserId(userId);
+//        return new ResponseEntity<>(orderDtos,HttpStatus.OK);
+//    }
 
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @PostMapping("")
-//    public ResponseEntity<OrderDto> addOrder(HttpServletRequest request,
-//                                             @RequestBody OrderRequestDto orderRequestDto){
-//
-//
-//
-//        OrderDto orderDto = orderService.createNewOrder(orderRequestDto);
-//        return new ResponseEntity<>(orderDto, HttpStatus.CREATED);
-//    }
-//
-//
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @PostMapping("/user/{userId}")
-//    public ResponseEntity<OrderDto> addOrderFromCart(HttpServletRequest request,
-//                                                     @PathVariable("userId") Integer userId){
-//
-//        OrderDto orderDto = orderService.createNewOrderFromCart(userId);
-//        return new ResponseEntity<>(orderDto, HttpStatus.CREATED);
-//    }
+
+
+
+    @PutMapping("/{orderId}")
+    public ResponseEntity<OrderDto> addOrderFromCart(HttpServletRequest request,
+                                                     @PathVariable("orderId") Integer orderId,
+                                                     @RequestBody OrderDto orderDto){
+
+        OrderDto order = orderService.updateOrder(orderId, orderDto);
+        return new ResponseEntity<>(order, HttpStatus.CREATED);
+    }
 
 
 

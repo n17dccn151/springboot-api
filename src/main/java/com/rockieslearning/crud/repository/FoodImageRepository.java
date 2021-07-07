@@ -11,5 +11,5 @@ import java.util.List;
  */
 public interface FoodImageRepository extends JpaRepository<FoodImage, Integer> {
     List<FoodImage> getAllByFood(Food food);
-
+    void deleteAllByFood(Food food);
 }

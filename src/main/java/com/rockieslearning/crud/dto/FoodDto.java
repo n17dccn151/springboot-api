@@ -6,10 +6,14 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rockieslearning.crud.entity.*;
+import com.rockieslearning.crud.repository.CategoryRepository;
+import com.rockieslearning.crud.service.CategoryService;
+import com.rockieslearning.crud.service.FoodService;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.util.*;
@@ -20,6 +24,9 @@ import java.util.*;
 
 
 public class FoodDto {
+
+
+
 
     private Integer foodId;
 
@@ -45,10 +52,11 @@ public class FoodDto {
         dto.setRating(entity.getRating());
         dto.setDescription(entity.getDescription());
         dto.setCategoryid(entity.getCategory().getCategoryId());
-
         dto.setImages(new FoodImageDto().toListDto(entity.getImages()));
         return dto;
     }
+
+
 
 
     public List<FoodDto> toListDto(List<Food> listEntity) {
@@ -75,34 +83,11 @@ public class FoodDto {
 
     public Food toEntity(FoodDto dto) {
         Food entity = new Food();
-        entity.setFoodId(dto.getFoodId());
+        //entity.setFoodId(dto.getFoodId());
         entity.setName(dto.getName());
         entity.setPrice(dto.getPrice());
         entity.setDescription(dto.getDescription());
         entity.setRating(dto.getRating());
-
-
-
-
-
-
-
-//        List<FoodImage>  images = new ArrayList<>();
-//        images  = foodImageMapper.toListEntity(dto.getImages());
-//        entity.setImages(images);
-//
-//
-//        entity.getImages().forEach(e->{
-//            System.out.println("___"+e.getImage());
-//        });
-
-
-
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setCategoryId(dto.getCategoryid());
-        entity.setCategory(new CategoryDto().toEntity(categoryDto));
-
-
 
         return entity;
     }

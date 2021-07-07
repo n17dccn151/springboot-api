@@ -17,4 +17,7 @@ public interface CartFoodRepository extends JpaRepository<CartFood, Integer> {
     CartFood findCartFoodByFoodAndCart(Food food, Cart cart);
 
     void deleteAllByCart(Cart cart);
+
+
+
 }

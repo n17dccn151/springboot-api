@@ -55,7 +55,7 @@ public class CategoryDto {
 
     public Category toEntity(CategoryDto dto) {
         Category entity = new Category();
-        entity.setCategoryId(dto.getCategoryId());
+        //entity.setCategoryId(dto.getCategoryId());
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setImage(dto.getImage());

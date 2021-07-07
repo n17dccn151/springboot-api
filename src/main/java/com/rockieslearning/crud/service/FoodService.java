@@ -31,12 +31,5 @@ public interface FoodService {
     public List<FoodDto> getFoodByCategoryId(int id) throws ResourceNotFoundException;
 
 
-    List<FoodImageDto> getFoodImageByFoodId(Integer foodId) throws ResourceNotFoundException;
 
-
-    void updateImage(Integer imageId, FoodImageDto foodImageDto) throws ResourceNotFoundException, BadRequestException;
-
-    FoodImageDto createImage(Integer foodId, FoodImageDto foodImageDto) throws  BadRequestException;
-
-    void deleteImage(Integer imageId) throws ResourceNotFoundException;
 }

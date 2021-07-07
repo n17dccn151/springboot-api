@@ -40,29 +40,15 @@ public class CartController {
 
 
 
-//    @PreAuthorize("hasRole('ADMIN')")
-//    @GetMapping("/{cartId}")
-//    public ResponseEntity<CartDto> getCartById(HttpServletRequest request,
-//                                                 @PathVariable("cartId") Integer cartId){
+
+//    @GetMapping()
+//    public ResponseEntity<CartDto> getCartByUserId(HttpServletRequest request,
+//                                                   @RequestParam("userId") Long userId){
 //
-//
-//        CartDto cartDto = cartService.getCartById(cartId);
+//        CartDto cartDto = cartService.getCartByUserId(userId);
 //        return new ResponseEntity<>(cartDto,HttpStatus.OK);
 //    }
-//
-//
-//
-//
-//
-//    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-//    @PostMapping("")
-//    public ResponseEntity<CartDto> addCartQty(HttpServletRequest request
-//            , @RequestBody CartFoodDto cartFoodDto){
-//
-//        int userId = (Integer) request.getAttribute("userId");
-//        CartDto CartResult = cartService.updateCart(userId, cartFoodDto);
-//        return new ResponseEntity<>(CartResult, HttpStatus.CREATED);
-//    }
+
 
 
 

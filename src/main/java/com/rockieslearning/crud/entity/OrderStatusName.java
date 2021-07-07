@@ -5,6 +5,6 @@ package com.rockieslearning.crud.entity;
  */
 public enum OrderStatusName {
     ORDRED,
-    DELIVERY,
-    SUCCESS
+    DELIVERIED,
+    CANCELLED
 }

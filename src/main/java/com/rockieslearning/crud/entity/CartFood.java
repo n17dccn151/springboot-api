@@ -28,7 +28,7 @@ public class CartFood {
 
 
     @JsonBackReference(value = "cart-cartfood")
-    @ManyToOne(fetch = FetchType.LAZY )
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="cart_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Cart cart;

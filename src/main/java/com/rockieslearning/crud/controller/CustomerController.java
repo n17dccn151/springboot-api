@@ -36,6 +36,8 @@ public class CustomerController {
 
 
 
+
+
     @GetMapping("")
     public ResponseEntity<UserDto> getUserById(HttpServletRequest request
                                                ) throws ResourceNotFoundException {
@@ -86,8 +88,8 @@ public class CustomerController {
             , @RequestBody CartFoodDto cartFoodDto){
 
         Long userId = (Long) request.getAttribute("userId");
-        CartDto CartResult = cartService.updateCart(userId, cartFoodDto);
-        return new ResponseEntity<>(CartResult, HttpStatus.CREATED);
+        CartDto cartResult = cartService.updateCart(userId, cartFoodDto);
+        return new ResponseEntity<>(cartResult, HttpStatus.CREATED);
     }
 
 
@@ -96,15 +98,15 @@ public class CustomerController {
     @PostMapping("orders")
     public ResponseEntity<OrderDto> addOrder(HttpServletRequest request,
                                              @RequestParam(required = false) boolean all,
-                                             @RequestBody OrderRequestDto orderRequestDto){
+                                             @RequestBody OrderDto orderDto){
 
         Long userId = (Long) request.getAttribute("userId");
         if(all){
-            OrderDto orderDto = orderService.createNewOrderFromCart(userId);
-            return new ResponseEntity<>(orderDto, HttpStatus.CREATED);
+            OrderDto order = orderService.createNewOrderFromCart(userId);
+            return new ResponseEntity<>(order, HttpStatus.CREATED);
         }
-        OrderDto orderDto = orderService.createNewOrder(orderRequestDto);
-        return new ResponseEntity<>(orderDto, HttpStatus.CREATED);
+        OrderDto order = orderService.createNewOrder(userId,orderDto);
+        return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
 

@@ -50,63 +50,10 @@ public class FoodController {
     }
 
 
-    @GetMapping("/{foodId}/images")
-    public ResponseEntity<List<FoodImageDto>> getFoodImageById(HttpServletRequest request,
-                                               @PathVariable("foodId") Integer foodId){
-
-        List<FoodImageDto> foodImageDtos  = foodService.getFoodImageByFoodId(foodId);
-        return new ResponseEntity<>(foodImageDtos,HttpStatus.OK);
-    }
-
-
-
-    @PutMapping("/images/{imageId}")
-    public ResponseEntity<Map<String, Boolean>> updateFoodImageById(HttpServletRequest request,
-                                                                  @RequestBody FoodImageDto  foodImageDto,
-                                                                  @PathVariable("imageId") Integer imageId){
-
-        foodService.updateImage(imageId, foodImageDto);
-        Map<String, Boolean> map = new HashMap<>();
-        map.put("success", true);
-        return new ResponseEntity<>(map,HttpStatus.OK);
-    }
-
-
-
-
-    @DeleteMapping("/images/{imageId}")
-    public ResponseEntity<Map<String, Boolean>> deleteFoodImageById(HttpServletRequest request,
-                                                                  @PathVariable("imageId") Integer imageId){
-
-
-        foodService.deleteImage(imageId);
-
-        Map<String, Boolean> map = new HashMap<>();
-        map.put("success", true);
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
-
-
-    @PostMapping("/{foodId}/images")
-    public ResponseEntity<List<FoodImageDto>> updateFoodImageById(HttpServletRequest request,
-                                                                  @PathVariable("foodId") Integer foodId,
-                                                                  @RequestBody FoodImageDto  foodImageDto){
-
-        List<FoodImageDto> foodImageDtos  =new ArrayList<>();
-        foodService.createImage(foodId, foodImageDto);
-
-        return new ResponseEntity<>(foodImageDtos,HttpStatus.OK);
-    }
-
-
-
-
-
-
 
     @PostMapping("")
-    public ResponseEntity<FoodDto> addFood(HttpServletRequest request, @RequestBody FoodDto foodDto) throws ParseException {
+    public ResponseEntity<FoodDto> addFood(HttpServletRequest request,
+                                           @RequestBody FoodDto foodDto) throws ParseException {
 
         FoodDto saveFood = foodService.saveFood(foodDto);
         return new ResponseEntity<>(saveFood, HttpStatus.CREATED);
@@ -141,4 +88,11 @@ public class FoodController {
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
+
+
+
+
+
+
+
 }

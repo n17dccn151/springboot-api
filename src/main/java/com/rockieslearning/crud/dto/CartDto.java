@@ -34,16 +34,15 @@ public class CartDto {
 
         CartDto dto = new CartDto();
         dto.setId(entity.getCartId());
-
         dto.setUserId(entity.getUser().getUserId());
 
 
-        Set<CartFoodDto> CartFoodDtoSet  = new HashSet<>();
+        Set<CartFoodDto> cartFoodDtoSet  = new HashSet<>();
         entity.getCartFoods().forEach(e->{
-            CartFoodDtoSet.add(new CartFoodDto().toDto(e));
+            cartFoodDtoSet.add(new CartFoodDto().toDto(e));
         });
 
-        dto.setCartFoods(CartFoodDtoSet);
+        dto.setCartFoods(cartFoodDtoSet);
 
 
 

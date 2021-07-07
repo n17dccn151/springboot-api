@@ -2,6 +2,7 @@ package com.rockieslearning.crud.dto;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rockieslearning.crud.entity.Food;
 import com.rockieslearning.crud.entity.Order;
 import com.rockieslearning.crud.entity.OrderFood;
@@ -21,16 +22,22 @@ import java.util.*;
 public class OrderDto {
 
 
-    private Integer orderId;
-
+    private Long userId;
 
     private String status;
 
 
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Integer orderId;
+
+
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date createdDate;
 
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date updatedDate;
 
 
@@ -38,7 +45,7 @@ public class OrderDto {
 
 
 
-    private Long userId;
+
 
 
 
