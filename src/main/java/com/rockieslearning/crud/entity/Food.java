@@ -37,6 +37,9 @@ public class Food {
     @Column(name = "food_description")
     private String description;
 
+    @Column(name = "food_quantity")
+    private Integer quantity;
+
 
     @JsonBackReference(value = "category-food")
     @ManyToOne(fetch = FetchType.EAGER )
@@ -76,19 +79,19 @@ public class Food {
 
 
     @JsonManagedReference(value = "food-image")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "food")
+    @OneToMany(fetch = FetchType.LAZY , mappedBy = "food")
     private List<FoodImage> images = new ArrayList<>();
 
     @JsonManagedReference(value = "food-rating")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "food")
-    private Set<FoodRating> ratings = new HashSet<FoodRating>();
+    @OneToMany(fetch = FetchType.LAZY , mappedBy = "food")
+    private List<FoodRating> ratings = new ArrayList<>();
 
 
 
     public Food() {
     }
 
-    public Food(Integer foodId, String name, Double price, String description, Category category, Date createdDate, Date updatedDate, Set<OrderFood> orderFoods, Set<CartFood> cartFoods, List<FoodImage> images, Set<FoodRating> ratings) {
+    public Food(Integer foodId, String name, Double price, String description, Category category, Date createdDate, Date updatedDate, Set<OrderFood> orderFoods, Set<CartFood> cartFoods, List<FoodImage> images, List<FoodRating> ratings) {
         this.foodId = foodId;
         this.name = name;
         this.price = price;
@@ -101,6 +104,22 @@ public class Food {
         this.images = images;
         this.ratings = ratings;
     }
+
+    public Food(Integer foodId, String name, Double price, String description, Integer quantity, Category category, Date createdDate, Date updatedDate, Set<OrderFood> orderFoods, Set<CartFood> cartFoods, List<FoodImage> images, List<FoodRating> ratings) {
+        this.foodId = foodId;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+        this.quantity = quantity;
+        this.category = category;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+        this.orderFoods = orderFoods;
+        this.cartFoods = cartFoods;
+        this.images = images;
+        this.ratings = ratings;
+    }
+
 
     //    public OrderFood getOrderFood() {
 //        return orderFood;
@@ -184,6 +203,14 @@ public class Food {
 //    }
 
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     public Set<CartFood> getCartFoods() {
         return cartFoods;
     }
@@ -202,11 +229,11 @@ public class Food {
         this.images = images;
     }
 
-    public Set<FoodRating> getRatings() {
+    public List<FoodRating> getRatings() {
         return ratings;
     }
 
-    public void setRatings(Set<FoodRating> ratings) {
+    public void setRatings(List<FoodRating> ratings) {
         this.ratings = ratings;
     }
 }

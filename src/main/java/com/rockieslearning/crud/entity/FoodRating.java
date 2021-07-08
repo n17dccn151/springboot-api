@@ -21,7 +21,7 @@ public class FoodRating {
     private Integer id;
 
     @Column(name = "rate")
-    private String rate;
+    private Integer rate;
 
     @Column(name = "comment")
     private String comment;
@@ -43,7 +43,7 @@ public class FoodRating {
     public FoodRating() {
     }
 
-    public FoodRating(Integer id, String rate, Food food, User user) {
+    public FoodRating(Integer id, Integer rate, Food food, User user) {
         this.id = id;
         this.rate = rate;
         this.food = food;
@@ -51,7 +51,7 @@ public class FoodRating {
     }
 
 
-    public FoodRating(Integer id, String rate, String comment, Food food, User user) {
+    public FoodRating(Integer id, Integer rate, String comment, Food food, User user) {
         this.id = id;
         this.rate = rate;
         this.comment = comment;
@@ -75,11 +75,11 @@ public class FoodRating {
         this.id = id;
     }
 
-    public String getRate() {
+    public Integer getRate() {
         return rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(Integer rate) {
         this.rate = rate;
     }
 

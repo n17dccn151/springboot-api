@@ -42,7 +42,7 @@ public class Order {
     private Date updatedDate;
 
     @JsonManagedReference(value = "order-orderfood")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "order", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY , mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderFood> orderFoods = new HashSet<OrderFood>();
 
 

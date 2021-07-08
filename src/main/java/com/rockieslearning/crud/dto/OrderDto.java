@@ -28,25 +28,20 @@ public class OrderDto {
 
 
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer orderId;
 
 
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date createdDate;
 
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date updatedDate;
 
 
     private Set<OrderFoodDto> orderFoods = new HashSet<OrderFoodDto>();
-
-
-
-
-
 
 
 

@@ -2,6 +2,7 @@ package com.rockieslearning.crud.dto;
 
 
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.rockieslearning.crud.entity.*;
 
 import java.util.*;
@@ -16,29 +17,55 @@ public class FoodDto {
 
 
 
+    @JsonView(View.Food.class)
     private Integer foodId;
 
+    @JsonView(View.Food.class)
     private String name;
 
+    @JsonView(View.Food.class)
     private Double price;
 
+    @JsonView(View.Food.class)
+    private Integer quantity;
+
+    @JsonView(View.Food.class)
     private String description;
 
-
+    @JsonView(View.Food.class)
     private Integer categoryId;
 
 
+    @JsonView(View.FoodWithImage.class)
     private List<FoodImageDto> images;
 
+    @JsonView(View.FoodWithImageComment.class)
+    private List<FoodRatingDto> rating;
+
+
+    @JsonView(View.Food.class)
+    private Double rate;
 
     public FoodDto toDto(Food entity) {
         FoodDto dto = new FoodDto();
         dto.setFoodId(entity.getFoodId());
         dto.setName(entity.getName());
         dto.setPrice(entity.getPrice());
+        dto.setQuantity(entity.getQuantity());
         dto.setDescription(entity.getDescription());
         dto.setCategoryId(entity.getCategory().getCategoryId());
         dto.setImages(new FoodImageDto().toListDto(entity.getImages()));
+        dto.setRating(new FoodRatingDto().toListDto(entity.getRatings()));
+
+        Double rate = 0.0;
+
+
+        for(FoodRating foodRating : entity.getRatings()){
+            rate+= foodRating.getRate();
+        }
+
+
+        dto.setRate(rate);
         return dto;
     }
 
@@ -73,14 +100,26 @@ public class FoodDto {
         entity.setName(dto.getName());
         entity.setPrice(dto.getPrice());
         entity.setDescription(dto.getDescription());
-
+        entity.setQuantity(dto.getQuantity());
         return entity;
     }
 
 
+    public Integer getQuantity() {
+        return quantity;
+    }
 
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 
+    public List<FoodRatingDto> getRating() {
+        return rating;
+    }
 
+    public void setRating(List<FoodRatingDto> rating) {
+        this.rating = rating;
+    }
 
     public Integer getFoodId() {
         return foodId;
@@ -129,5 +168,13 @@ public class FoodDto {
 
     public void setImages(List<FoodImageDto> images) {
         this.images = images;
+    }
+
+    public Double getRate() {
+        return rate;
+    }
+
+    public void setRate(Double rate) {
+        this.rate = rate;
     }
 }

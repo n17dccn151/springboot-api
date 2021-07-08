@@ -17,9 +17,6 @@ public class CartDto {
     private Integer id;
 
 
-
-
-
     private Set<CartFoodDto> cartFoods = new HashSet<CartFoodDto>();
 
 

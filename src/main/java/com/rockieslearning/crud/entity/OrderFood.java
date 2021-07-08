@@ -38,8 +38,8 @@ public class OrderFood {
 
 
     @JsonBackReference(value = "order-orderfood")
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name="order_id")
+    @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+    @JoinColumn(name="order_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Order order;
 

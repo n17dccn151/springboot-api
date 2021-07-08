@@ -18,15 +18,12 @@ public class OrderFoodDto {
     private Integer amount;
 
 
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Double price;
 
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String name;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+
     private String image;
 
 

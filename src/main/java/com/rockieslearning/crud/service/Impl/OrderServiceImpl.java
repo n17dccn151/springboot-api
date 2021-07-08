@@ -22,12 +22,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 
 @Service
-@Transactional
+//@Transactional
 public class OrderServiceImpl implements OrderService {
 
 
     @Autowired
     OrderRepository repository;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -96,11 +99,27 @@ public class OrderServiceImpl implements OrderService {
 //        existOrder.setPrice(orderDto.getPrice());
 //        existOrder.setAmount(orderDto.getAmount());
 
+
+        //chane swich case
         for (Object s : OrderStatusName.values())
         {
             if (orderDto.getStatus().equals(s.toString()))
             {
                 existOrder.setStatus(s.toString());
+
+
+
+                if(s.toString().equals(OrderStatusName.CANCELLED.toString())){
+                    existOrder.getOrderFoods().forEach(e->{
+
+                         Food food = new Food();
+                        food = foodRepository.findById(e.getFood().getFoodId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
+                        food.setQuantity(food.getQuantity()+e.getAmount());
+                        foodRepository.save(food);
+
+                    });
+                }
+
                 return new OrderDto().toDto(repository.save(existOrder));
             }
         }
@@ -138,7 +157,9 @@ public class OrderServiceImpl implements OrderService {
             orderDto.getOrderFoods().forEach(e->{
 
                 Food food = new Food();
-                food = foodRepository.getById(e.getId());
+                food = foodRepository.findById(e.getId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
+                food.setQuantity(food.getQuantity()-e.getAmount());
+                foodRepository.save(food);
 
                 OrderFood orderFood  = new OrderFood();
                 orderFood.setOrder(saveOrder);
@@ -148,11 +169,14 @@ public class OrderServiceImpl implements OrderService {
                 orderFoodRepository.save(orderFood);
 
             });
+
+
         } catch (Exception e) {
             throw new BadRequestException("invalid Request");
         }
 
-        return new OrderDto().toDto(saveOrder);
+        Order order1 = orderRepository.findById(saveOrder.getOrderId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: " ));
+        return new OrderDto().toDto(order1);
     }
 
     @Override
@@ -192,7 +216,7 @@ public class OrderServiceImpl implements OrderService {
 
         cartFoodRepository.deleteAllByCart(cart);
 
-        return new OrderDto().toDto(repository.getById(saveOrder.getOrderId()));
+        return new OrderDto().toDto(orderRepository.getById(saveOrder.getOrderId()));
     }
 
 

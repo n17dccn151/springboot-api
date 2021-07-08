@@ -1,8 +1,10 @@
 package com.rockieslearning.crud.controller;
 
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.rockieslearning.crud.dto.CategoryDto;
 import com.rockieslearning.crud.dto.FoodDto;
+import com.rockieslearning.crud.dto.View;
 import com.rockieslearning.crud.service.CategoryService;
 import com.rockieslearning.crud.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,7 @@ public class PublicController {
 		return new ResponseEntity<>(categoryDto,HttpStatus.OK);
 	}
 
+	@JsonView(View.FoodWithImage.class)
 	@GetMapping("/foods")
 	public ResponseEntity<List<FoodDto>> getAllFood(){
 
@@ -48,6 +51,7 @@ public class PublicController {
 		return new ResponseEntity<>(foodDtos, HttpStatus.OK);
 	}
 
+	@JsonView(View.FoodWithImageComment.class)
 	@GetMapping("/foods/{foodId}")
 	public ResponseEntity<FoodDto> getFoodById(HttpServletRequest request,
 											   @PathVariable("foodId") Integer foodId){

@@ -1,6 +1,7 @@
 package com.rockieslearning.crud.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.rockieslearning.crud.entity.FoodImage;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,6 +19,7 @@ public class FoodImageDto {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Integer id;
 
+    @JsonView(View.FoodWithImage.class)
     private String url;
 
 //    private Integer food_id;

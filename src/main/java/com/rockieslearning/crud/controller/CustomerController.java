@@ -37,9 +37,6 @@ public class CustomerController {
 
 
 
-
-
-
     @GetMapping("")
     public ResponseEntity<UserDto> getUserById(HttpServletRequest request
                                                ) throws ResourceNotFoundException {
@@ -102,7 +99,7 @@ public class CustomerController {
 
 
 
-    @GetMapping("cart")
+    @GetMapping("/cart")
     public ResponseEntity<CartDto> getCartByUserId(HttpServletRequest request){
 
         Long userId = (Long) request.getAttribute("userId");
@@ -131,12 +128,7 @@ public class CustomerController {
 
 
 
-
-
-
-
-
-    @PostMapping("orders")
+    @PostMapping("/orders")
     public ResponseEntity<OrderDto> addOrder(HttpServletRequest request,
                                              @RequestParam(required = false) boolean all,
                                              @RequestBody OrderDto orderDto){
