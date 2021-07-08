@@ -32,10 +32,19 @@ public interface UserService {
 
     public UserDto updateUser(Long userId, UserDto userDto)throws ResourceNotFoundException, BadRequestException;
 
-    public List<UserDetail> getListDetailByUserId(Long userId) throws ResourceNotFoundException;
-
 
     public JwtResponse signIn(LoginRequest loginRequest);
 
     public UserDto signUp(SignupRequest signupRequest);
+
+
+    public List<UserDetailDto> getListDetailByUserId(Long userId) throws ResourceNotFoundException;
+
+    public UserDetailDto getUserDetail(Integer id) throws ResourceNotFoundException;
+
+    public UserDetailDto saveUserDetail(Long userId, UserDetailDto userDetailDto) throws BadRequestException;
+
+    public UserDetailDto updateUserDetail(Integer detailId, UserDetailDto userDetailDto) throws BadRequestException;
+
+    public void deleteUserDetail(Integer detailId) throws ResourceNotFoundException;
 }

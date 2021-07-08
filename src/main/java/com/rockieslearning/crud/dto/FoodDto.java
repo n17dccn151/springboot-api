@@ -2,20 +2,8 @@ package com.rockieslearning.crud.dto;
 
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.rockieslearning.crud.entity.*;
-import com.rockieslearning.crud.repository.CategoryRepository;
-import com.rockieslearning.crud.service.CategoryService;
-import com.rockieslearning.crud.service.FoodService;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.*;
 import java.util.*;
 
 /**
@@ -36,9 +24,8 @@ public class FoodDto {
 
     private String description;
 
-    private Float rating;
 
-    private Integer categoryid;
+    private Integer categoryId;
 
 
     private List<FoodImageDto> images;
@@ -49,9 +36,8 @@ public class FoodDto {
         dto.setFoodId(entity.getFoodId());
         dto.setName(entity.getName());
         dto.setPrice(entity.getPrice());
-        dto.setRating(entity.getRating());
         dto.setDescription(entity.getDescription());
-        dto.setCategoryid(entity.getCategory().getCategoryId());
+        dto.setCategoryId(entity.getCategory().getCategoryId());
         dto.setImages(new FoodImageDto().toListDto(entity.getImages()));
         return dto;
     }
@@ -87,7 +73,6 @@ public class FoodDto {
         entity.setName(dto.getName());
         entity.setPrice(dto.getPrice());
         entity.setDescription(dto.getDescription());
-        entity.setRating(dto.getRating());
 
         return entity;
     }
@@ -129,20 +114,13 @@ public class FoodDto {
         this.description = description;
     }
 
-    public Float getRating() {
-        return rating;
+
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setRating(Float rating) {
-        this.rating = rating;
-    }
-
-    public Integer getCategoryid() {
-        return categoryid;
-    }
-
-    public void setCategoryid(Integer categoryid) {
-        this.categoryid = categoryid;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     public List<FoodImageDto> getImages() {

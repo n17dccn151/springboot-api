@@ -19,14 +19,15 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.text.ParseException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by TanVOD on Jul, 2021
  */
 
 @Service
-@Transactional
 public class CartServiceImpl implements CartService {
 
     @Autowired

@@ -74,10 +74,6 @@ public class User {
     private Cart cart;
 
 
-    @JsonManagedReference(value = "user-comment")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "user")
-    private Set<FoodComment> comments = new HashSet<FoodComment>();
-
 
     @JsonManagedReference(value = "user-rating")
     @OneToMany(fetch = FetchType.EAGER , mappedBy = "user")
@@ -109,18 +105,7 @@ public class User {
         this.roles = roles;
     }
 
-    public User(Long userId, String phone, String email, String password, Set<Role> roles, Set<Order> orders, Cart cart, Set<FoodComment> comments, Set<FoodRating> ratings, Set<UserDetail> details) {
-        this.userId = userId;
-        this.phone = phone;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-        this.orders = orders;
-        this.cart = cart;
-        this.comments = comments;
-        this.ratings = ratings;
-        this.details = details;
-    }
+
 
     public Long getUserId() {
         return userId;
@@ -178,13 +163,7 @@ public class User {
         this.cart = cart;
     }
 
-    public Set<FoodComment> getComments() {
-        return comments;
-    }
 
-    public void setComments(Set<FoodComment> comments) {
-        this.comments = comments;
-    }
 
     public Set<FoodRating> getRatings() {
         return ratings;

@@ -23,6 +23,8 @@ public class FoodRating {
     @Column(name = "rate")
     private String rate;
 
+    @Column(name = "comment")
+    private String comment;
 
 
     @JsonBackReference(value = "food-rating")
@@ -46,6 +48,23 @@ public class FoodRating {
         this.rate = rate;
         this.food = food;
         this.user = user;
+    }
+
+
+    public FoodRating(Integer id, String rate, String comment, Food food, User user) {
+        this.id = id;
+        this.rate = rate;
+        this.comment = comment;
+        this.food = food;
+        this.user = user;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public Integer getId() {

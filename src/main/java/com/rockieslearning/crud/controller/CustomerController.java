@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by TanVOD on Jul, 2021
@@ -49,15 +51,54 @@ public class CustomerController {
     }
 
 
-    @GetMapping("/detail")
-    public ResponseEntity<List<UserDetail>> getUserDetailById(HttpServletRequest request){
+    @GetMapping("/details")
+    public ResponseEntity<List<UserDetailDto>> getUserDetailById(HttpServletRequest request){
 
         Long userId = (Long) request.getAttribute("userId");
-        List<UserDetail> userDetails =new ArrayList<>();
-        userDetails = userService.getListDetailByUserId(userId);
-        return new ResponseEntity<>(userDetails,HttpStatus.OK);
+        List<UserDetailDto> userDetailDtos =new ArrayList<>();
+        userDetailDtos = userService.getListDetailByUserId(userId);
+        return new ResponseEntity<>(userDetailDtos,HttpStatus.OK);
 
     }
+
+
+    @PostMapping("/details")
+    public ResponseEntity<UserDetailDto> getUserDetailById(HttpServletRequest request,
+                                                        @RequestBody UserDetailDto userDetailDto){
+
+        Long userId = (Long) request.getAttribute("userId");
+        UserDetailDto saveUserDetailDto = userService.saveUserDetail(userId, userDetailDto);
+        return new ResponseEntity<>(saveUserDetailDto,HttpStatus.OK);
+
+    }
+
+
+    @PutMapping("/details/{detailId}")
+    public ResponseEntity<UserDetailDto> updateUserDetailById(HttpServletRequest request,
+                                                           @PathVariable("detailId") Integer detailId,
+                                                           @RequestBody UserDetailDto userDetailDto){
+
+
+        UserDetailDto saveUserDetailDto = userService.updateUserDetail(detailId, userDetailDto);
+        return new ResponseEntity<>(saveUserDetailDto,HttpStatus.OK);
+
+
+    }
+
+    @DeleteMapping("/details/{detailId}")
+    public ResponseEntity<Map<String, Boolean>> deleteUserDetailById(HttpServletRequest request,
+                                                                     @PathVariable("detailId") Integer detailId){
+
+
+        userService.deleteUserDetail(detailId);
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("success", true);
+        return new ResponseEntity<>(map,HttpStatus.OK);
+
+
+    }
+
+
 
 
 
@@ -69,6 +110,14 @@ public class CustomerController {
         return new ResponseEntity<>(cartDto,HttpStatus.OK);
     }
 
+    @PostMapping("/cart")
+    public ResponseEntity<CartDto> addCartQty(HttpServletRequest request
+            , @RequestBody CartFoodDto cartFoodDto){
+
+        Long userId = (Long) request.getAttribute("userId");
+        CartDto cartDto = cartService.updateCart(userId, cartFoodDto);
+        return new ResponseEntity<>(cartDto, HttpStatus.CREATED);
+    }
 
 
     @GetMapping("/orders")
@@ -83,14 +132,6 @@ public class CustomerController {
 
 
 
-    @PostMapping("/cart")
-    public ResponseEntity<CartDto> addCartQty(HttpServletRequest request
-            , @RequestBody CartFoodDto cartFoodDto){
-
-        Long userId = (Long) request.getAttribute("userId");
-        CartDto cartResult = cartService.updateCart(userId, cartFoodDto);
-        return new ResponseEntity<>(cartResult, HttpStatus.CREATED);
-    }
 
 
 

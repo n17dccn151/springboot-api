@@ -2,6 +2,7 @@ package com.rockieslearning.crud.controller;
 
 import com.rockieslearning.crud.dto.CartDto;
 import com.rockieslearning.crud.dto.OrderDto;
+import com.rockieslearning.crud.dto.UserDetailDto;
 import com.rockieslearning.crud.dto.UserDto;
 import com.rockieslearning.crud.entity.User;
 import com.rockieslearning.crud.entity.UserDetail;
@@ -61,11 +62,11 @@ public class UserController {
 
 
     @GetMapping("/{userId}/detail")
-    public ResponseEntity<List<UserDetail>> getUserDetailById(HttpServletRequest request,
-                                                               @PathVariable("userId") Long userId){
-        List<UserDetail> userDetails =new ArrayList<>();
-        userDetails = userService.getListDetailByUserId(userId);
-        return new ResponseEntity<>(userDetails,HttpStatus.OK);
+    public ResponseEntity<List<UserDetailDto>> getUserDetailById(HttpServletRequest request,
+                                                                 @PathVariable("userId") Long userId){
+        List<UserDetailDto> userDetailDtos =new ArrayList<>();
+        userDetailDtos = userService.getListDetailByUserId(userId);
+        return new ResponseEntity<>(userDetailDtos,HttpStatus.OK);
 
     }
 

@@ -4,31 +4,23 @@ import com.rockieslearning.crud.dto.FoodDto;
 import com.rockieslearning.crud.dto.FoodImageDto;
 import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.Food;
-import com.rockieslearning.crud.entity.Food;
 import com.rockieslearning.crud.entity.FoodImage;
 import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.repository.CategoryRepository;
 import com.rockieslearning.crud.repository.FoodImageRepository;
 import com.rockieslearning.crud.repository.FoodRepository;
-import com.rockieslearning.crud.repository.FoodRepository;
 import com.rockieslearning.crud.service.FoodService;
-import org.apache.coyote.http11.filters.VoidOutputFilter;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by TanVOD on Jun, 2021
  */
 
 @Service
-@Transactional
 public class FoodServiceImpl implements FoodService {
 
     @Autowired
@@ -68,8 +60,8 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public FoodDto saveFood(FoodDto foodDto) throws BadRequestException {
         Food food = new FoodDto().toEntity(foodDto);
-        Category category =  categoryRepository.findById(foodDto.getCategoryid())
-                .orElseThrow(() -> new ResourceNotFoundException("category not found for this id: " + foodDto.getCategoryid()));;
+        Category category =  categoryRepository.findById(foodDto.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("category not found for this id: " + foodDto.getCategoryId()));;
         ;
         food.setCategory(category);
 
@@ -109,8 +101,8 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public FoodDto updateFood(Integer foodId, FoodDto foodDto) throws BadRequestException {
         Food food = new FoodDto().toEntity(foodDto);
-        Category category =  categoryRepository.findById(foodDto.getCategoryid())
-                .orElseThrow(() -> new ResourceNotFoundException("category not found for this id: " + foodDto.getCategoryid()));;
+        Category category =  categoryRepository.findById(foodDto.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("category not found for this id: " + foodDto.getCategoryId()));;
         ;
         food.setCategory(category);
         food.setFoodId(foodId);

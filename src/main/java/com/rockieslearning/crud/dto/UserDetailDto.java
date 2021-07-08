@@ -28,24 +28,32 @@ public class UserDetailDto {
 
     private String address;
 
-    public Integer getId() {
-        return id;
-    }
+    private Long userId;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
 
 
     public UserDetailDto toDto(UserDetail entity) {
         UserDetailDto dto = new UserDetailDto();
+        dto.setId(entity.getId());
         dto.setAddress(entity.getAddress());
         dto.setPhone(entity.getPhone());
         dto.setFirstName(entity.getFirstName());
         dto.setLastName(entity.getLastName());
-
+        dto.setUserId(entity.getUser().getUserId());
         return dto;
+    }
+
+
+    public UserDetail toEnti(UserDetailDto dto) {
+        UserDetail entity = new UserDetail();
+
+        entity.setAddress(dto.getAddress());
+        entity.setPhone(dto.getPhone());
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+
+        return entity;
     }
 
 
@@ -60,6 +68,21 @@ public class UserDetailDto {
     }
 
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getFirstName() {
         return firstName;

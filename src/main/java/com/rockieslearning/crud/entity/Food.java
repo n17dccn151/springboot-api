@@ -37,9 +37,6 @@ public class Food {
     @Column(name = "food_description")
     private String description;
 
-    @Column(name = "food_total_rating")
-    private Float rating;
-
 
     @JsonBackReference(value = "category-food")
     @ManyToOne(fetch = FetchType.EAGER )
@@ -78,10 +75,6 @@ public class Food {
     private Set<CartFood> cartFoods;
 
 
-    @JsonManagedReference(value = "food-comment")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "food")
-    private Set<FoodComment> comments = new HashSet<FoodComment>();
-
     @JsonManagedReference(value = "food-image")
     @OneToMany(fetch = FetchType.EAGER , mappedBy = "food")
     private List<FoodImage> images = new ArrayList<>();
@@ -95,29 +88,21 @@ public class Food {
     public Food() {
     }
 
-    public Food(Integer foodId, String name, Double price, String description, Float rating, Category category, Date createdDate, Date updatedDate) {
+    public Food(Integer foodId, String name, Double price, String description, Category category, Date createdDate, Date updatedDate, Set<OrderFood> orderFoods, Set<CartFood> cartFoods, List<FoodImage> images, Set<FoodRating> ratings) {
         this.foodId = foodId;
         this.name = name;
         this.price = price;
         this.description = description;
-        this.rating = rating;
         this.category = category;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
-    }
-    public Food(String name, Double price, String description, Float rating, Category category) {
-        this.foodId = foodId;
-        this.name = name;
-        this.price = price;
-        this.description = description;
-        this.rating = rating;
-        this.category = category;
-        this.createdDate = createdDate;
-        this.updatedDate = updatedDate;
+        this.orderFoods = orderFoods;
+        this.cartFoods = cartFoods;
+        this.images = images;
+        this.ratings = ratings;
     }
 
-
-//    public OrderFood getOrderFood() {
+    //    public OrderFood getOrderFood() {
 //        return orderFood;
 //    }
 //
@@ -166,14 +151,6 @@ public class Food {
         this.description = description;
     }
 
-    public Float getRating() {
-        return rating;
-    }
-
-    public void setRating(Float rating) {
-        this.rating = rating;
-    }
-
     public Category getCategory() {
         return category;
     }
@@ -215,13 +192,7 @@ public class Food {
         this.cartFoods = cartFoods;
     }
 
-    public Set<FoodComment> getComments() {
-        return comments;
-    }
 
-    public void setComments(Set<FoodComment> comments) {
-        this.comments = comments;
-    }
 
     public List<FoodImage> getImages() {
         return images;

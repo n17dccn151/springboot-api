@@ -1,5 +1,6 @@
 package com.rockieslearning.crud.service.Impl;
 
+import com.rockieslearning.crud.dto.UserDetailDto;
 import com.rockieslearning.crud.dto.UserDto;
 import com.rockieslearning.crud.entity.Role;
 import com.rockieslearning.crud.entity.RoleName;
@@ -43,8 +44,6 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
 
-    @Autowired
-    private UserDetailRepository userDetailRepository ;
 
 
     @Autowired
@@ -57,15 +56,23 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
 
     @Autowired
+    private UserDetailRepository userDetailRepository ;
+
+    @Autowired
     private PasswordEncoder encoder;
 
     @Autowired
     private JwtUtils jwtUtils;
 
 
-
-
-
+    public UserServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, UserDetailRepository userDetailRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.userDetailRepository = userDetailRepository;
+        this.encoder = encoder;
+        this.jwtUtils = jwtUtils;
+    }
 
     @Override
     public List<UserDto> retrieveUsers() {
@@ -116,14 +123,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDetail> getListDetailByUserId(Long userId) throws ResourceNotFoundException {
+    public List<UserDetailDto> getListDetailByUserId(Long userId) throws ResourceNotFoundException {
         List<UserDetail> userDetails = new ArrayList<>();
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + userId));
 
         userDetails = userDetailRepository.findByUser(user);
-        return  userDetails;
+        return new UserDetailDto().toListDto(userDetails);
     }
 
     @Override
@@ -200,6 +207,14 @@ public class UserServiceImpl implements UserService {
         return new UserDto().toDto(saveUser);
     }
 
+    @Override
+    public UserDetailDto getUserDetail(Integer id) throws ResourceNotFoundException {
+        UserDetail userDetail = userDetailRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("userdetail not found for this id: "+ id));
+
+        return new UserDetailDto().toDto(userDetail);
+    }
+
 
     @Override
     public UserDto saveUser(UserDto userDto) throws BadRequestException {
@@ -216,6 +231,46 @@ public class UserServiceImpl implements UserService {
         return new UserDto().toDto(saveUser);
     }
 
+
+    @Override
+    public UserDetailDto saveUserDetail(Long userId,UserDetailDto userDetailDto) throws BadRequestException {
+        UserDetail userDetail = userDetailDto.toEnti(userDetailDto);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("user not found for this id"));
+        userDetail.setUser(user);
+
+        int id = userDetailRepository.save(userDetail).getId();
+        try {
+            return new UserDetailDto().toDto(userDetailRepository.getById(id));
+        }catch (Exception e){
+            throw  new BadRequestException("invalid Request");
+        }
+
+    }
+
+    @Override
+    public UserDetailDto updateUserDetail(Integer detailId, UserDetailDto userDetailDto) throws BadRequestException {
+        UserDetail userDetail = userDetailRepository.findById(detailId)
+                .orElseThrow(() -> new ResourceNotFoundException("userdetail not found for this id: "+ detailId));
+        userDetail.setFirstName(userDetailDto.getFirstName());
+        userDetail.setLastName(userDetailDto.getLastName());
+        userDetail.setPhone(userDetailDto.getPhone());
+        userDetail.setAddress(userDetailDto.getAddress());
+
+        try {
+            return new UserDetailDto().toDto(userDetailRepository.save(userDetail));
+        }catch (Exception e){
+            throw  new BadRequestException("invalid Request");
+        }
+    }
+
+    @Override
+    public void deleteUserDetail(Integer detailId) throws ResourceNotFoundException {
+        UserDetail userDetail = userDetailRepository.findById(detailId)
+                .orElseThrow(() -> new ResourceNotFoundException("userdetail not found for this id: "+ detailId));
+
+        userDetailRepository.delete(userDetail);
+    }
 
 
 

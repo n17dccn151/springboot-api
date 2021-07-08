@@ -25,7 +25,7 @@ public class Cart {
 
 
     @JsonManagedReference(value = "cart-cartfood")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "cart", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY , mappedBy = "cart", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<CartFood> cartFoods = new HashSet<CartFood>();
 
 
