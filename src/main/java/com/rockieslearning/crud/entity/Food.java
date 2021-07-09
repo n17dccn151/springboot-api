@@ -40,6 +40,9 @@ public class Food {
     @Column(name = "food_quantity")
     private Integer quantity;
 
+    @Column(name = "food_status")
+    private String foodStatusName;
+
 
     @JsonBackReference(value = "category-food")
     @ManyToOne(fetch = FetchType.EAGER )
@@ -129,6 +132,14 @@ public class Food {
 //        this.orderFood = orderFood;
 //    }
 
+
+    public String getFoodStatusName() {
+        return foodStatusName;
+    }
+
+    public void setFoodStatusName(String foodStatusName) {
+        this.foodStatusName = foodStatusName;
+    }
 
     public Set<OrderFood> getOrderFoods() {
         return orderFoods;

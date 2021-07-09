@@ -13,4 +13,5 @@ import java.util.List;
  */
 public interface FoodRatingRepository extends JpaRepository<FoodRating, Integer> {
     List<FoodRating> findAllByFood(Food food);
+    Boolean existsByFoodAndUser(Food food, User user);
 }

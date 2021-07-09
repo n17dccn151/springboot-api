@@ -30,6 +30,10 @@ public class FoodDto {
     private Integer quantity;
 
     @JsonView(View.Food.class)
+    private String status;
+
+
+    @JsonView(View.Food.class)
     private String description;
 
     @JsonView(View.Food.class)
@@ -52,6 +56,7 @@ public class FoodDto {
         dto.setName(entity.getName());
         dto.setPrice(entity.getPrice());
         dto.setQuantity(entity.getQuantity());
+        dto.setStatus(entity.getFoodStatusName());
         dto.setDescription(entity.getDescription());
         dto.setCategoryId(entity.getCategory().getCategoryId());
         dto.setImages(new FoodImageDto().toListDto(entity.getImages()));
@@ -104,6 +109,14 @@ public class FoodDto {
         return entity;
     }
 
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Integer getQuantity() {
         return quantity;

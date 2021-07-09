@@ -103,11 +103,9 @@ public class OrderServiceImpl implements OrderService {
         //chane swich case
         for (Object s : OrderStatusName.values())
         {
-            if (orderDto.getStatus().equals(s.toString()))
+            if (orderDto.getStatus().equals(s.toString()) && orderDto.getStatus().equals(existOrder.getStatus())==false)
             {
                 existOrder.setStatus(s.toString());
-
-
 
                 if(s.toString().equals(OrderStatusName.CANCELLED.toString())){
                     existOrder.getOrderFoods().forEach(e->{
@@ -115,6 +113,17 @@ public class OrderServiceImpl implements OrderService {
                          Food food = new Food();
                         food = foodRepository.findById(e.getFood().getFoodId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
                         food.setQuantity(food.getQuantity()+e.getAmount());
+                        foodRepository.save(food);
+
+                    });
+                }
+
+                if(s.toString().equals(OrderStatusName.ORDRED.toString())){
+                    existOrder.getOrderFoods().forEach(e->{
+
+                        Food food = new Food();
+                        food = foodRepository.findById(e.getFood().getFoodId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
+                        food.setQuantity(food.getQuantity()-e.getAmount());
                         foodRepository.save(food);
 
                     });

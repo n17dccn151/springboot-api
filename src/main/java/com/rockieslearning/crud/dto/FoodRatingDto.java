@@ -17,6 +17,12 @@ public class FoodRatingDto {
     private Integer id;
 
     @JsonView(View.FoodWithImageComment.class)
+    private Integer foodId;
+
+    @JsonView(View.FoodWithImageComment.class)
+    private Long userId;
+
+    @JsonView(View.FoodWithImageComment.class)
     private String comment;
 
     @JsonView(View.FoodWithImageComment.class)
@@ -31,6 +37,9 @@ public class FoodRatingDto {
         dto.setComment(entity.getComment());
         dto.setRating(entity.getRate());
         dto.setUserName(entity.getUser().getPhone());
+        dto.setFoodId(entity.getFood().getFoodId());
+        dto.setUserId(entity.getUser().getUserId());
+
 //        dto.setFood_id(entity.getFood().getFoodId());
         return dto;
     }
@@ -68,6 +77,22 @@ public class FoodRatingDto {
         return entity;
     }
 
+
+    public Integer getFoodId() {
+        return foodId;
+    }
+
+    public void setFoodId(Integer foodId) {
+        this.foodId = foodId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public String getUserName() {
         return userName;

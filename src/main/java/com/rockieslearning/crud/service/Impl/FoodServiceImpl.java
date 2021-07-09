@@ -2,9 +2,7 @@ package com.rockieslearning.crud.service.Impl;
 
 import com.rockieslearning.crud.dto.FoodDto;
 import com.rockieslearning.crud.dto.FoodImageDto;
-import com.rockieslearning.crud.entity.Category;
-import com.rockieslearning.crud.entity.Food;
-import com.rockieslearning.crud.entity.FoodImage;
+import com.rockieslearning.crud.entity.*;
 import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.repository.CategoryRepository;
@@ -13,6 +11,7 @@ import com.rockieslearning.crud.repository.FoodRepository;
 import com.rockieslearning.crud.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +20,7 @@ import java.util.List;
  */
 
 @Service
+@Transactional
 public class FoodServiceImpl implements FoodService {
 
     @Autowired
@@ -64,7 +64,7 @@ public class FoodServiceImpl implements FoodService {
                 .orElseThrow(() -> new ResourceNotFoundException("category not found for this id: " + foodDto.getCategoryId()));;
         ;
         food.setCategory(category);
-
+        food.setFoodStatusName(FoodStatusName.AVAILABLE.toString());
         try {
 
             food = repository.save(food);
@@ -100,12 +100,22 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public FoodDto updateFood(Integer foodId, FoodDto foodDto) throws BadRequestException {
-        Food food = new FoodDto().toEntity(foodDto);
+        Food food = repository.findById(foodId)
+                .orElseThrow(() -> new ResourceNotFoundException("food not found for this id: " + foodDto.getFoodId()));;
+        ;
         Category category =  categoryRepository.findById(foodDto.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("category not found for this id: " + foodDto.getCategoryId()));;
         ;
         food.setCategory(category);
         food.setFoodId(foodId);
+
+        for (Object s : FoodStatusName.values()) {
+            if (foodDto.getStatus().equals(s.toString()) && foodDto.getStatus().equals(food.getFoodStatusName()) == false) {
+                food.setFoodStatusName(foodDto.getStatus());
+            }
+        }
+
+
         foodImageRepository.deleteAllByFood(food);
         try {
 
