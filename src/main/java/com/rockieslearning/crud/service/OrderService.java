@@ -19,7 +19,7 @@ public interface OrderService {
 
     public OrderDto getOrderById(int id) throws ResourceNotFoundException;
 
-    public void deleteOrder(Integer orderId) throws ResourceNotFoundException;
+    public String deleteOrder(Integer orderId) throws ResourceNotFoundException;
 
     public OrderDto updateOrder(Integer orderId, OrderDto orderDto) throws ResourceNotFoundException, BadRequestException;
 

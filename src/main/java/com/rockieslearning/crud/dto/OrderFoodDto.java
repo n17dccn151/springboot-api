@@ -74,6 +74,17 @@ public class OrderFoodDto {
     }
 
 
+    public OrderFoodDto() {
+    }
+
+    public OrderFoodDto(Integer id, Integer amount, Double price, String name, String image) {
+        this.id = id;
+        this.amount = amount;
+        this.price = price;
+        this.name = name;
+        this.image = image;
+    }
+
     public Integer getId() {
         return id;
     }

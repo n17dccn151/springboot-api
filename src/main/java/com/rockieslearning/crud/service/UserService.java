@@ -28,7 +28,7 @@ public interface UserService {
 
     public UserDto getUserById(Long id) throws ResourceNotFoundException;
 
-    public void deleteUser(Long userId) throws ResourceNotFoundException;
+    public String deleteUser(Long userId) throws ResourceNotFoundException;
 
     public UserDto updateUser(Long userId, UserDto userDto) throws ResourceNotFoundException, BadRequestException;
 
@@ -46,5 +46,5 @@ public interface UserService {
 
     public UserDetailDto updateUserDetail(Integer detailId, UserDetailDto userDetailDto) throws BadRequestException;
 
-    public void deleteUserDetail(Integer detailId) throws ResourceNotFoundException;
+    public String deleteUserDetail(Integer detailId) throws ResourceNotFoundException;
 }

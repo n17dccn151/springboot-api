@@ -59,7 +59,7 @@ public class CustomerController {
 
 
     @PostMapping("/details")
-    public ResponseEntity<UserDetailDto> getUserDetailById(HttpServletRequest request,
+    public ResponseEntity<UserDetailDto> addUserDetailById(HttpServletRequest request,
                                                            @RequestBody @Valid UserDetailDto userDetailDto) {
 
         Long userId = (Long) request.getAttribute("userId");

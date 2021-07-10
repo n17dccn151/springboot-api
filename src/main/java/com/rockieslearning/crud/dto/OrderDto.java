@@ -94,6 +94,16 @@ public class OrderDto {
     }
 
 
+    public OrderDto() {
+    }
+
+
+    public OrderDto(Long userId, String status, Integer orderId) {
+        this.userId = userId;
+        this.status = status;
+        this.orderId = orderId;
+    }
+
     public Integer getOrderId() {
         return orderId;
     }

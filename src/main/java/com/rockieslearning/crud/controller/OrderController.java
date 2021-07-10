@@ -56,7 +56,7 @@ public class OrderController {
 
 
     @PutMapping("/{orderId}")
-    public ResponseEntity<OrderDto> addOrderFromCart(HttpServletRequest request,
+    public ResponseEntity<OrderDto> updateOrder(HttpServletRequest request,
                                                      @PathVariable("orderId") Integer orderId,
                                                      @RequestBody OrderDto orderDto) {
 

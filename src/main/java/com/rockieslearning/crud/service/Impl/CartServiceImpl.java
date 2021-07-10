@@ -79,9 +79,10 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void deleteCart(Integer CartId) throws ResourceNotFoundException {
+    public String deleteCart(Integer CartId) throws ResourceNotFoundException {
         Cart cart = repository.findById(CartId).orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id "));
         repository.delete(cart);
+        return "deleted";
     }
 
 

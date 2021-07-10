@@ -89,12 +89,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long userId) throws ResourceNotFoundException {
+    public String deleteUser(Long userId) throws ResourceNotFoundException {
 
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + userId));
         userRepository.delete(user);
+        return "deleted";
     }
 
     @Override
@@ -260,11 +261,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserDetail(Integer detailId) throws ResourceNotFoundException {
+    public String deleteUserDetail(Integer detailId) throws ResourceNotFoundException {
         UserDetail userDetail = userDetailRepository.findById(detailId)
                 .orElseThrow(() -> new ResourceNotFoundException("userdetail not found for this id: " + detailId));
 
         userDetailRepository.delete(userDetail);
+        return "deleted";
     }
 
 

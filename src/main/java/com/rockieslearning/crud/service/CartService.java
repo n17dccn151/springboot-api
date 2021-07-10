@@ -19,7 +19,7 @@ public interface CartService {
 
     public CartDto getCartById(int id) throws ResourceNotFoundException;
 
-    public void deleteCart(Integer CartId) throws ResourceNotFoundException;
+    public String deleteCart(Integer CartId) throws ResourceNotFoundException;
 
     public CartDto getCartByUserId(Long id) throws ResourceNotFoundException;
 

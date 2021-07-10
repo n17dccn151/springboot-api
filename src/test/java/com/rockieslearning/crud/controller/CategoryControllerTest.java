@@ -2,11 +2,6 @@ package com.rockieslearning.crud.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rockieslearning.crud.dto.CategoryDto;
-import com.rockieslearning.crud.dto.UserDto;
-import com.rockieslearning.crud.payload.request.LoginRequest;
-import com.rockieslearning.crud.payload.response.JwtResponse;
-import com.rockieslearning.crud.security.WebSecurityConfig;
-import com.rockieslearning.crud.security.jwt.JwtAuthTokenFilter;
 import com.rockieslearning.crud.service.CategoryService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -29,9 +24,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.text.ParseException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -64,7 +56,7 @@ public class CategoryControllerTest {
 
 
     @Test
-    public void getAllCategory() throws Exception {
+    public void testGetAllCategory() throws Exception {
 
         mockCategoryDtos.add(mockCategoryDto);
 

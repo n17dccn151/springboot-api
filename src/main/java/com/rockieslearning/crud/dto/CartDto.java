@@ -62,6 +62,14 @@ public class CartDto {
     }
 
 
+    public CartDto() {
+    }
+
+    public CartDto(Integer id, Long userId) {
+        this.id = id;
+        this.userId = userId;
+    }
+
     public Integer getId() {
         return id;
     }

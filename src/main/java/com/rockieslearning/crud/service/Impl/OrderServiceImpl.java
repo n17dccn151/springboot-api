@@ -84,10 +84,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void deleteOrder(Integer orderId) throws ResourceNotFoundException {
+    public String deleteOrder(Integer orderId) throws ResourceNotFoundException {
         Order order = repository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id: " + orderId));
         repository.delete(order);
+        return "deleted";
     }
 
     @Override

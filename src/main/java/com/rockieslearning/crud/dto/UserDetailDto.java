@@ -72,6 +72,20 @@ public class UserDetailDto {
     }
 
 
+    public UserDetailDto() {
+    }
+
+
+
+    public UserDetailDto(Integer id, String firstName, String lastName, String phone, String address, Long userId) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.address = address;
+        this.userId = userId;
+    }
+
     public Integer getId() {
         return id;
     }

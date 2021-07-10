@@ -79,13 +79,6 @@ public class FoodControllerTest {
 
 
 
-    @GetMapping("/{foodId}")
-    public ResponseEntity<FoodDto> getFoodById(HttpServletRequest request,
-                                                    @PathVariable("foodId") Integer foodId){
-
-        FoodDto foodDto = foodService.getFoodById(foodId);
-        return new ResponseEntity<>(foodDto,HttpStatus.OK);
-    }
 
 
     @Test
