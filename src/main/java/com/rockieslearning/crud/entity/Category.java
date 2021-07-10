@@ -31,7 +31,7 @@ public class Category {
     private String image;
 
     @JsonManagedReference(value = "category-food")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "category")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
     private Set<Food> foods = new HashSet<Food>();
 
 
@@ -45,7 +45,6 @@ public class Category {
         this.image = image;
         this.foods = foods;
     }
-
 
 
     public Integer getCategoryId() {

@@ -15,7 +15,6 @@ import javax.persistence.*;
 public class FoodRating {
 
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "food_ratings_seq")
     private Integer id;
@@ -28,14 +27,14 @@ public class FoodRating {
 
 
     @JsonBackReference(value = "food-rating")
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name="food_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "food_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Food food;
 
     @JsonBackReference(value = "user-rating")
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name="user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 

@@ -21,5 +21,4 @@ public interface RatingService {
     public FoodRatingDto updateFoodRating(Integer id, FoodRatingDto foodRatingDto) throws ResourceNotFoundException, BadRequestException;
 
 
-
 }

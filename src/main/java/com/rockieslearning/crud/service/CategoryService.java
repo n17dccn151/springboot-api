@@ -22,11 +22,11 @@ public interface CategoryService {
 
     public List<CategoryDto> retrieveCategories();
 
-    public CategoryDto getCategoryById(int id)  throws ResourceNotFoundException;
+    public CategoryDto getCategoryById(int id) throws ResourceNotFoundException;
 
-    public void deleteCategory(Integer categoryId)  throws ResourceNotFoundException;
+    public String deleteCategory(Integer categoryId) throws ResourceNotFoundException;
 
-    public CategoryDto updateCategory(Integer categoryId, CategoryDto categoryDto) throws ResourceNotFoundException ,BadRequestException ;
+    public CategoryDto updateCategory(Integer categoryId, CategoryDto categoryDto) throws ResourceNotFoundException, BadRequestException;
 
 
 }

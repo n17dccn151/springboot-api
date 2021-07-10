@@ -26,11 +26,11 @@ public interface UserService {
 
     public List<UserDto> retrieveUsers();
 
-    public UserDto getUserById(Long id)  throws ResourceNotFoundException;
+    public UserDto getUserById(Long id) throws ResourceNotFoundException;
 
     public void deleteUser(Long userId) throws ResourceNotFoundException;
 
-    public UserDto updateUser(Long userId, UserDto userDto)throws ResourceNotFoundException, BadRequestException;
+    public UserDto updateUser(Long userId, UserDto userDto) throws ResourceNotFoundException, BadRequestException;
 
 
     public JwtResponse signIn(LoginRequest loginRequest);

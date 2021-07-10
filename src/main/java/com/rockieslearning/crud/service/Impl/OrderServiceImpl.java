@@ -71,12 +71,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> retrieveOrders() {
-        List<Order> orders =  repository.findAll();
+        List<Order> orders = repository.findAll();
         return new OrderDto().toListDto(orders);
     }
 
     @Override
-    public OrderDto getOrderById(int id) throws ResourceNotFoundException{
+    public OrderDto getOrderById(int id) throws ResourceNotFoundException {
         Order order = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id: " + id));
 
@@ -91,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto updateOrder(Integer orderId, OrderDto orderDto) throws  ResourceNotFoundException {
+    public OrderDto updateOrder(Integer orderId, OrderDto orderDto) throws ResourceNotFoundException {
 
         Order existOrder = repository.findById(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id: " + orderId));
@@ -101,29 +101,27 @@ public class OrderServiceImpl implements OrderService {
 
 
         //chane swich case
-        for (Object s : OrderStatusName.values())
-        {
-            if (orderDto.getStatus().equals(s.toString()) && orderDto.getStatus().equals(existOrder.getStatus())==false)
-            {
+        for (Object s : OrderStatusName.values()) {
+            if (orderDto.getStatus().equals(s.toString()) && orderDto.getStatus().equals(existOrder.getStatus()) == false) {
                 existOrder.setStatus(s.toString());
 
-                if(s.toString().equals(OrderStatusName.CANCELLED.toString())){
-                    existOrder.getOrderFoods().forEach(e->{
+                if (s.toString().equals(OrderStatusName.CANCELLED.toString())) {
+                    existOrder.getOrderFoods().forEach(e -> {
 
-                         Food food = new Food();
+                        Food food = new Food();
                         food = foodRepository.findById(e.getFood().getFoodId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
-                        food.setQuantity(food.getQuantity()+e.getAmount());
+                        food.setQuantity(food.getQuantity() + e.getAmount());
                         foodRepository.save(food);
 
                     });
                 }
 
-                if(s.toString().equals(OrderStatusName.ORDRED.toString())){
-                    existOrder.getOrderFoods().forEach(e->{
+                if (s.toString().equals(OrderStatusName.ORDRED.toString())) {
+                    existOrder.getOrderFoods().forEach(e -> {
 
                         Food food = new Food();
                         food = foodRepository.findById(e.getFood().getFoodId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
-                        food.setQuantity(food.getQuantity()-e.getAmount());
+                        food.setQuantity(food.getQuantity() - e.getAmount());
                         foodRepository.save(food);
 
                     });
@@ -134,7 +132,6 @@ public class OrderServiceImpl implements OrderService {
         }
 
         throw new BadRequestException("Invalid request");
-
 
 
     }
@@ -151,26 +148,26 @@ public class OrderServiceImpl implements OrderService {
             }
         ]
 }*/
-        Order order =  new Order();
+        Order order = new Order();
         order.setStatus("ORDERED");
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " +userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
         order.setUser(user);
         Order saveOrder;
 
 
         try {
-             saveOrder  = repository.save(order);
+            saveOrder = repository.save(order);
 
 
-            orderDto.getOrderFoods().forEach(e->{
+            orderDto.getOrderFoods().forEach(e -> {
 
                 Food food = new Food();
                 food = foodRepository.findById(e.getId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
-                food.setQuantity(food.getQuantity()-e.getAmount());
+                food.setQuantity(food.getQuantity() - e.getAmount());
                 foodRepository.save(food);
 
-                OrderFood orderFood  = new OrderFood();
+                OrderFood orderFood = new OrderFood();
                 orderFood.setOrder(saveOrder);
                 orderFood.setFood(food);
                 orderFood.setAmount(e.getAmount());
@@ -184,7 +181,7 @@ public class OrderServiceImpl implements OrderService {
             throw new BadRequestException("invalid Request");
         }
 
-        Order order1 = orderRepository.findById(saveOrder.getOrderId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: " ));
+        Order order1 = orderRepository.findById(saveOrder.getOrderId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
         return new OrderDto().toDto(order1);
     }
 
@@ -202,7 +199,7 @@ public class OrderServiceImpl implements OrderService {
         User user = userRepository.getById(userId);
         Cart cart = cartRepository.findByUser(user);
 
-        Order order =  new Order();
+        Order order = new Order();
         order.setStatus("ORDERED");
         order.setUser(user);
 
@@ -211,11 +208,11 @@ public class OrderServiceImpl implements OrderService {
         List<CartFood> cartFoods = cartFoodRepository.findByCart(cart);
 
 
-        cartFoods.forEach(e->{
+        cartFoods.forEach(e -> {
             Food food = new Food();
             food = foodRepository.getById(e.getFood().getFoodId());
 
-            OrderFood orderFood  = new OrderFood();
+            OrderFood orderFood = new OrderFood();
             orderFood.setOrder(saveOrder);
             orderFood.setFood(food);
             orderFood.setAmount(e.getAmount());

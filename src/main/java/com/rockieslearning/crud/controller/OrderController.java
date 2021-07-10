@@ -29,9 +29,8 @@ public class OrderController {
     private OrderService orderService;
 
 
-
     @GetMapping("")
-    public ResponseEntity<List<OrderDto>> getAllOrder(){
+    public ResponseEntity<List<OrderDto>> getAllOrder() {
 
         List<OrderDto> orderDtos = new ArrayList<>();
         orderDtos = orderService.retrieveOrders();
@@ -41,10 +40,10 @@ public class OrderController {
 
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderDto> getOrderById(HttpServletRequest request,
-                                                    @PathVariable("orderId") Integer orderId){
+                                                 @PathVariable("orderId") Integer orderId) {
 
         OrderDto orderDto = orderService.getOrderById(orderId);
-        return new ResponseEntity<>(orderDto,HttpStatus.OK);
+        return new ResponseEntity<>(orderDto, HttpStatus.OK);
     }
 
 //    @GetMapping()
@@ -56,25 +55,19 @@ public class OrderController {
 //    }
 
 
-
-
     @PutMapping("/{orderId}")
     public ResponseEntity<OrderDto> addOrderFromCart(HttpServletRequest request,
                                                      @PathVariable("orderId") Integer orderId,
-                                                     @RequestBody OrderDto orderDto){
+                                                     @RequestBody OrderDto orderDto) {
 
         OrderDto order = orderService.updateOrder(orderId, orderDto);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
 
-
-
-
     @DeleteMapping("/{OrderId}")
     public ResponseEntity<Map<String, Boolean>> deleteOrder(HttpServletRequest request,
-                                                               @PathVariable("OrderId") Integer orderId) throws ParseException {
-
+                                                            @PathVariable("OrderId") Integer orderId)  {
 
 
         orderService.deleteOrder(orderId);

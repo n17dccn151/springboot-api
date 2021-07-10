@@ -32,10 +32,9 @@ public class UserDetail {
     private String address;
 
 
-
     @JsonBackReference(value = "user-detail")
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name="user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 

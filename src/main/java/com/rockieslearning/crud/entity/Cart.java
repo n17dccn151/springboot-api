@@ -25,15 +25,13 @@ public class Cart {
 
 
     @JsonManagedReference(value = "cart-cartfood")
-    @OneToMany(fetch = FetchType.LAZY , mappedBy = "cart", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<CartFood> cartFoods = new HashSet<CartFood>();
 
 
     @OneToOne()
     @JoinColumn(name = "user_id")
     private User user;
-
-
 
 
     public Cart() {
@@ -45,7 +43,7 @@ public class Cart {
     }
 
 
-    public Cart(Integer cartId,  Set<CartFood> cartFoods, User user) {
+    public Cart(Integer cartId, Set<CartFood> cartFoods, User user) {
         this.cartId = cartId;
         this.cartFoods = cartFoods;
         this.user = user;

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import javax.xml.stream.events.Comment;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -35,31 +36,25 @@ public class CommentController {
     private RatingService ratingService;
 
 
-
-
-
     @PostMapping("")
     public ResponseEntity<FoodRatingDto> addUser(HttpServletRequest request,
-                                                 @RequestBody FoodRatingDto foodRatingDto) throws ParseException {
+                                                 @RequestBody @Valid FoodRatingDto foodRatingDto) throws ParseException {
 
         Long userId = (Long) request.getAttribute("userId");
-        FoodRatingDto dto =  ratingService.saveRating(userId, foodRatingDto);
+        FoodRatingDto dto = ratingService.saveRating(userId, foodRatingDto);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
 
-
-
     @PutMapping("/{ratingId}")
     public ResponseEntity<FoodRatingDto> updateUser(HttpServletRequest request,
-                                              @PathVariable("ratingId") Integer ratingId,
-                                              @RequestBody FoodRatingDto foodRatingDto){
+                                                    @PathVariable("ratingId") Integer ratingId,
+                                                    @RequestBody @Valid FoodRatingDto foodRatingDto) {
 
-        FoodRatingDto dto =  ratingService.updateFoodRating(ratingId, foodRatingDto);
+        FoodRatingDto dto = ratingService.updateFoodRating(ratingId, foodRatingDto);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
-
 
 
     @DeleteMapping("/{ratingId}")

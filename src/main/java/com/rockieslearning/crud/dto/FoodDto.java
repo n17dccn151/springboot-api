@@ -1,10 +1,10 @@
 package com.rockieslearning.crud.dto;
 
 
-
 import com.fasterxml.jackson.annotation.JsonView;
 import com.rockieslearning.crud.entity.*;
 
+import javax.validation.constraints.*;
 import java.util.*;
 
 /**
@@ -15,32 +15,40 @@ import java.util.*;
 public class FoodDto {
 
 
-
-
     @JsonView(View.Food.class)
     private Integer foodId;
 
     @JsonView(View.Food.class)
+    @NotEmpty(message = "name not empty")
     private String name;
 
     @JsonView(View.Food.class)
+    @Min(value = 10000, message = "price should not be less than 10000")
+    @Max(value = 550000, message = "price should not be greater than 550000")
     private Double price;
 
     @JsonView(View.Food.class)
+    @Min(value = 100, message = "quantity should not be less than 100")
     private Integer quantity;
+
 
     @JsonView(View.Food.class)
     private String status;
 
 
     @JsonView(View.Food.class)
+    @Size(min = 10, max = 500, message
+            = "About Me must be between 10 and 500 characters")
     private String description;
 
     @JsonView(View.Food.class)
+    @NotNull(message = "categoryId cannot be null")
     private Integer categoryId;
 
 
     @JsonView(View.FoodWithImage.class)
+    @Size(min = 1, max = 5, message
+            = "About Me must be between 1 and 5 images")
     private List<FoodImageDto> images;
 
     @JsonView(View.FoodWithImageComment.class)
@@ -65,8 +73,8 @@ public class FoodDto {
         Double rate = 0.0;
 
 
-        for(FoodRating foodRating : entity.getRatings()){
-            rate+= foodRating.getRate();
+        for (FoodRating foodRating : entity.getRatings()) {
+            rate += foodRating.getRate();
         }
 
 
@@ -75,12 +83,10 @@ public class FoodDto {
     }
 
 
-
-
     public List<FoodDto> toListDto(List<Food> listEntity) {
         List<FoodDto> listDto = new ArrayList<>();
 
-        listEntity.forEach(e->{
+        listEntity.forEach(e -> {
             listDto.add(this.toDto(e));
         });
 
@@ -90,13 +96,11 @@ public class FoodDto {
     public List<Food> toListEntity(List<FoodDto> listDto) {
         List<Food> listEti = new ArrayList<>();
 
-        listDto.forEach(e->{
+        listDto.forEach(e -> {
             listEti.add(this.toEntity(e));
         });
         return listEti;
     }
-
-
 
 
     public Food toEntity(FoodDto dto) {
@@ -109,6 +113,20 @@ public class FoodDto {
         return entity;
     }
 
+
+    public FoodDto() {
+    }
+
+    public FoodDto(Integer foodId, String name, Double price, Integer quantity, String status, String description, Integer categoryId) {
+        this.foodId = foodId;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
+        this.status = status;
+        this.description = description;
+        this.categoryId = categoryId;
+
+    }
 
     public String getStatus() {
         return status;

@@ -1,7 +1,6 @@
 package com.rockieslearning.crud.entity;
 
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.NaturalId;
@@ -50,10 +49,8 @@ public class User {
 
     @Column(name = "password")
     @NotBlank
-    @Size(min=6, max = 100)
+    @Size(min = 6, max = 100)
     private String password;
-
-
 
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -64,9 +61,8 @@ public class User {
 
 
     @JsonManagedReference(value = "user-order")
-    @OneToMany(fetch = FetchType.LAZY , mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Set<Order> orders = new HashSet<Order>();
-
 
 
     @OneToOne(fetch = FetchType.LAZY,
@@ -74,21 +70,19 @@ public class User {
     private Cart cart;
 
 
-
     @JsonManagedReference(value = "user-rating")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<FoodRating> ratings = new HashSet<FoodRating>();
 
 
     @JsonManagedReference(value = "user-detail")
-    @OneToMany(fetch = FetchType.EAGER , mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private Set<UserDetail> details = new HashSet<UserDetail>();
 
 
     public User() {
 
     }
-
 
 
     public User(String phone, String email, String password) {
@@ -104,7 +98,6 @@ public class User {
         this.password = password;
         this.roles = roles;
     }
-
 
 
     public Long getUserId() {
@@ -162,7 +155,6 @@ public class User {
     public void setCart(Cart cart) {
         this.cart = cart;
     }
-
 
 
     public Set<FoodRating> getRatings() {

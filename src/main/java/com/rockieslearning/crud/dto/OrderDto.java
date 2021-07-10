@@ -13,6 +13,8 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 /**
@@ -27,10 +29,8 @@ public class OrderDto {
     private String status;
 
 
-
     //@JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer orderId;
-
 
 
     //@JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -41,16 +41,12 @@ public class OrderDto {
     private Date updatedDate;
 
 
+    @Size(min = 1, message
+            = "About Me must be at least 1")
     private Set<OrderFoodDto> orderFoods = new HashSet<OrderFoodDto>();
 
 
-
-
-
-
-
     public OrderDto toDto(Order entity) {
-
 
 
         OrderDto dto = new OrderDto();
@@ -63,13 +59,12 @@ public class OrderDto {
         dto.setUserId(entity.getUser().getUserId());
 
 
-        Set<OrderFoodDto> orderFoodDtoSet  = new HashSet<>();
-        entity.getOrderFoods().forEach(e->{
+        Set<OrderFoodDto> orderFoodDtoSet = new HashSet<>();
+        entity.getOrderFoods().forEach(e -> {
             orderFoodDtoSet.add(new OrderFoodDto().toDto(e));
         });
 
         dto.setOrderFoods(orderFoodDtoSet);
-
 
 
         return dto;
@@ -79,7 +74,7 @@ public class OrderDto {
     public List<OrderDto> toListDto(List<Order> listEntity) {
         List<OrderDto> listDto = new ArrayList<>();
 
-        listEntity.forEach(e->{
+        listEntity.forEach(e -> {
             listDto.add(this.toDto(e));
         });
 
@@ -99,7 +94,6 @@ public class OrderDto {
     }
 
 
-
     public Integer getOrderId() {
         return orderId;
     }
@@ -109,7 +103,6 @@ public class OrderDto {
     }
 
 
-
     public String getStatus() {
         return status;
     }
@@ -117,7 +110,6 @@ public class OrderDto {
     public void setStatus(String status) {
         this.status = status;
     }
-
 
 
     public Date getCreatedDate() {

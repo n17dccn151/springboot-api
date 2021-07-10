@@ -22,10 +22,9 @@ public class FoodImage {
     private String image;
 
 
-
     @JsonBackReference(value = "food-image")
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name="food_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "food_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Food food;
 

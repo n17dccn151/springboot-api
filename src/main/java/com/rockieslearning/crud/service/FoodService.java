@@ -23,13 +23,12 @@ public interface FoodService {
     public FoodDto getFoodById(int id) throws ResourceNotFoundException;
 
 
-    public void deleteFood(Integer foodId) throws ResourceNotFoundException;
+    public String deleteFood(Integer foodId) throws ResourceNotFoundException;
 
     public FoodDto updateFood(Integer foodId, FoodDto foodDto) throws ResourceNotFoundException, BadRequestException;
 
 
     public List<FoodDto> getFoodByCategoryId(int id) throws ResourceNotFoundException;
-
 
 
 }

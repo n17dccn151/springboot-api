@@ -2,6 +2,9 @@ package com.rockieslearning.crud.dto;
 
 import com.rockieslearning.crud.entity.CartFood;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +13,13 @@ import java.util.List;
  */
 
 
-
 public class CartFoodDto {
 
 
+    @NotNull(message = "foodId cannot be null")
     private Integer id;
 
+    @Min(value = 0, message = "amount should not be less than 0")
     private Integer amount;
 
     private Double price;
@@ -25,16 +29,13 @@ public class CartFoodDto {
     private String image;
 
 
-
-
     public CartFoodDto toDto(CartFood entity) {
         CartFoodDto dto = new CartFoodDto();
         dto.setId(entity.getFood().getFoodId());
         dto.setAmount(entity.getAmount());
 
 
-
-        if(entity.getFood()!=null){
+        if (entity.getFood() != null) {
             dto.setName(entity.getFood().getName());
             dto.setImage(entity.getFood().getImages().get(0).getImage());
             dto.setPrice(entity.getFood().getPrice());
@@ -47,7 +48,7 @@ public class CartFoodDto {
     public List<CartFoodDto> toListDto(List<CartFood> listEntity) {
         List<CartFoodDto> listDto = new ArrayList<>();
 
-        listEntity.forEach(e->{
+        listEntity.forEach(e -> {
             listDto.add(this.toDto(e));
         });
         return listDto;
@@ -61,8 +62,6 @@ public class CartFoodDto {
 
         return entity;
     }
-
-
 
 
     public Integer getId() {

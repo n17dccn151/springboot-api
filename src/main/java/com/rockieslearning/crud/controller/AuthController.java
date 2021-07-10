@@ -39,11 +39,10 @@ public class AuthController {
     private UserService userService;
 
 
-
     @PostMapping("/signin")
     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-        JwtResponse JwtResponse =  userService.signIn(loginRequest);
+        JwtResponse JwtResponse = userService.signIn(loginRequest);
 
         return new ResponseEntity<>(JwtResponse, HttpStatus.OK);
     }
@@ -52,6 +51,6 @@ public class AuthController {
     public ResponseEntity<UserDto> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         UserDto userDto = userService.signUp(signUpRequest);
 
-        return new ResponseEntity<>(userDto,HttpStatus.OK);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 }

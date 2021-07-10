@@ -19,5 +19,4 @@ public interface CartFoodRepository extends JpaRepository<CartFood, Integer> {
     void deleteAllByCart(Cart cart);
 
 
-
 }

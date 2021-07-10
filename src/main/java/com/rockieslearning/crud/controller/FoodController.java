@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,42 +32,36 @@ public class FoodController {
     private FoodService foodService;
 
 
-
-
     @GetMapping("")
-    public ResponseEntity<List<FoodDto>> getAllFood(){
+    public ResponseEntity<List<FoodDto>> getAllFood() {
 
-        List<FoodDto> foodDtos  = foodService.retrieveFoods();
+        List<FoodDto> foodDtos = foodService.retrieveFoods();
         return new ResponseEntity<>(foodDtos, HttpStatus.OK);
     }
 
 
     @GetMapping("/{foodId}")
     public ResponseEntity<FoodDto> getFoodById(HttpServletRequest request,
-                                                    @PathVariable("foodId") Integer foodId){
+                                               @PathVariable("foodId") Integer foodId) {
 
         FoodDto foodDto = foodService.getFoodById(foodId);
-        return new ResponseEntity<>(foodDto,HttpStatus.OK);
+        return new ResponseEntity<>(foodDto, HttpStatus.OK);
     }
-
-
 
 
     @PostMapping("")
     public ResponseEntity<FoodDto> addFood(HttpServletRequest request,
-                                           @RequestBody FoodDto foodDto) throws ParseException {
+                                           @RequestBody @Valid FoodDto foodDto) {
 
         FoodDto saveFood = foodService.saveFood(foodDto);
         return new ResponseEntity<>(saveFood, HttpStatus.CREATED);
     }
 
 
-
-
     @PutMapping("/{foodId}")
     public ResponseEntity<FoodDto> updateFood(HttpServletRequest request,
-                                                               @PathVariable("foodId") Integer foodId,
-                                                               @RequestBody FoodDto foodDto){
+                                              @PathVariable("foodId") Integer foodId,
+                                              @RequestBody @Valid FoodDto foodDto) {
 
 
         FoodDto updateFood = foodService.updateFood(foodId, foodDto);
@@ -75,11 +70,9 @@ public class FoodController {
     }
 
 
-
     @DeleteMapping("/{foodId}")
     public ResponseEntity<Map<String, Boolean>> deleteFood(HttpServletRequest request,
-                                                               @PathVariable("foodId") Integer foodId) throws ParseException {
-
+                                                           @PathVariable("foodId") Integer foodId)  {
 
 
         foodService.deleteFood(foodId);
@@ -89,11 +82,6 @@ public class FoodController {
         map.put("success", true);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
-
-
-
-
-
 
 
 }

@@ -1,10 +1,14 @@
 package com.rockieslearning.crud.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rockieslearning.crud.entity.User;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,12 +21,14 @@ import java.util.Set;
 public class UserDto {
 
 
-
     private Long userId;
 
+    @NumberFormat
     private String phone;
 
+    @Email
     private String email;
+
 
     private String password;
 
@@ -37,7 +43,7 @@ public class UserDto {
         dto.setEmail(entity.getEmail());
 
         Set<String> roles = new HashSet<>();
-        entity.getRoles().forEach(r->{
+        entity.getRoles().forEach(r -> {
             roles.add(r.getName().name());
         });
 
@@ -51,7 +57,7 @@ public class UserDto {
     public List<UserDto> toListDto(List<User> listEntity) {
         List<UserDto> listDto = new ArrayList<>();
 
-        listEntity.forEach(e->{
+        listEntity.forEach(e -> {
             listDto.add(this.toDto(e));
         });
 
@@ -66,12 +72,9 @@ public class UserDto {
         entity.setEmail(dto.getEmail());
 
 
-
         entity.setPassword(dto.getPassword());
         return entity;
     }
-
-
 
 
     public Long getUserId() {

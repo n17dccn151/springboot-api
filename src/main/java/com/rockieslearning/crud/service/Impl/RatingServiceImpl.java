@@ -25,7 +25,7 @@ import java.util.List;
 public class RatingServiceImpl implements RatingService {
 
     @Autowired
-    FoodRepository  foodRepository;
+    FoodRepository foodRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -43,7 +43,7 @@ public class RatingServiceImpl implements RatingService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for this id"));
 
 
-        if(foodRatingRepository.existsByFoodAndUser(food, user)){
+        if (foodRatingRepository.existsByFoodAndUser(food, user)) {
             throw new BadRequestException("Invalid Request");
         }
 
@@ -59,7 +59,7 @@ public class RatingServiceImpl implements RatingService {
         Food food = foodRepository.findById(foodID)
                 .orElseThrow(() -> new ResourceNotFoundException("Food not found for this id: " + foodID));
 
-        List<FoodRating> foodRatings =  foodRatingRepository.findAllByFood(food);
+        List<FoodRating> foodRatings = foodRatingRepository.findAllByFood(food);
 
         return new FoodRatingDto().toListDto(foodRatings);
     }

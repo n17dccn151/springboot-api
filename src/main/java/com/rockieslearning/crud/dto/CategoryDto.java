@@ -6,6 +6,7 @@ import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.Food;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -22,12 +23,15 @@ public class CategoryDto {
     private Integer categoryId;
 
 
+    @NotEmpty(message = "name not empty")
     private String name;
 
 
+    @NotEmpty(message = "description not empty")
     private String description;
 
 
+    @NotEmpty(message = "image not empty")
     private String image;
 
 
@@ -45,7 +49,7 @@ public class CategoryDto {
     public List<CategoryDto> toListDto(List<Category> listEntity) {
         List<CategoryDto> listDto = new ArrayList<>();
 
-        listEntity.forEach(e->{
+        listEntity.forEach(e -> {
             listDto.add(this.toDto(e));
         });
 
@@ -60,6 +64,17 @@ public class CategoryDto {
         entity.setDescription(dto.getDescription());
         entity.setImage(dto.getImage());
         return entity;
+    }
+
+
+    public CategoryDto() {
+    }
+
+    public CategoryDto(Integer categoryId, String name, String description, String image) {
+        this.categoryId = categoryId;
+        this.name = name;
+        this.description = description;
+        this.image = image;
     }
 
 

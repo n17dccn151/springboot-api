@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.rockieslearning.crud.entity.FoodImage;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +16,11 @@ import java.util.List;
 public class FoodImageDto {
 
 
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Integer id;
 
     @JsonView(View.FoodWithImage.class)
+    @NotEmpty(message = "url cannot be empty")
     private String url;
 
 //    private Integer food_id;
@@ -37,7 +38,7 @@ public class FoodImageDto {
     public List<FoodImageDto> toListDto(List<FoodImage> listEntity) {
         List<FoodImageDto> listDto = new ArrayList<>();
 
-        listEntity.forEach(e->{
+        listEntity.forEach(e -> {
             listDto.add(this.toDto(e));
         });
 
@@ -47,7 +48,7 @@ public class FoodImageDto {
     public List<FoodImage> toListEntity(List<FoodImageDto> listDto) {
         List<FoodImage> listEti = new ArrayList<>();
 
-        listDto.forEach(e->{
+        listDto.forEach(e -> {
             listEti.add(this.toEntity(e));
         });
         return listEti;
@@ -62,10 +63,8 @@ public class FoodImageDto {
         //entity.setFood(new FoodDto().toEntity(foodDto));
 
 
-
         return entity;
     }
-
 
 
     public Integer getId() {

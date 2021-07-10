@@ -21,11 +21,11 @@ public interface OrderService {
 
     public void deleteOrder(Integer orderId) throws ResourceNotFoundException;
 
-    public OrderDto updateOrder(Integer orderId, OrderDto  orderDto)throws ResourceNotFoundException, BadRequestException;
+    public OrderDto updateOrder(Integer orderId, OrderDto orderDto) throws ResourceNotFoundException, BadRequestException;
 
     public OrderDto createNewOrder(Long userId, OrderDto orderDto) throws BadRequestException;
 
-    public List<OrderDto> getListOrderByUserId(Long id) ;
+    public List<OrderDto> getListOrderByUserId(Long id);
 
-    OrderDto createNewOrderFromCart(Long userId) ;
+    OrderDto createNewOrderFromCart(Long userId);
 }

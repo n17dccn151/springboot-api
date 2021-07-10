@@ -28,17 +28,13 @@ public class CartController {
     private CartService cartService;
 
 
-
     @GetMapping("")
-    public ResponseEntity<List<CartDto>> getAllCart(){
+    public ResponseEntity<List<CartDto>> getAllCart() {
 
         List<CartDto> cartDtos = new ArrayList<>();
         cartDtos = cartService.retrieveCarts();
         return new ResponseEntity<>(cartDtos, HttpStatus.OK);
     }
-
-
-
 
 
 //    @GetMapping()
@@ -50,14 +46,9 @@ public class CartController {
 //    }
 
 
-
-
-
-
-
     @DeleteMapping("/{cartId}")
     public ResponseEntity<Map<String, Boolean>> deleteCart(HttpServletRequest request,
-                                                            @PathVariable("cartId") Integer cartId) throws ParseException {
+                                                           @PathVariable("cartId") Integer cartId) throws ParseException {
 
         cartService.deleteCart(cartId);
         Map<String, Boolean> map = new HashMap<>();

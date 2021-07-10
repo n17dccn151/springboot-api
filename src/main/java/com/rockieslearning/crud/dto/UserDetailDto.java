@@ -5,8 +5,10 @@ import com.rockieslearning.crud.entity.User;
 import com.rockieslearning.crud.entity.UserDetail;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,17 +22,19 @@ public class UserDetailDto {
 
     private Integer id;
 
+    @NotEmpty(message = "firstName cannot be empty")
     private String firstName;
 
+    @NotEmpty(message = "lastName cannot be empty")
     private String lastName;
 
+    @NumberFormat
     private String phone;
 
+    @NotEmpty(message = "address cannot be empty")
     private String address;
 
     private Long userId;
-
-
 
 
     public UserDetailDto toDto(UserDetail entity) {
@@ -60,7 +64,7 @@ public class UserDetailDto {
     public List<UserDetailDto> toListDto(List<UserDetail> listEntity) {
         List<UserDetailDto> listDto = new ArrayList<>();
 
-        listEntity.forEach(e->{
+        listEntity.forEach(e -> {
             listDto.add(this.toDto(e));
         });
 

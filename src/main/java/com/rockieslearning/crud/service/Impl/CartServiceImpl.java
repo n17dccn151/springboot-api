@@ -59,8 +59,8 @@ public class CartServiceImpl implements CartService {
 
         try {
             return new CartDto().toDto(repository.save(Cart));
-        }catch (Exception e){
-            throw  new BadRequestException("invalid Request");
+        } catch (Exception e) {
+            throw new BadRequestException("invalid Request");
 
         }
 
@@ -68,12 +68,12 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<CartDto> retrieveCarts() {
-        List<Cart> Carts =  repository.findAll();
+        List<Cart> Carts = repository.findAll();
         return new CartDto().toListDto(Carts);
     }
 
     @Override
-    public CartDto getCartById(int id) throws  ResourceNotFoundException{
+    public CartDto getCartById(int id) throws ResourceNotFoundException {
         Cart cart = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id: " + id));
         return new CartDto().toDto(cart);
     }
@@ -85,20 +85,17 @@ public class CartServiceImpl implements CartService {
     }
 
 
-
     @Override
     public CartDto getCartByUserId(Long id) throws ResourceNotFoundException {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + id));;
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + id));
+        ;
 
         Cart cart = repository.findByUser(user);
-        if(cart==null)
+        if (cart == null)
             throw new ResourceNotFoundException("Cart not found ");
 
         return new CartDto().toDto(cart);
     }
-
-
-
 
 
     @Override
@@ -108,29 +105,28 @@ public class CartServiceImpl implements CartService {
         Food food = foodRepository.getById(cartFoodDto.getId());
 
 
-        if(cart==null){
+        if (cart == null) {
             cart = repository.save(new Cart(user));
         }
 
         CartFood cartFood = cartFoodRepository.findCartFoodByFoodAndCart(food, cart);
 
 
-
-        if(cartFood == null){
+        if (cartFood == null) {
             cartFoodRepository.save(new CartFood(cart, food, cartFoodDto.getAmount()));
-        }else{
+        } else {
 
-            if(cartFoodDto.getAmount()==0){
+            if (cartFoodDto.getAmount() == 0) {
                 cartFoodRepository.deleteById(cartFood.getId());
 
-            }else{
+            } else {
                 cartFood.setAmount(cartFoodDto.getAmount());
                 cartFoodRepository.save(cartFood);
 
             }
         }
 
-        Cart s = repository.findById(cart.getCartId()).orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id: " ));
+        Cart s = repository.findById(cart.getCartId()).orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id: "));
         return new CartDto().toDto(s);
     }
 

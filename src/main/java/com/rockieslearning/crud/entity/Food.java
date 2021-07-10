@@ -1,7 +1,6 @@
 package com.rockieslearning.crud.entity;
 
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -45,19 +44,19 @@ public class Food {
 
 
     @JsonBackReference(value = "category-food")
-    @ManyToOne(fetch = FetchType.EAGER )
-    @JoinColumn(name="category_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Category category;
 
 
-//    @Temporal(TemporalType.DATE)
+    //    @Temporal(TemporalType.DATE)
 //    @Column(name = "createdDate", nullable = false, updatable = false)
 //    @CreatedDate
     @CreationTimestamp
     private Date createdDate;
 
-//    @Temporal(TemporalType.DATE)
+    //    @Temporal(TemporalType.DATE)
 //    @Column(name = "updatedDate", nullable = false)
 //    @LastModifiedDate
     @UpdateTimestamp
@@ -68,7 +67,7 @@ public class Food {
 //    @OneToOne(fetch = FetchType.LAZY,
 //            cascade =  CascadeType.ALL,
 //            mappedBy = "food")
-    @OneToMany(fetch = FetchType.LAZY , mappedBy = "food")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "food")
     private Set<OrderFood> orderFoods;
 
 
@@ -77,18 +76,17 @@ public class Food {
 //            mappedBy = "food")
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY , mappedBy = "food")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "food")
     private Set<CartFood> cartFoods;
 
 
     @JsonManagedReference(value = "food-image")
-    @OneToMany(fetch = FetchType.LAZY , mappedBy = "food")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "food")
     private List<FoodImage> images = new ArrayList<>();
 
     @JsonManagedReference(value = "food-rating")
-    @OneToMany(fetch = FetchType.LAZY , mappedBy = "food")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "food")
     private List<FoodRating> ratings = new ArrayList<>();
-
 
 
     public Food() {
@@ -229,7 +227,6 @@ public class Food {
     public void setCartFoods(Set<CartFood> cartFoods) {
         this.cartFoods = cartFoods;
     }
-
 
 
     public List<FoodImage> getImages() {

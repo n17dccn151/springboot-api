@@ -30,23 +30,20 @@ public class OrderFood {
     private Integer amount;
 
 
-
-
 //    @JsonManagedReference
 //    @OneToMany(fetch = FetchType.LAZY , mappedBy = "food")
 //    private Set<OrderFood> orderFoods = new HashSet<OrderFood>();
 
 
     @JsonBackReference(value = "order-orderfood")
-    @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
-    @JoinColumn(name="order_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Order order;
 
 
-
     //@OneToOne(cascade = CascadeType.ALL)
-    @ManyToOne(fetch = FetchType.LAZY )
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_id")
     private Food food;
 

@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.rockieslearning.crud.entity.FoodImage;
 import com.rockieslearning.crud.entity.FoodRating;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +20,7 @@ public class FoodRatingDto {
     private Integer id;
 
     @JsonView(View.FoodWithImageComment.class)
+    @NotNull(message = "foodId cannot be null")
     private Integer foodId;
 
     @JsonView(View.FoodWithImageComment.class)
@@ -26,6 +30,8 @@ public class FoodRatingDto {
     private String comment;
 
     @JsonView(View.FoodWithImageComment.class)
+    @Min(value = 1, message = "rating should not be less than 1")
+    @Max(value = 5, message = "rating should not be greater than 5")
     private Integer rating;
 
     @JsonView(View.FoodWithImageComment.class)
@@ -48,7 +54,7 @@ public class FoodRatingDto {
     public List<FoodRatingDto> toListDto(List<FoodRating> listEntity) {
         List<FoodRatingDto> listDto = new ArrayList<>();
 
-        listEntity.forEach(e->{
+        listEntity.forEach(e -> {
             listDto.add(this.toDto(e));
         });
 
@@ -58,7 +64,7 @@ public class FoodRatingDto {
     public List<FoodRating> toListEntity(List<FoodRatingDto> listDto) {
         List<FoodRating> listEti = new ArrayList<>();
 
-        listDto.forEach(e->{
+        listDto.forEach(e -> {
             listEti.add(this.toEntity(e));
         });
         return listEti;
@@ -71,7 +77,6 @@ public class FoodRatingDto {
         entity.setComment(dto.getComment());
         entity.setRate(dto.getRating());
         //entity.setFood(new FoodDto().toEntity(foodDto));
-
 
 
         return entity;
@@ -99,7 +104,7 @@ public class FoodRatingDto {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName.substring(0,7).concat("xxx");
+        this.userName = userName.substring(0, 7).concat("xxx");
     }
 
     public Integer getId() {

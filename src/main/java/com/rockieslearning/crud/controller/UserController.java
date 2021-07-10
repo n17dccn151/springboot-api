@@ -19,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.*;
 
@@ -39,11 +40,8 @@ public class UserController {
     private OrderService orderService;
 
 
-
-
-
     @GetMapping("")
-    public ResponseEntity<List<UserDto>> getAllUsers(){
+    public ResponseEntity<List<UserDto>> getAllUsers() {
 
         List<UserDto> userDtos = new ArrayList<>();
         userDtos = userService.retrieveUsers();
@@ -53,52 +51,41 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<UserDto> getUserById(HttpServletRequest request,
-                                                    @PathVariable("userId") Long userId) throws ResourceNotFoundException {
+                                               @PathVariable("userId") Long userId) throws ResourceNotFoundException {
 
         UserDto userDto = userService.getUserById(userId);
-        return new ResponseEntity<>(userDto,HttpStatus.OK);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
 
     }
 
 
     @GetMapping("/{userId}/detail")
     public ResponseEntity<List<UserDetailDto>> getUserDetailById(HttpServletRequest request,
-                                                                 @PathVariable("userId") Long userId){
-        List<UserDetailDto> userDetailDtos =new ArrayList<>();
+                                                                 @PathVariable("userId") Long userId) {
+        List<UserDetailDto> userDetailDtos = new ArrayList<>();
         userDetailDtos = userService.getListDetailByUserId(userId);
-        return new ResponseEntity<>(userDetailDtos,HttpStatus.OK);
+        return new ResponseEntity<>(userDetailDtos, HttpStatus.OK);
 
     }
-
-
-
-
-
-
-
-
 
 
     @PostMapping("")
     public ResponseEntity<UserDto> addUser(HttpServletRequest request, @RequestBody UserDto userDto) throws ParseException {
 
-        UserDto saveUser =  userService.saveUser(userDto);
+        UserDto saveUser = userService.saveUser(userDto);
         return new ResponseEntity<>(saveUser, HttpStatus.CREATED);
     }
 
 
-
-
     @PutMapping("/{userId}")
     public ResponseEntity<UserDto> updateUser(HttpServletRequest request,
-                                                               @PathVariable("userId") Long userId,
-                                                               @RequestBody UserDto userDto){
+                                              @PathVariable("userId") Long userId,
+                                              @RequestBody @Valid UserDto userDto) {
 
-        UserDto updateUser =  userService.updateUser(userId, userDto);
+        UserDto updateUser = userService.updateUser(userId, userDto);
 
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
-
 
 
 //    @DeleteMapping("/{userId}")

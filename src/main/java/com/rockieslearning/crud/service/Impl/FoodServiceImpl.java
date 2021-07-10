@@ -40,12 +40,9 @@ public class FoodServiceImpl implements FoodService {
     }
 
 
-
-
-
     @Override
     public List<FoodDto> retrieveFoods() {
-        List<Food> foods =  repository.findAll();
+        List<Food> foods = repository.findAll();
         return new FoodDto().toListDto(foods);
     }
 
@@ -60,8 +57,9 @@ public class FoodServiceImpl implements FoodService {
     @Override
     public FoodDto saveFood(FoodDto foodDto) throws BadRequestException {
         Food food = new FoodDto().toEntity(foodDto);
-        Category category =  categoryRepository.findById(foodDto.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("category not found for this id: " + foodDto.getCategoryId()));;
+        Category category = categoryRepository.findById(foodDto.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("category not found for this id: " + foodDto.getCategoryId()));
+        ;
         ;
         food.setCategory(category);
         food.setFoodStatusName(FoodStatusName.AVAILABLE.toString());
@@ -70,7 +68,7 @@ public class FoodServiceImpl implements FoodService {
             food = repository.save(food);
             List<FoodImage> images = new FoodImageDto().toListEntity(foodDto.getImages());
             Food finalFood = food;
-            images.forEach(e->{
+            images.forEach(e -> {
                 e.setFood(finalFood);
                 foodImageRepository.save(e);
             });
@@ -86,25 +84,28 @@ public class FoodServiceImpl implements FoodService {
     }
 
 
-
     @Override
-    public void deleteFood(Integer foodId) throws ResourceNotFoundException {
-
+    public String deleteFood(Integer foodId) throws ResourceNotFoundException {
 
 
         Food food = repository.findById(foodId)
-                .orElseThrow(() -> new ResourceNotFoundException("Food not found for this id: " + foodId));;
+                .orElseThrow(() -> new ResourceNotFoundException("Food not found for this id: " + foodId));
+        ;
         foodImageRepository.deleteAllByFood(food);
         repository.delete(food);
+
+        return "deleted";
     }
 
     @Override
     public FoodDto updateFood(Integer foodId, FoodDto foodDto) throws BadRequestException {
         Food food = repository.findById(foodId)
-                .orElseThrow(() -> new ResourceNotFoundException("food not found for this id: " + foodDto.getFoodId()));;
+                .orElseThrow(() -> new ResourceNotFoundException("food not found for this id: " + foodDto.getFoodId()));
         ;
-        Category category =  categoryRepository.findById(foodDto.getCategoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("category not found for this id: " + foodDto.getCategoryId()));;
+        ;
+        Category category = categoryRepository.findById(foodDto.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("category not found for this id: " + foodDto.getCategoryId()));
+        ;
         ;
         food.setCategory(category);
         food.setFoodId(foodId);
@@ -122,14 +123,14 @@ public class FoodServiceImpl implements FoodService {
             food = repository.save(food);
             List<FoodImage> images = new FoodImageDto().toListEntity(foodDto.getImages());
             Food finalFood = food;
-            images.forEach(e->{
+            images.forEach(e -> {
                 e.setFood(finalFood);
                 foodImageRepository.save(e);
             });
 
 
         } catch (Exception e) {
-            throw new BadRequestException("invalid Request" +e.getMessage());
+            throw new BadRequestException("invalid Request" + e.getMessage());
         }
 
         return new FoodDto().toDto(repository.getById(foodId));
@@ -137,7 +138,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public List<FoodDto> getFoodByCategoryId(int id) throws ResourceNotFoundException{
+    public List<FoodDto> getFoodByCategoryId(int id) throws ResourceNotFoundException {
 
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Food not found for this id: " + id));

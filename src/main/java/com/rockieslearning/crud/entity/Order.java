@@ -42,18 +42,14 @@ public class Order {
     private Date updatedDate;
 
     @JsonManagedReference(value = "order-orderfood")
-    @OneToMany(fetch = FetchType.LAZY , mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderFood> orderFoods = new HashSet<OrderFood>();
 
 
     @JsonBackReference(value = "user-order")
-    @ManyToOne(fetch = FetchType.LAZY )
-    @JoinColumn(name="user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
-
-
-
-
 
 
     public Order() {
@@ -77,7 +73,6 @@ public class Order {
     }
 
 
-
     public String getStatus() {
         return status;
     }
@@ -85,7 +80,6 @@ public class Order {
     public void setStatus(String status) {
         this.status = status;
     }
-
 
 
     public Date getCreatedDate() {

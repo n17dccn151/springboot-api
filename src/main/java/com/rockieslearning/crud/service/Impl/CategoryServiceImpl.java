@@ -30,19 +30,14 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository repository;
 
 
-
-
-
-
     @Override
     public CategoryDto saveCategory(CategoryDto categoryDto) throws BadRequestException {
         Category category = new CategoryDto().toEntity(categoryDto);
 
         try {
             return new CategoryDto().toDto(repository.save(category));
-        }
-        catch (Exception e){
-            throw  new BadRequestException("invalid Request");
+        } catch (Exception e) {
+            throw new BadRequestException("invalid Request");
         }
 
 
@@ -50,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> retrieveCategories() {
-        List<Category> categories =  repository.findAll();
+        List<Category> categories = repository.findAll();
 
         return new CategoryDto().toListDto(categories);
     }
@@ -62,14 +57,15 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(Integer categoryId) throws ResourceNotFoundException {
+    public String deleteCategory(Integer categoryId) throws ResourceNotFoundException {
         Category category = repository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found for this id: " + categoryId));
         repository.delete(category);
+        return "deleted";
     }
 
     @Override
-    public CategoryDto updateCategory(Integer categoryId, CategoryDto categoryDto) throws ResourceNotFoundException ,BadRequestException {
+    public CategoryDto updateCategory(Integer categoryId, CategoryDto categoryDto) throws ResourceNotFoundException, BadRequestException {
 
 
         Category existCategory = repository.findById(categoryId)
@@ -81,19 +77,15 @@ public class CategoryServiceImpl implements CategoryService {
         existCategory.setImage(categoryDto.getImage());
 
         try {
-            CategoryDto  saveCategory = new CategoryDto();
+            CategoryDto saveCategory = new CategoryDto();
             return saveCategory.toDto(repository.save(existCategory));
 
-        }
-        catch (Exception e){
-            throw  new BadRequestException("invalid Request");
+        } catch (Exception e) {
+            throw new BadRequestException("invalid Request");
         }
 
 
     }
-
-
-
 
 
 }

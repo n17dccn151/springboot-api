@@ -3,6 +3,8 @@ package com.rockieslearning.crud.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rockieslearning.crud.entity.OrderFood;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +15,11 @@ import java.util.List;
 
 public class OrderFoodDto {
 
+    @NotNull(message = "id cannot be null")
     private Integer id;
 
+    @Size(min = 1, message
+            = "About Me must be at least 1")
     private Integer amount;
 
 
@@ -27,25 +32,20 @@ public class OrderFoodDto {
     private String image;
 
 
-
 //    private OrderDto orderDto;
 //
 //
 //    private FoodDto foodDto;
 
 
-
-
-
     public OrderFoodDto toDto(OrderFood entity) {
         OrderFoodDto dto = new OrderFoodDto();
-        dto.setId(entity.getId());
+        dto.setId(entity.getFood().getFoodId());
         dto.setPrice(entity.getPrice());
         dto.setAmount(entity.getAmount());
 
 
-
-        if(entity.getFood()!=null){
+        if (entity.getFood() != null) {
             dto.setName(entity.getFood().getName());
             dto.setImage(entity.getFood().getImages().get(0).getImage());
         }
@@ -57,7 +57,7 @@ public class OrderFoodDto {
     public List<OrderFoodDto> toListDto(List<OrderFood> listEntity) {
         List<OrderFoodDto> listDto = new ArrayList<>();
 
-        listEntity.forEach(e->{
+        listEntity.forEach(e -> {
             listDto.add(this.toDto(e));
         });
         return listDto;
@@ -72,8 +72,6 @@ public class OrderFoodDto {
 
         return entity;
     }
-
-
 
 
     public Integer getId() {

@@ -25,18 +25,15 @@ public class CartFood {
     private Integer amount;
 
 
-
-
     @JsonBackReference(value = "cart-cartfood")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="cart_id")
+    @JoinColumn(name = "cart_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Cart cart;
 
 
-
-//    @OneToOne(cascade = CascadeType.ALL)
-    @ManyToOne(fetch = FetchType.LAZY )
+    //    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_id")
     private Food food;
 
@@ -44,7 +41,7 @@ public class CartFood {
     }
 
 
-    public CartFood( Cart cart, Food food, Integer amount) {
+    public CartFood(Cart cart, Food food, Integer amount) {
 
         this.amount = amount;
         this.cart = cart;

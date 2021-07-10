@@ -44,8 +44,6 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
 
-
-
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -56,7 +54,7 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
 
     @Autowired
-    private UserDetailRepository userDetailRepository ;
+    private UserDetailRepository userDetailRepository;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -77,13 +75,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> retrieveUsers() {
 
-        List<User> users =  userRepository.findAll();
+        List<User> users = userRepository.findAll();
 
         return new UserDto().toListDto(users);
     }
 
     @Override
-    public UserDto getUserById(Long id) throws ResourceNotFoundException{
+    public UserDto getUserById(Long id) throws ResourceNotFoundException {
 
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + id));
@@ -100,7 +98,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUser(Long userId, UserDto userDto) throws ResourceNotFoundException, BadRequestException{
+    public UserDto updateUser(Long userId, UserDto userDto) throws ResourceNotFoundException, BadRequestException {
 
 
         User existUser = userRepository.findById(userId)
@@ -116,9 +114,8 @@ public class UserServiceImpl implements UserService {
         try {
             user = userRepository.save(existUser);
             return new UserDto().toDto(user);
-        }
-        catch (Exception e){
-            throw  new BadRequestException("invalid Request");
+        } catch (Exception e) {
+            throw new BadRequestException("invalid Request");
         }
     }
 
@@ -176,7 +173,6 @@ public class UserServiceImpl implements UserService {
                 encoder.encode(signupRequest.getPassword()));
 
 
-
         Set<String> strRoles = signupRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
@@ -202,7 +198,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setRoles(roles);
-         User saveUser = userRepository.save(user);
+        User saveUser = userRepository.save(user);
 
         return new UserDto().toDto(saveUser);
     }
@@ -210,7 +206,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetailDto getUserDetail(Integer id) throws ResourceNotFoundException {
         UserDetail userDetail = userDetailRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("userdetail not found for this id: "+ id));
+                .orElseThrow(() -> new ResourceNotFoundException("userdetail not found for this id: " + id));
 
         return new UserDetailDto().toDto(userDetail);
     }
@@ -223,9 +219,8 @@ public class UserServiceImpl implements UserService {
 
         try {
             saveUser = userRepository.save(user);
-        }
-        catch (Exception e){
-            throw  new BadRequestException("invalid Request");
+        } catch (Exception e) {
+            throw new BadRequestException("invalid Request");
         }
 
         return new UserDto().toDto(saveUser);
@@ -233,7 +228,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public UserDetailDto saveUserDetail(Long userId,UserDetailDto userDetailDto) throws BadRequestException {
+    public UserDetailDto saveUserDetail(Long userId, UserDetailDto userDetailDto) throws BadRequestException {
         UserDetail userDetail = userDetailDto.toEnti(userDetailDto);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("user not found for this id"));
@@ -242,8 +237,8 @@ public class UserServiceImpl implements UserService {
         int id = userDetailRepository.save(userDetail).getId();
         try {
             return new UserDetailDto().toDto(userDetailRepository.getById(id));
-        }catch (Exception e){
-            throw  new BadRequestException("invalid Request");
+        } catch (Exception e) {
+            throw new BadRequestException("invalid Request");
         }
 
     }
@@ -251,7 +246,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetailDto updateUserDetail(Integer detailId, UserDetailDto userDetailDto) throws BadRequestException {
         UserDetail userDetail = userDetailRepository.findById(detailId)
-                .orElseThrow(() -> new ResourceNotFoundException("userdetail not found for this id: "+ detailId));
+                .orElseThrow(() -> new ResourceNotFoundException("userdetail not found for this id: " + detailId));
         userDetail.setFirstName(userDetailDto.getFirstName());
         userDetail.setLastName(userDetailDto.getLastName());
         userDetail.setPhone(userDetailDto.getPhone());
@@ -259,20 +254,18 @@ public class UserServiceImpl implements UserService {
 
         try {
             return new UserDetailDto().toDto(userDetailRepository.save(userDetail));
-        }catch (Exception e){
-            throw  new BadRequestException("invalid Request");
+        } catch (Exception e) {
+            throw new BadRequestException("invalid Request");
         }
     }
 
     @Override
     public void deleteUserDetail(Integer detailId) throws ResourceNotFoundException {
         UserDetail userDetail = userDetailRepository.findById(detailId)
-                .orElseThrow(() -> new ResourceNotFoundException("userdetail not found for this id: "+ detailId));
+                .orElseThrow(() -> new ResourceNotFoundException("userdetail not found for this id: " + detailId));
 
         userDetailRepository.delete(userDetail);
     }
-
-
 
 
 }
