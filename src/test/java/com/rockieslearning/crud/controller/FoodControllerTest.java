@@ -119,7 +119,7 @@ public class FoodControllerTest {
                 .andExpect(jsonPath("$.foodId", Matchers.equalTo(1)))
                 .andExpect(jsonPath("$.name", Matchers.equalTo("name")))
                 .andExpect(jsonPath("$.description", Matchers.equalTo("description")))
-                .andExpect(jsonPath("$.price", Matchers.equalTo(11.1)))
+                .andExpect(jsonPath("$.price", Matchers.equalTo(100000.0)))
                 .andExpect(jsonPath("$.quantity", Matchers.equalTo(100)))
                 .andExpect(jsonPath("$.status", Matchers.equalTo("AVAILABLE")))
                 .andExpect(jsonPath("$.categoryId", Matchers.equalTo(3)));

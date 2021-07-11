@@ -1,5 +1,6 @@
 package com.rockieslearning.crud.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rockieslearning.crud.dto.CartDto;
 import com.rockieslearning.crud.dto.CartFoodDto;
 import com.rockieslearning.crud.dto.OrderDto;
@@ -49,6 +50,7 @@ public class OrderControllerTest {
     OrderFoodDto mockOrderFoodDto = new OrderFoodDto(1, 10, 20000.0, "name", "image");
 
 
+    private static ObjectMapper mapper = new ObjectMapper();
 
 
 
@@ -70,7 +72,7 @@ public class OrderControllerTest {
 
         mockMvc.perform(get("/api/orders").requestAttr("userId", Long.valueOf(1)).contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id", Matchers.equalTo(1)))
+                .andExpect(jsonPath("$[0].orderId", Matchers.equalTo(1)))
                 .andExpect(jsonPath("$[0].userId", Matchers.equalTo(1)));
 
     }
@@ -100,22 +102,12 @@ public class OrderControllerTest {
 
         mockMvc.perform(get("/api/orders/{orderId}", 1).requestAttr("userId", Long.valueOf(1)).contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", Matchers.equalTo(1)))
+                .andExpect(jsonPath("$.orderId", Matchers.equalTo(1)))
                 .andExpect(jsonPath("$.userId", Matchers.equalTo(1)));
 
     }
 
 
-
-
-    @PutMapping("/{orderId}")
-    public ResponseEntity<OrderDto> updateOrder(HttpServletRequest request,
-                                                     @PathVariable("orderId") Integer orderId,
-                                                     @RequestBody OrderDto orderDto) {
-
-        OrderDto order = orderService.updateOrder(orderId, orderDto);
-        return new ResponseEntity<>(order, HttpStatus.CREATED);
-    }
 
 
 
@@ -128,14 +120,15 @@ public class OrderControllerTest {
         mockOrderDto.setOrderFoods(orderFoodDtoSet);
 
 
+        String json = mapper.writeValueAsString(mockOrderDto);  //rq
 
         //rp
         Mockito.when(orderService.updateOrder(ArgumentMatchers.anyInt(), ArgumentMatchers.any())).thenReturn(mockOrderDto);
 
 
         mockMvc.perform(put("/api/customers/orders/{orderId}", 1).requestAttr("userId", Long.valueOf(1)).contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
-                .accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id", Matchers.equalTo(1)))
+                .content(json).accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated())
+                .andExpect(jsonPath("$.orderId", Matchers.equalTo(1)))
                 .andExpect(jsonPath("$.userId", Matchers.equalTo(1)));
 
     }

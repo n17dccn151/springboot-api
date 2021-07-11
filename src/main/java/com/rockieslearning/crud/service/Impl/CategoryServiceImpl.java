@@ -37,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
         try {
             return new CategoryDto().toDto(repository.save(category));
         } catch (Exception e) {
-            throw new BadRequestException("invalid Request");
+            throw new BadRequestException("invalid Request" + e.getMessage());
         }
 
 

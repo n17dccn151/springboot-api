@@ -233,10 +233,9 @@ public class CustomerControllerTest {
 
         mockMvc.perform(get("/api/customers/orders").requestAttr("userId", Long.valueOf(1)).contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", Matchers.equalTo(1)))
-                .andExpect(jsonPath("$.orderId", Matchers.equalTo(1)))
-                .andExpect(jsonPath("$.status", Matchers.equalTo("ORDERED")))
-                .andExpect(jsonPath("$.orderId", Matchers.equalTo(1)));
+                .andExpect(jsonPath("$[0].orderId", Matchers.equalTo(1)))
+                .andExpect(jsonPath("$[0].status", Matchers.equalTo("ORDERED")))
+                .andExpect(jsonPath("$[0].orderId", Matchers.equalTo(1)));
 
     }
 
@@ -258,8 +257,8 @@ public class CustomerControllerTest {
         Mockito.when(orderService.createNewOrderFromCart(ArgumentMatchers.anyLong())).thenReturn(mockOrderDto);
 
 
-        mockMvc.perform(post("/api/customers/orders").param("all", "true").requestAttr("userId", Long.valueOf(1)).contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
-                .accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated())
+        mockMvc.perform(post("/api/customers/orders?all=true").requestAttr("userId", Long.valueOf(1)).contentType(MediaType.APPLICATION_JSON).characterEncoding("utf-8")
+                 /*them*/       .accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", Matchers.equalTo(1)))
                 .andExpect(jsonPath("$.userId", Matchers.equalTo(1)));
 

@@ -20,6 +20,7 @@ import java.util.Set;
 public class CategoryDto {
 
 
+    @Id
     private Integer categoryId;
 
 

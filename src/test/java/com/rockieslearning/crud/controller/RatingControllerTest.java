@@ -47,7 +47,7 @@ public class RatingControllerTest {
 
     private static ObjectMapper mapper = new ObjectMapper();
 
-    FoodRatingDto mockFoodRatingDto = new FoodRatingDto(1,1,Long.valueOf(1), "commnent", 5, "user name");
+    FoodRatingDto mockFoodRatingDto = new FoodRatingDto(1,1,Long.valueOf(1), "comment", 5, "user name");
 
 
 
