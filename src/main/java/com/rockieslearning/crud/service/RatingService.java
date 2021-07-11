@@ -16,7 +16,7 @@ public interface RatingService {
 
     public List<FoodRatingDto> retrieveFoodRatings(Integer foodID);
 
-    public void deleteFoodRating(Integer Id) throws ResourceNotFoundException;
+    public String deleteFoodRating(Integer Id) throws ResourceNotFoundException;
 
     public FoodRatingDto updateFoodRating(Integer id, FoodRatingDto foodRatingDto) throws ResourceNotFoundException, BadRequestException;
 

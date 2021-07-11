@@ -23,9 +23,10 @@ import java.util.Map;
 /**
  * Created by TanVOD on Jul, 2021
  */
+
 @RestController
 @RequestMapping("/api/comments")
-public class CommentController {
+public class RatingController {
     @Autowired
     private UserService userService;
 
@@ -37,7 +38,7 @@ public class CommentController {
 
 
     @PostMapping("")
-    public ResponseEntity<FoodRatingDto> addUser(HttpServletRequest request,
+    public ResponseEntity<FoodRatingDto> addRating(HttpServletRequest request,
                                                  @RequestBody @Valid FoodRatingDto foodRatingDto) throws ParseException {
 
         Long userId = (Long) request.getAttribute("userId");
@@ -47,7 +48,7 @@ public class CommentController {
 
 
     @PutMapping("/{ratingId}")
-    public ResponseEntity<FoodRatingDto> updateUser(HttpServletRequest request,
+    public ResponseEntity<FoodRatingDto> updateRating(HttpServletRequest request,
                                                     @PathVariable("ratingId") Integer ratingId,
                                                     @RequestBody @Valid FoodRatingDto foodRatingDto) {
 
@@ -58,8 +59,8 @@ public class CommentController {
 
 
     @DeleteMapping("/{ratingId}")
-    public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,
-                                                               @PathVariable("userId") Integer ratingId) throws ParseException {
+    public ResponseEntity<Map<String, Boolean>> deleteRating(HttpServletRequest request,
+                                                               @PathVariable("ratingId") Integer ratingId) throws ParseException {
 
         ratingService.deleteFoodRating(ratingId);
 

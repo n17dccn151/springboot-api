@@ -65,7 +65,7 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
-    public void deleteFoodRating(Integer id) throws ResourceNotFoundException {
+    public String deleteFoodRating(Integer id) throws ResourceNotFoundException {
 
         FoodRating foodRating = foodRatingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("foodRating not found for this id: " + id));
@@ -76,6 +76,7 @@ public class RatingServiceImpl implements RatingService {
         } catch (Exception e) {
             throw new BadRequestException("invalid Request" + e.getMessage());
         }
+        return "deleted";
     }
 
     @Override

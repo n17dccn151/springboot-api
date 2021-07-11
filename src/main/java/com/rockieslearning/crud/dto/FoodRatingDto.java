@@ -83,6 +83,18 @@ public class FoodRatingDto {
     }
 
 
+    public FoodRatingDto(Integer id, Integer foodId, Long userId, String comment, Integer rating, String userName) {
+        this.id = id;
+        this.foodId = foodId;
+        this.userId = userId;
+        this.comment = comment;
+        this.rating = rating;
+        this.userName = userName;
+    }
+
+    public FoodRatingDto() {
+    }
+
     public Integer getFoodId() {
         return foodId;
     }
