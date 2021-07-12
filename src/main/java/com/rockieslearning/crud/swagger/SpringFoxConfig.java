@@ -27,7 +27,7 @@ public class SpringFoxConfig implements WebMvcConfigurer {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(Predicate.not(PathSelectors.regex("/error.*")))
+                //.paths(Predicate.not(PathSelectors.regex("/error.*")))
                 .build();
     }
 
