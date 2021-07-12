@@ -133,7 +133,8 @@ public class FoodServiceImpl implements FoodService {
             throw new BadRequestException("invalid Request" + e.getMessage());
         }
 
-        return new FoodDto().toDto(repository.getById(foodId));
+        return new FoodDto().toDto(repository.findById(food.getFoodId())
+                .orElseThrow(() -> new ResourceNotFoundException("Food not found for this id")));
 
     }
 

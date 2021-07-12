@@ -133,9 +133,9 @@ public class OrderServiceImpl implements OrderService {
         }
 
         throw new BadRequestException("Invalid request");
-
-
     }
+
+
 
     @Override
     public OrderDto createNewOrder(Long userId, OrderDto orderDto) throws ResourceNotFoundException, BadRequestException {
