@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -45,10 +47,14 @@ public class PublicController {
 
     @JsonView(View.FoodWithImage.class)
     @GetMapping("/foods")
-    public ResponseEntity<List<FoodDto>> getAllFood() {
+    public ResponseEntity<Map<String, Object>> getAllFood() {
 
         List<FoodDto> foodDtos = foodService.retrieveFoods();
-        return new ResponseEntity<>(foodDtos, HttpStatus.OK);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("foods", foodDtos);
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @JsonView(View.FoodWithImageComment.class)
