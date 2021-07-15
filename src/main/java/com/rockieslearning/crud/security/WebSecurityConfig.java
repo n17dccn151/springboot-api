@@ -7,6 +7,7 @@ import com.rockieslearning.crud.security.jwt.JwtUtils;
 import com.rockieslearning.crud.security.services.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -62,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    private static final String[] AUTH_WHITELIST = {
+    private static final String[] LIST_SWAGGER = {
             // -- Swagger UI v2
             "/v2/api-docs",
             "/swagger-resources",
@@ -78,17 +79,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
 
+
+
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
+                .antMatchers(LIST_SWAGGER).permitAll()
+
                 .antMatchers("/api/auth/**").permitAll()
-                .antMatchers(AUTH_WHITELIST).permitAll()
-                .antMatchers("/api/public/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/foods/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/categories/**").permitAll()
+
+
                 .antMatchers("/api/customers/**").hasRole("USER")
                 .anyRequest().hasRole("ADMIN");
+
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -19,6 +21,8 @@ import java.util.*;
  * Created by TanVOD on Jun, 2021
  */
 
+@Getter
+@Setter
 @Entity
 @Table(name = "FOODS")
 public class Food {
@@ -122,126 +126,119 @@ public class Food {
     }
 
 
-    //    public OrderFood getOrderFood() {
-//        return orderFood;
+//
+//
+//    public String getFoodStatusName() {
+//        return foodStatusName;
 //    }
 //
-//    public void setOrderFood(OrderFood orderFood) {
-//        this.orderFood = orderFood;
-//    }
-
-
-    public String getFoodStatusName() {
-        return foodStatusName;
-    }
-
-    public void setFoodStatusName(String foodStatusName) {
-        this.foodStatusName = foodStatusName;
-    }
-
-    public Set<OrderFood> getOrderFoods() {
-        return orderFoods;
-    }
-
-    public void setOrderFoods(Set<OrderFood> orderFoods) {
-        this.orderFoods = orderFoods;
-    }
-
-    public Integer getFoodId() {
-        return foodId;
-    }
-
-    public void setFoodId(Integer foodId) {
-        this.foodId = foodId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-//    public CartFood getCartFood() {
-//        return cartFood;
+//    public void setFoodStatusName(String foodStatusName) {
+//        this.foodStatusName = foodStatusName;
 //    }
 //
-//    public void setCartFood(CartFood cartFood) {
-//        this.cartFood = cartFood;
+//    public Set<OrderFood> getOrderFoods() {
+//        return orderFoods;
 //    }
-
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Set<CartFood> getCartFoods() {
-        return cartFoods;
-    }
-
-    public void setCartFoods(Set<CartFood> cartFoods) {
-        this.cartFoods = cartFoods;
-    }
-
-
-    public List<FoodImage> getImages() {
-        return images;
-    }
-
-    public void setImages(List<FoodImage> images) {
-        this.images = images;
-    }
-
-    public List<FoodRating> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(List<FoodRating> ratings) {
-        this.ratings = ratings;
-    }
+//
+//    public void setOrderFoods(Set<OrderFood> orderFoods) {
+//        this.orderFoods = orderFoods;
+//    }
+//
+//    public Integer getFoodId() {
+//        return foodId;
+//    }
+//
+//    public void setFoodId(Integer foodId) {
+//        this.foodId = foodId;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public Double getPrice() {
+//        return price;
+//    }
+//
+//    public void setPrice(Double price) {
+//        this.price = price;
+//    }
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
+//
+//    public Category getCategory() {
+//        return category;
+//    }
+//
+//    public void setCategory(Category category) {
+//        this.category = category;
+//    }
+//
+//    public Date getCreatedDate() {
+//        return createdDate;
+//    }
+//
+//    public void setCreatedDate(Date createdDate) {
+//        this.createdDate = createdDate;
+//    }
+//
+//    public Date getUpdatedDate() {
+//        return updatedDate;
+//    }
+//
+//    public void setUpdatedDate(Date updatedDate) {
+//        this.updatedDate = updatedDate;
+//    }
+//
+////    public CartFood getCartFood() {
+////        return cartFood;
+////    }
+////
+////    public void setCartFood(CartFood cartFood) {
+////        this.cartFood = cartFood;
+////    }
+//
+//
+//    public Integer getQuantity() {
+//        return quantity;
+//    }
+//
+//    public void setQuantity(Integer quantity) {
+//        this.quantity = quantity;
+//    }
+//
+//    public Set<CartFood> getCartFoods() {
+//        return cartFoods;
+//    }
+//
+//    public void setCartFoods(Set<CartFood> cartFoods) {
+//        this.cartFoods = cartFoods;
+//    }
+//
+//
+//    public List<FoodImage> getImages() {
+//        return images;
+//    }
+//
+//    public void setImages(List<FoodImage> images) {
+//        this.images = images;
+//    }
+//
+//    public List<FoodRating> getRatings() {
+//        return ratings;
+//    }
+//
+//    public void setRatings(List<FoodRating> ratings) {
+//        this.ratings = ratings;
+//    }
 }

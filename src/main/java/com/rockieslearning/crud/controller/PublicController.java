@@ -29,42 +29,44 @@ public class PublicController {
     private FoodService foodService;
 
 
-    @GetMapping("/categories")
-    public ResponseEntity<List<CategoryDto>> getAllCategory() {
+//    @GetMapping("/categories")
+//    public ResponseEntity<List<CategoryDto>> getAllCategory() {
+//
+//        List<CategoryDto> categories = categoryService.retrieveCategories();
+//        return new ResponseEntity<>(categories, HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/categories/{categoryId}")
+//    public ResponseEntity<CategoryDto> getCategoryById(HttpServletRequest request,
+//                                                       @PathVariable("categoryId") Integer categoryId) {
+//
+//
+//        CategoryDto categoryDto = categoryService.getCategoryById(categoryId);
+//        return new ResponseEntity<>(categoryDto, HttpStatus.OK);
+//    }
 
-        List<CategoryDto> categories = categoryService.retrieveCategories();
-        return new ResponseEntity<>(categories, HttpStatus.OK);
-    }
-
-    @GetMapping("/categories/{categoryId}")
-    public ResponseEntity<CategoryDto> getCategoryById(HttpServletRequest request,
-                                                       @PathVariable("categoryId") Integer categoryId) {
-
-
-        CategoryDto categoryDto = categoryService.getCategoryById(categoryId);
-        return new ResponseEntity<>(categoryDto, HttpStatus.OK);
-    }
-
-    @JsonView(View.FoodWithImage.class)
-    @GetMapping("/foods")
-    public ResponseEntity<Map<String, Object>> getAllFood() {
-
-        List<FoodDto> foodDtos = foodService.retrieveFoods();
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("foods", foodDtos);
-
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
-    @JsonView(View.FoodWithImageComment.class)
-    @GetMapping("/foods/{foodId}")
-    public ResponseEntity<FoodDto> getFoodById(HttpServletRequest request,
-                                               @PathVariable("foodId") Integer foodId) {
-
-        FoodDto foodDto = foodService.getFoodById(foodId);
-        return new ResponseEntity<>(foodDto, HttpStatus.OK);
-    }
+//    @JsonView(View.FoodWithImage.class)
+//    @GetMapping("/foods")
+//    public ResponseEntity<Map<String, Object>> getAllFood() {
+//
+//        List<FoodDto> foodDtos = foodService.retrieveFoods();
+//
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("foods", foodDtos);
+//
+//        return new ResponseEntity<>(map, HttpStatus.OK);
+//    }
+//
+//    @JsonView(View.FoodWithImageComment.class)
+//    @GetMapping("/foods/{foodId}")
+//    public ResponseEntity<FoodDto> getFoodById(HttpServletRequest request,
+//                                               @PathVariable("foodId") Integer foodId) {
+//
+//        FoodDto foodDto = foodService.getFoodById(foodId);
+//
+//
+//        return new ResponseEntity<>(foodDto, HttpStatus.OK);
+//    }
 
 
 }

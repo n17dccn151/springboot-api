@@ -26,6 +26,7 @@ import java.util.*;
 /**
  * Created by TanVOD on Jun, 2021
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -88,15 +89,15 @@ public class UserController {
     }
 
 
-//    @DeleteMapping("/{userId}")
-//    public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,
-//                                                               @PathVariable("userId") Long userId) throws ParseException {
-//
-//        userService.deleteUser(userId);
-//
-//        Map<String, Boolean> map = new HashMap<>();
-//        map.put("success", true);
-//        return new ResponseEntity<>(map, HttpStatus.OK);
-//    }
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,
+                                                               @PathVariable("userId") Long userId) throws ParseException {
+
+        userService.deleteUser(userId);
+
+        Map<String, Boolean> map = new HashMap<>();
+        map.put("success", true);
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
 
 }

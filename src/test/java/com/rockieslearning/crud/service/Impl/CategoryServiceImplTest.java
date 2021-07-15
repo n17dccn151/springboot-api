@@ -49,8 +49,6 @@ public class CategoryServiceImplTest {
     @InjectMocks
     private CategoryServiceImpl categoryService;
 
-//    @Rule
-//    public final ResourceNotFoundException exception = new ResourceNotFoundException("");
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();

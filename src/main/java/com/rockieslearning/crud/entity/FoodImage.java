@@ -1,6 +1,8 @@
 package com.rockieslearning.crud.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -9,6 +11,8 @@ import javax.persistence.*;
 /**
  * Created by TanVOD on Jun, 2021
  */
+@Getter
+@Setter
 @Entity
 @Table(name = "FOOD_IMAGES")
 public class FoodImage {
@@ -37,27 +41,27 @@ public class FoodImage {
         this.food = food;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Food getFood() {
-        return food;
-    }
-
-    public void setFood(Food food) {
-        this.food = food;
-    }
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+//
+//    public String getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(String image) {
+//        this.image = image;
+//    }
+//
+//    public Food getFood() {
+//        return food;
+//    }
+//
+//    public void setFood(Food food) {
+//        this.food = food;
+//    }
 }

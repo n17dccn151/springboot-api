@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Created by TanVOD on Jun, 2021
  */
-
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/foods")
 public class FoodController {

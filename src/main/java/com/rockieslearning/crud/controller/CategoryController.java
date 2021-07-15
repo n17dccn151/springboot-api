@@ -3,6 +3,7 @@ package com.rockieslearning.crud.controller;
 import com.rockieslearning.crud.dto.CategoryDto;
 import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.User;
+import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.service.CategoryService;
 import com.rockieslearning.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.util.Map;
 /**
  * Created by TanVOD on Jun, 2021
  */
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
@@ -41,10 +43,12 @@ public class CategoryController {
 
     @GetMapping("/{categoryId}")
     public ResponseEntity<CategoryDto> getCategoryById(HttpServletRequest request,
-                                                       @PathVariable("categoryId") Integer categoryId) {
+                                                       @PathVariable("categoryId") Integer categoryId) throws ResourceNotFoundException {
 
 
         CategoryDto categoryDto = categoryService.getCategoryById(categoryId);
+
+
         return new ResponseEntity<>(categoryDto, HttpStatus.OK);
     }
 
