@@ -96,7 +96,7 @@ public class CartServiceImplTest {
 
         food = new Food();
         food.setFoodId(1);
-        food.setFoodStatusName("AVAILABLE");
+        food.setFoodStatusName(FoodStatusName.AVAILABLE);
         food.setQuantity(100);
         food.setImages(null);
         food.setPrice(100000D);

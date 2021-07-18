@@ -2,6 +2,7 @@ package com.rockieslearning.crud.controller;
 
 import com.rockieslearning.crud.dto.*;
 import com.rockieslearning.crud.entity.UserDetail;
+import com.rockieslearning.crud.entity.UserDetailStatusName;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.service.CartService;
 import com.rockieslearning.crud.service.OrderService;
@@ -73,10 +74,14 @@ public class CustomerController {
 
     @PutMapping("/details/{detailId}")
     public ResponseEntity<UserDetailDto> updateUserDetailById(HttpServletRequest request,
+                                                              @RequestParam(required = false) UserDetailStatusName status,
                                                               @PathVariable("detailId") Integer detailId,
                                                               @RequestBody @Valid UserDetailDto userDetailDto) {
 
 
+        if(status!= null){
+            UserDetailDto saveUserDetailDto = userService.updateUserDetailStatus(detailId, status);
+        }
         UserDetailDto saveUserDetailDto = userService.updateUserDetail(detailId, userDetailDto);
         return new ResponseEntity<>(saveUserDetailDto, HttpStatus.OK);
 
@@ -105,6 +110,9 @@ public class CustomerController {
         return new ResponseEntity<>(cartDto, HttpStatus.OK);
     }
 
+
+
+
     @PostMapping("/cart")
     public ResponseEntity<CartDto> addCartQty(HttpServletRequest request
             , @RequestBody @Valid CartFoodDto cartFoodDto) {
@@ -127,16 +135,26 @@ public class CustomerController {
     @PostMapping("/orders")
     public ResponseEntity<OrderDto> addOrder(HttpServletRequest request,
                                              @RequestParam(required = false) boolean all,
-                                             @RequestBody @Valid OrderDto orderDto) {
+                                             @RequestBody(required = false) @Valid OrderFoodDto orderFoodDto) {
 
         Long userId = (Long) request.getAttribute("userId");
         if (all) {
             OrderDto order = orderService.createNewOrderFromCart(userId);
             return new ResponseEntity<>(order, HttpStatus.CREATED);
         }
-        OrderDto order = orderService.createNewOrder(userId, orderDto);
+        OrderDto order = orderService.createNewOrder(userId, orderFoodDto);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
+
+
+    ////////////////
+    @GetMapping("/orders/{orderId}")
+    public ResponseEntity<OrderDto> getOrderById(HttpServletRequest request,
+                                                 @PathVariable("orderId") Integer orderId) {
+
+        OrderDto orderDto = orderService.getOrderById(orderId);
+        return new ResponseEntity<>(orderDto, HttpStatus.OK);
+    }
 
 }

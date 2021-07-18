@@ -4,10 +4,14 @@ import com.rockieslearning.crud.dto.FoodDto;
 import com.rockieslearning.crud.dto.FoodImageDto;
 import com.rockieslearning.crud.entity.*;
 import com.rockieslearning.crud.entity.Food;
+import com.rockieslearning.crud.helper.SortDirection;
 import com.rockieslearning.crud.service.CategoryService;
 import com.rockieslearning.crud.service.FoodService;
 import com.rockieslearning.crud.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,9 +37,26 @@ public class FoodController {
 
 
     @GetMapping("")
-    public ResponseEntity<List<FoodDto>> getAllFood() {
+    public ResponseEntity<List<FoodDto>> getAllFood(
+            @RequestParam(required = false) String name,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "6") int size,
+            @RequestParam(defaultValue = "foodId,desc") String[] sort) {
 
-        List<FoodDto> foodDtos = foodService.retrieveFoods();
+        SortDirection sortDirection = new SortDirection();
+        List<Sort.Order> orders;
+        orders = sortDirection.getSortOrders(sort);
+        Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
+
+
+        List<FoodDto> foodDtos = new ArrayList<>();
+
+        if (name == null) {
+            foodDtos = foodService.retrieveFoods(pagingSort);
+        } else {
+            foodDtos = foodService.getFoodByName(name, pagingSort);
+        }
+
         return new ResponseEntity<>(foodDtos, HttpStatus.OK);
     }
 
@@ -72,7 +93,7 @@ public class FoodController {
 
     @DeleteMapping("/{foodId}")
     public ResponseEntity<Map<String, Boolean>> deleteFood(HttpServletRequest request,
-                                                           @PathVariable("foodId") Integer foodId)  {
+                                                           @PathVariable("foodId") Integer foodId) {
 
 
         foodService.deleteFood(foodId);

@@ -1,17 +1,20 @@
 package com.rockieslearning.crud;
 
+import com.rockieslearning.crud.service.LocalFilesStorageService;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
-
+import javax.annotation.Resource;
 
 
 @SpringBootApplication
-public class SpringBootCrudApplication {
+public class SpringBootCrudApplication implements CommandLineRunner {
 
+	@Resource
+    LocalFilesStorageService storageService;
 
 	@Bean
 	public ModelMapper modelMapper(){
@@ -23,6 +26,11 @@ public class SpringBootCrudApplication {
 		SpringApplication.run(SpringBootCrudApplication.class, args);
 	}
 
+	@Override
+	public void run(String... arg) throws Exception {
+		storageService.deleteAll();
+		storageService.init();
+	}
 
 //	@Bean
 //	public FilterRegistrationBean<AuthFilter> filterRegistrationBean(){

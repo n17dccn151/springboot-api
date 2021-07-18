@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "FOOD_IMAGES")
+@Table(name = "FOOD_IMAGES", indexes = @Index(name = "fn_image_index", columnList = "food_id"))
 public class FoodImage {
 
 

@@ -1,6 +1,8 @@
 package com.rockieslearning.crud.dto;
 
 import com.rockieslearning.crud.entity.CartFood;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -12,7 +14,8 @@ import java.util.List;
  * Created by TanVOD on Jun, 2021
  */
 
-
+@Getter
+@Setter
 public class CartFoodDto {
 
 
@@ -21,6 +24,9 @@ public class CartFoodDto {
 
     @Min(value = 0, message = "amount should not be less than 0")
     private Integer amount;
+
+
+    private Integer histAmount;
 
     private Double price;
 
@@ -33,7 +39,7 @@ public class CartFoodDto {
         CartFoodDto dto = new CartFoodDto();
         dto.setId(entity.getFood().getFoodId());
         dto.setAmount(entity.getAmount());
-
+        dto.setHistAmount(entity.getHistAmount());
 
         if (entity.getFood() != null) {
             dto.setName(entity.getFood().getName());
@@ -75,43 +81,43 @@ public class CartFoodDto {
         this.image = image;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+//
+//    public Integer getAmount() {
+//        return amount;
+//    }
+//
+//    public void setAmount(Integer amount) {
+//        this.amount = amount;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public String getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(String image) {
+//        this.image = image;
+//    }
+//
+//    public Double getPrice() {
+//        return price;
+//    }
+//
+//    public void setPrice(Double price) {
+//        this.price = price;
+//    }
 }

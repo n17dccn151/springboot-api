@@ -1,17 +1,22 @@
 package com.rockieslearning.crud.service.Impl;
 
 import com.rockieslearning.crud.dto.OrderDto;
+import com.rockieslearning.crud.dto.OrderFoodDto;
+import com.rockieslearning.crud.dto.UserDto;
 import com.rockieslearning.crud.entity.*;
 import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.repository.*;
 import com.rockieslearning.crud.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springfox.documentation.schema.Enums;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -22,7 +27,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 
 @Service
-//@Transactional
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
 
@@ -76,11 +81,61 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderDto> retrieveOrders(OrderStatusName statusName, Pageable pageable) {
+        List<Order> orders =  new ArrayList<>();
+
+        Page<Order> orderPage;
+
+        try {
+            orderPage = repository.findOrdersByStatus(statusName, pageable);
+        }catch (Exception e){
+            throw new BadRequestException("invalid Request " + e.getMessage());
+        }
+
+        orders = orderPage.getContent();
+        return new OrderDto().toListDto(orders);
+    }
+
+    @Override
     public OrderDto getOrderById(int id) throws ResourceNotFoundException {
         Order order = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found for this id: " + id));
 
         return new OrderDto().toDto(order);
+    }
+
+    @Override
+    public List<OrderDto> retrieveOrderById(OrderStatusName statusName, String id, Pageable pageable) throws ResourceNotFoundException {
+        List<Order> orders =  new ArrayList<>();
+
+
+        Page<Order> orderPage;
+        try {
+            System.out.println("____________+++++++++++==-");
+            orderPage = repository.findOrdersByStatusAndOrderIdContaining( statusName, id,pageable);
+        }catch (Exception e){
+            throw new BadRequestException("invalid Request " + e.getMessage());
+        }
+
+        orders = orderPage.getContent();
+        return new OrderDto().toListDto(orders);
+    }
+
+    @Override
+    public List<OrderDto> retrieveOrderById(String id, Pageable pageable) throws ResourceNotFoundException {
+        List<Order> orders =  new ArrayList<>();
+
+
+        Page<Order> orderPage;
+        try {
+            System.out.println("____________+++++++++++==-");
+            orderPage = repository.findOrdersByStatusAndOrderIdContaining(id,pageable);
+        }catch (Exception e){
+            throw new BadRequestException("invalid Request " + e.getMessage());
+        }
+
+        orders = orderPage.getContent();
+        return new OrderDto().toListDto(orders);
     }
 
     @Override
@@ -102,9 +157,9 @@ public class OrderServiceImpl implements OrderService {
 
 
         //chane swich case
-        for (Object s : OrderStatusName.values()) {
-            if (orderDto.getStatus().equals(s.toString()) && orderDto.getStatus().equals(existOrder.getStatus()) == false) {
-                existOrder.setStatus(s.toString());
+        for (OrderStatusName s : OrderStatusName.values()) {
+            if (orderDto.getStatus().equals(s) && orderDto.getStatus().equals(existOrder.getStatus()) == false) {
+                existOrder.setStatus(s);
 
                 if (s.toString().equals(OrderStatusName.CANCELLED.toString())) {
                     existOrder.getOrderFoods().forEach(e -> {
@@ -117,7 +172,7 @@ public class OrderServiceImpl implements OrderService {
                     });
                 }
 
-                if (s.toString().equals(OrderStatusName.ORDRED.toString())) {
+                if (s.toString().equals(OrderStatusName.ORDERED.toString())) {
                     existOrder.getOrderFoods().forEach(e -> {
 
                         Food food = new Food();
@@ -138,7 +193,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public OrderDto createNewOrder(Long userId, OrderDto orderDto) throws ResourceNotFoundException, BadRequestException {
+    public OrderDto createNewOrder(Long userId, OrderFoodDto orderFoodDto) throws ResourceNotFoundException, BadRequestException {
 
 /*{
         "userId": 7,
@@ -150,7 +205,7 @@ public class OrderServiceImpl implements OrderService {
         ]
 }*/
         Order order = new Order();
-        order.setStatus("ORDERED");
+        order.setStatus(OrderStatusName.ORDERED);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
         order.setUser(user);
@@ -161,21 +216,32 @@ public class OrderServiceImpl implements OrderService {
             saveOrder = repository.save(order);
 
 
-            orderDto.getOrderFoods().forEach(e -> {
+            //orderDto.getOrderFoods().forEach(e -> {
 
                 Food food = new Food();
-                food = foodRepository.findById(e.getId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
-                food.setQuantity(food.getQuantity() - e.getAmount());
+                food = foodRepository.findById(orderFoodDto.getId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
+
+                if(food.getQuantity()< orderFoodDto.getAmount()){
+                    food.setQuantity(food.getQuantity());
+                }
+
+                food.setQuantity(food.getQuantity() - orderFoodDto.getAmount());
                 foodRepository.save(food);
 
                 OrderFood orderFood = new OrderFood();
                 orderFood.setOrder(saveOrder);
                 orderFood.setFood(food);
-                orderFood.setAmount(e.getAmount());
+
+                if(orderFoodDto.getAmount()>food.getQuantity()){
+                    orderFood.setAmount(food.getQuantity());
+                }
+
+
+                orderFood.setAmount(orderFoodDto.getAmount());
                 orderFood.setPrice(food.getPrice());
                 orderFoodRepository.save(orderFood);
 
-            });
+            //});
 
 
         } catch (Exception e) {
@@ -201,7 +267,7 @@ public class OrderServiceImpl implements OrderService {
         Cart cart = cartRepository.findByUser(user);
 
         Order order = new Order();
-        order.setStatus("ORDERED");
+        order.setStatus(OrderStatusName.ORDERED);
         order.setUser(user);
 
 
@@ -216,6 +282,9 @@ public class OrderServiceImpl implements OrderService {
             OrderFood orderFood = new OrderFood();
             orderFood.setOrder(saveOrder);
             orderFood.setFood(food);
+            if(e.getAmount()>food.getQuantity()){
+                orderFood.setAmount(food.getQuantity());
+            }
             orderFood.setAmount(e.getAmount());
             orderFood.setPrice(food.getPrice());
             orderFoodRepository.save(orderFood);

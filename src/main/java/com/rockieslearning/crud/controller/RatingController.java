@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/api/rating")
 public class RatingController {
     @Autowired
     private UserService userService;

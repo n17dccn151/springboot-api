@@ -1,11 +1,9 @@
 package com.rockieslearning.crud.service.Impl;
 
+import com.rockieslearning.crud.dto.FoodDto;
 import com.rockieslearning.crud.dto.UserDetailDto;
 import com.rockieslearning.crud.dto.UserDto;
-import com.rockieslearning.crud.entity.Role;
-import com.rockieslearning.crud.entity.RoleName;
-import com.rockieslearning.crud.entity.User;
-import com.rockieslearning.crud.entity.UserDetail;
+import com.rockieslearning.crud.entity.*;
 import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.payload.request.LoginRequest;
@@ -19,6 +17,8 @@ import com.rockieslearning.crud.security.jwt.JwtUtils;
 import com.rockieslearning.crud.security.services.UserDetailsImpl;
 import com.rockieslearning.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -77,6 +77,44 @@ public class UserServiceImpl implements UserService {
 
         List<User> users = userRepository.findAll();
 
+        return new UserDto().toListDto(users);
+    }
+
+    @Override
+    public List<UserDto> retrieveUsers(RoleName role, Pageable pageable) throws BadRequestException {
+        List<User> users = new ArrayList<>();
+
+        Role role1 = roleRepository.findByName(role)
+                .orElseThrow(() -> new ResourceNotFoundException("role not found"));
+
+
+        Page<User> userPage;
+        try {
+            userPage = userRepository.findUserByRoles(role1, pageable);
+        } catch (Exception e) {
+            throw new BadRequestException("invalid Request " + e.getMessage());
+        }
+
+        users = userPage.getContent();
+        return new UserDto().toListDto(users);
+    }
+
+    @Override
+    public List<UserDto> getUserByPhone(RoleName role, String phone, Pageable pageable) throws BadRequestException {
+        List<User> users = new ArrayList<>();
+
+        Role role1 = roleRepository.findByName(role)
+                .orElseThrow(() -> new ResourceNotFoundException("role not found"));
+
+
+        Page<User> userPage;
+        try {
+            userPage = userRepository.findUserByRolesAndPhoneContaining(role1, phone, pageable);
+        } catch (Exception e) {
+            throw new BadRequestException("invalid Request " + e.getMessage());
+        }
+
+        users = userPage.getContent();
         return new UserDto().toListDto(users);
     }
 
@@ -235,6 +273,13 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("user not found for this id"));
         userDetail.setUser(user);
 
+        List<UserDetail> userDetails = userDetailRepository.findAll();
+        if (userDetails.isEmpty()) {
+            userDetail.setStatus(UserDetailStatusName.DEFAULT);
+        } else {
+            userDetail.setStatus(UserDetailStatusName.UNDEFAULT);
+        }
+
         int id = userDetailRepository.save(userDetail).getId();
         try {
             return new UserDetailDto().toDto(userDetailRepository.getById(id));
@@ -252,13 +297,47 @@ public class UserServiceImpl implements UserService {
         userDetail.setLastName(userDetailDto.getLastName());
         userDetail.setPhone(userDetailDto.getPhone());
         userDetail.setAddress(userDetailDto.getAddress());
-
+        userDetail.setStatus(userDetailDto.getStatus());
         try {
             return new UserDetailDto().toDto(userDetailRepository.save(userDetail));
         } catch (Exception e) {
             throw new BadRequestException("invalid Request");
         }
     }
+
+    @Override
+    public UserDetailDto updateUserDetailStatus(Integer detailId, UserDetailStatusName userDetailStatusName) throws BadRequestException {
+
+        UserDetail userDetail1 = userDetailRepository.findById(detailId)
+                .orElseThrow(() -> new ResourceNotFoundException("userdetail not found for this id: " + detailId));
+
+        if (userDetailRepository.findAll().size() == 1) {
+            throw new BadRequestException("invalid request");
+        }
+
+        try {
+
+            if(userDetailStatusName.equals(UserDetailStatusName.UNDEFAULT)){
+                UserDetail userDetail = userDetailRepository.findUserDetailByStatus(UserDetailStatusName.DEFAULT);
+                userDetail.setStatus(UserDetailStatusName.UNDEFAULT);
+                userDetailRepository.save(userDetail);
+
+                userDetail1.setStatus(UserDetailStatusName.DEFAULT);
+                userDetailRepository.save(userDetail1);
+            }
+
+            if(userDetailStatusName.equals(UserDetailStatusName.DELETED)){
+                userDetail1.setStatus(UserDetailStatusName.DELETED);
+                userDetailRepository.save(userDetail1);
+            }
+
+
+        }catch (Exception e){
+            throw new BadRequestException("invalid request");
+        }
+        return new UserDetailDto().toDto(userDetail1);
+    }
+
 
     @Override
     public String deleteUserDetail(Integer detailId) throws ResourceNotFoundException {

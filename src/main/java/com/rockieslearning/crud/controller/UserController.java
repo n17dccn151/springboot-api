@@ -1,18 +1,20 @@
 package com.rockieslearning.crud.controller;
 
-import com.rockieslearning.crud.dto.CartDto;
-import com.rockieslearning.crud.dto.OrderDto;
-import com.rockieslearning.crud.dto.UserDetailDto;
-import com.rockieslearning.crud.dto.UserDto;
+import com.rockieslearning.crud.dto.*;
+import com.rockieslearning.crud.entity.RoleName;
 import com.rockieslearning.crud.entity.User;
 import com.rockieslearning.crud.entity.UserDetail;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
+import com.rockieslearning.crud.helper.SortDirection;
 import com.rockieslearning.crud.service.CartService;
 import com.rockieslearning.crud.service.OrderService;
 import com.rockieslearning.crud.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,10 +44,27 @@ public class UserController {
 
 
     @GetMapping("")
-    public ResponseEntity<List<UserDto>> getAllUsers() {
+    public ResponseEntity<List<UserDto>> getAllUsers(@RequestParam(required = false) String phone,
+                                                     @RequestParam(defaultValue = "0") int page,
+                                                     @RequestParam(defaultValue = "6") int size,
+                                                     @RequestParam(defaultValue = "ROLE_USER")  RoleName role,
+                                                     @RequestParam(defaultValue = "userId,desc") String[] sort) {
+
+        SortDirection sortDirection = new SortDirection();
+        List<Sort.Order> orders;
+        orders = sortDirection.getSortOrders(sort);
+        Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
+
 
         List<UserDto> userDtos = new ArrayList<>();
-        userDtos = userService.retrieveUsers();
+
+        if (phone == null) {
+            userDtos = userService.retrieveUsers(role, pagingSort);
+        } else {
+            userDtos = userService.getUserByPhone(role, phone, pagingSort);
+        }
+
+
         return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 

@@ -2,6 +2,8 @@ package com.rockieslearning.crud.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -15,9 +17,10 @@ import java.util.Set;
 /**
  * Created by TanVOD on Jun, 2021
  */
-
+@Getter
+@Setter
 @Entity
-@Table(name = "ORDER_FOODS")
+@Table(name = "ORDER_FOODS", indexes = @Index(name = "fn_orderfood_index", columnList = "order_id"))
 public class OrderFood {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_foods_seq")
@@ -65,43 +68,43 @@ public class OrderFood {
         this.order = order;
     }
 
-    public Food getFood() {
-        return food;
-    }
-
-    public void setFood(Food food) {
-        this.food = food;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+//    public Food getFood() {
+//        return food;
+//    }
+//
+//    public void setFood(Food food) {
+//        this.food = food;
+//    }
+//
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+//
+//    public Double getPrice() {
+//        return price;
+//    }
+//
+//    public void setPrice(Double price) {
+//        this.price = price;
+//    }
+//
+//    public Integer getAmount() {
+//        return amount;
+//    }
+//
+//    public void setAmount(Integer amount) {
+//        this.amount = amount;
+//    }
+//
+//    public Order getOrder() {
+//        return order;
+//    }
+//
+//    public void setOrder(Order order) {
+//        this.order = order;
+//    }
 }

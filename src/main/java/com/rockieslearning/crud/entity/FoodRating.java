@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "FOOD_RATINGS")
+@Table(name = "FOOD_RATINGS", indexes = @Index(name = "fn_rating_index", columnList = "food_id"))
 public class FoodRating {
 
 

@@ -3,6 +3,9 @@ package com.rockieslearning.crud.dto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.rockieslearning.crud.entity.User;
 import com.rockieslearning.crud.entity.UserDetail;
+import com.rockieslearning.crud.entity.UserDetailStatusName;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.NumberFormat;
@@ -16,7 +19,8 @@ import java.util.List;
  * Created by TanVOD on Jun, 2021
  */
 
-
+@Getter
+@Setter
 public class UserDetailDto {
 
 
@@ -36,10 +40,14 @@ public class UserDetailDto {
 
     private Long userId;
 
+    @NotEmpty
+    private UserDetailStatusName status;
+
 
     public UserDetailDto toDto(UserDetail entity) {
         UserDetailDto dto = new UserDetailDto();
         dto.setId(entity.getId());
+        dto.setStatus(entity.getStatus());
         dto.setAddress(entity.getAddress());
         dto.setPhone(entity.getPhone());
         dto.setFirstName(entity.getFirstName());
@@ -56,7 +64,7 @@ public class UserDetailDto {
         entity.setPhone(dto.getPhone());
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
-
+        entity.setStatus(dto.getStatus());
         return entity;
     }
 
@@ -86,51 +94,51 @@ public class UserDetailDto {
         this.userId = userId;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+//
+//    public Long getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Long userId) {
+//        this.userId = userId;
+//    }
+//
+//    public String getFirstName() {
+//        return firstName;
+//    }
+//
+//    public void setFirstName(String firstName) {
+//        this.firstName = firstName;
+//    }
+//
+//    public String getLastName() {
+//        return lastName;
+//    }
+//
+//    public void setLastName(String lastName) {
+//        this.lastName = lastName;
+//    }
+//
+//    public String getPhone() {
+//        return phone;
+//    }
+//
+//    public void setPhone(String phone) {
+//        this.phone = phone;
+//    }
+//
+//    public String getAddress() {
+//        return address;
+//    }
+//
+//    public void setAddress(String address) {
+//        this.address = address;
+//    }
 }

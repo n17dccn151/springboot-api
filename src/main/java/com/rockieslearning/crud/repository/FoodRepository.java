@@ -4,6 +4,9 @@ import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.Food;
 import com.rockieslearning.crud.entity.Order;
 import com.rockieslearning.crud.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -13,4 +16,11 @@ import java.util.List;
  */
 public interface FoodRepository extends JpaRepository<Food, Integer> {
     List<Food> findByCategory(Category category);
+
+    List<Food> findByCategory(Category category , Pageable pageable);
+
+    Page<Food> findByNameContaining(String name, Pageable pageable);
+
+    List<Food> findByNameContaining(String name, Sort sort);
+
 }

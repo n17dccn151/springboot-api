@@ -3,6 +3,8 @@ package com.rockieslearning.crud.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.rockieslearning.crud.entity.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.*;
 import java.util.*;
@@ -11,7 +13,8 @@ import java.util.*;
  * Created by TanVOD on Jun, 2021
  */
 
-
+@Getter
+@Setter
 public class FoodDto {
 
 
@@ -33,7 +36,7 @@ public class FoodDto {
 
 
     @JsonView(View.Food.class)
-    private String status;
+    private FoodStatusName status;
 
 
     @JsonView(View.Food.class)
@@ -117,7 +120,7 @@ public class FoodDto {
     public FoodDto() {
     }
 
-    public FoodDto(Integer foodId, String name, Double price, Integer quantity, String status, String description, Integer categoryId) {
+    public FoodDto(Integer foodId, String name, Double price, Integer quantity, FoodStatusName status, String description, Integer categoryId) {
         this.foodId = foodId;
         this.name = name;
         this.price = price;
@@ -128,84 +131,84 @@ public class FoodDto {
 
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public List<FoodRatingDto> getRating() {
-        return rating;
-    }
-
-    public void setRating(List<FoodRatingDto> rating) {
-        this.rating = rating;
-    }
-
-    public Integer getFoodId() {
-        return foodId;
-    }
-
-    public void setFoodId(Integer foodId) {
-        this.foodId = foodId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public List<FoodImageDto> getImages() {
-        return images;
-    }
-
-    public void setImages(List<FoodImageDto> images) {
-        this.images = images;
-    }
-
-    public Double getRate() {
-        return rate;
-    }
-
-    public void setRate(Double rate) {
-        this.rate = rate;
-    }
+//    public String getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(String status) {
+//        this.status = status;
+//    }
+//
+//    public Integer getQuantity() {
+//        return quantity;
+//    }
+//
+//    public void setQuantity(Integer quantity) {
+//        this.quantity = quantity;
+//    }
+//
+//    public List<FoodRatingDto> getRating() {
+//        return rating;
+//    }
+//
+//    public void setRating(List<FoodRatingDto> rating) {
+//        this.rating = rating;
+//    }
+//
+//    public Integer getFoodId() {
+//        return foodId;
+//    }
+//
+//    public void setFoodId(Integer foodId) {
+//        this.foodId = foodId;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public Double getPrice() {
+//        return price;
+//    }
+//
+//    public void setPrice(Double price) {
+//        this.price = price;
+//    }
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
+//
+//
+//    public Integer getCategoryId() {
+//        return categoryId;
+//    }
+//
+//    public void setCategoryId(Integer categoryId) {
+//        this.categoryId = categoryId;
+//    }
+//
+//    public List<FoodImageDto> getImages() {
+//        return images;
+//    }
+//
+//    public void setImages(List<FoodImageDto> images) {
+//        this.images = images;
+//    }
+//
+//    public Double getRate() {
+//        return rate;
+//    }
+//
+//    public void setRate(Double rate) {
+//        this.rate = rate;
+//    }
 }

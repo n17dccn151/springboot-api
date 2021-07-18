@@ -2,6 +2,8 @@ package com.rockieslearning.crud.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rockieslearning.crud.entity.OrderFood;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -12,14 +14,14 @@ import java.util.List;
  * Created by TanVOD on Jun, 2021
  */
 
-
+@Getter
+@Setter
 public class OrderFoodDto {
 
     @NotNull(message = "id cannot be null")
     private Integer id;
 
-    @Size(min = 1, message
-            = "About Me must be at least 1")
+    @NotNull
     private Integer amount;
 
 
@@ -85,43 +87,43 @@ public class OrderFoodDto {
         this.image = image;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+//
+//    public Double getPrice() {
+//        return price;
+//    }
+//
+//    public void setPrice(Double price) {
+//        this.price = price;
+//    }
+//
+//    public Integer getAmount() {
+//        return amount;
+//    }
+//
+//    public void setAmount(Integer amount) {
+//        this.amount = amount;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public String getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(String image) {
+//        this.image = image;
+//    }
 }

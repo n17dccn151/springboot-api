@@ -2,6 +2,8 @@ package com.rockieslearning.crud.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -16,8 +18,11 @@ import java.util.Set;
  * Created by TanVOD on Jun, 2021
  */
 
+
+@Getter
+@Setter
 @Entity
-@Table(name = "CARTS")
+@Table(name = "CARTS",  indexes = @Index(name = "fn_cart_index", columnList = "user_id"))
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "carts_seq")
@@ -50,28 +55,28 @@ public class Cart {
     }
 
 
-    public Integer getCartId() {
-        return cartId;
-    }
-
-    public void setCartId(Integer cartId) {
-        this.cartId = cartId;
-    }
-
-
-    public Set<CartFood> getCartFoods() {
-        return cartFoods;
-    }
-
-    public void setCartFoods(Set<CartFood> cartFoods) {
-        this.cartFoods = cartFoods;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    public Integer getCartId() {
+//        return cartId;
+//    }
+//
+//    public void setCartId(Integer cartId) {
+//        this.cartId = cartId;
+//    }
+//
+//
+//    public Set<CartFood> getCartFoods() {
+//        return cartFoods;
+//    }
+//
+//    public void setCartFoods(Set<CartFood> cartFoods) {
+//        this.cartFoods = cartFoods;
+//    }
+//
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 }

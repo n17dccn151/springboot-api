@@ -7,14 +7,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import java.util.*;
 
 /**
@@ -24,7 +24,7 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "FOODS")
+@Table(name = "FOODS", indexes = @Index(name = "fn_food_index", columnList = "food_price"))
 public class Food {
 
     @Id
@@ -32,6 +32,7 @@ public class Food {
     private Integer foodId;
 
     @Column(name = "food_name")
+
     private String name;
 
     @Column(name = "food_price")
@@ -43,8 +44,11 @@ public class Food {
     @Column(name = "food_quantity")
     private Integer quantity;
 
+
+    @Enumerated(EnumType.STRING)
+    @NaturalId
     @Column(name = "food_status")
-    private String foodStatusName;
+    private FoodStatusName foodStatusName;
 
 
     @JsonBackReference(value = "category-food")
@@ -67,21 +71,24 @@ public class Food {
     private Date updatedDate;
 
 
-    @JsonIgnore
-//    @OneToOne(fetch = FetchType.LAZY,
-//            cascade =  CascadeType.ALL,
-//            mappedBy = "food")
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "food")
-    private Set<OrderFood> orderFoods;
+//    //18
+//    @JsonIgnore
+////    @OneToOne(fetch = FetchType.LAZY,
+////            cascade =  CascadeType.ALL,
+////            mappedBy = "food")
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "food")
+//    private Set<OrderFood> orderFoods;
 
 
 //    @OneToOne(fetch = FetchType.LAZY,
 //            cascade =  CascadeType.ALL,
 //            mappedBy = "food")
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "food")
-    private Set<CartFood> cartFoods;
+
+//    //18
+//    @JsonIgnore
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "food")
+//    private Set<CartFood> cartFoods;
 
 
     @JsonManagedReference(value = "food-image")
@@ -104,8 +111,8 @@ public class Food {
         this.category = category;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
-        this.orderFoods = orderFoods;
-        this.cartFoods = cartFoods;
+        //this.orderFoods = orderFoods;
+        //this.cartFoods = cartFoods;
         this.images = images;
         this.ratings = ratings;
     }
@@ -119,8 +126,8 @@ public class Food {
         this.category = category;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
-        this.orderFoods = orderFoods;
-        this.cartFoods = cartFoods;
+        //this.orderFoods = orderFoods;
+        //this.cartFoods = cartFoods;
         this.images = images;
         this.ratings = ratings;
     }

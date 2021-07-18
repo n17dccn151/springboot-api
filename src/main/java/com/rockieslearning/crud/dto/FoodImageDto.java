@@ -3,6 +3,8 @@ package com.rockieslearning.crud.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.rockieslearning.crud.entity.FoodImage;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.constraints.NotEmpty;
@@ -12,7 +14,8 @@ import java.util.List;
 /**
  * Created by TanVOD on Jun, 2021
  */
-
+@Getter
+@Setter
 public class FoodImageDto {
 
 
@@ -67,21 +70,21 @@ public class FoodImageDto {
     }
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+//
+//    public String getUrl() {
+//        return url;
+//    }
+//
+//    public void setUrl(String url) {
+//        this.url = url;
+//    }
 
 //    public Integer getFood_id() {
 //        return food_id;

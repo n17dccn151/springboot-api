@@ -3,10 +3,9 @@ package com.rockieslearning.crud.dto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.rockieslearning.crud.entity.Food;
-import com.rockieslearning.crud.entity.Order;
-import com.rockieslearning.crud.entity.OrderFood;
-import com.rockieslearning.crud.entity.User;
+import com.rockieslearning.crud.entity.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -21,12 +20,15 @@ import java.util.*;
  * Created by TanVOD on Jun, 2021
  */
 
+
+@Getter
+@Setter
 public class OrderDto {
 
 
     private Long userId;
 
-    private String status;
+    private OrderStatusName status;
 
 
     //@JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -40,9 +42,11 @@ public class OrderDto {
     //@JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Date updatedDate;
 
+    private UserDetailDto userDetailDto;
 
-    @Size(min = 1, message
-            = "About Me must be at least 1")
+
+//    @Size(min = 1, message
+//            = "About Me must be at least 1")
     private Set<OrderFoodDto> orderFoods = new HashSet<OrderFoodDto>();
 
 
@@ -57,7 +61,7 @@ public class OrderDto {
         dto.setCreatedDate(entity.getCreatedDate());
         dto.setUpdatedDate(entity.getUpdatedDate());
         dto.setUserId(entity.getUser().getUserId());
-
+        dto.setUserDetailDto(new UserDetailDto().toDto(entity.getUserDetail()));
 
         Set<OrderFoodDto> orderFoodDtoSet = new HashSet<>();
         entity.getOrderFoods().forEach(e -> {
@@ -98,59 +102,59 @@ public class OrderDto {
     }
 
 
-    public OrderDto(Long userId, String status, Integer orderId) {
+    public OrderDto(Long userId, OrderStatusName status, Integer orderId) {
         this.userId = userId;
         this.status = status;
         this.orderId = orderId;
     }
 
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    public Set<OrderFoodDto> getOrderFoods() {
-        return orderFoods;
-    }
-
-    public void setOrderFoods(Set<OrderFoodDto> orderFoods) {
-        this.orderFoods = orderFoods;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+//    public Integer getOrderId() {
+//        return orderId;
+//    }
+//
+//    public void setOrderId(Integer orderId) {
+//        this.orderId = orderId;
+//    }
+//
+//
+//    public String getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(String status) {
+//        this.status = status;
+//    }
+//
+//
+//    public Date getCreatedDate() {
+//        return createdDate;
+//    }
+//
+//    public void setCreatedDate(Date createdDate) {
+//        this.createdDate = createdDate;
+//    }
+//
+//    public Date getUpdatedDate() {
+//        return updatedDate;
+//    }
+//
+//    public void setUpdatedDate(Date updatedDate) {
+//        this.updatedDate = updatedDate;
+//    }
+//
+//    public Set<OrderFoodDto> getOrderFoods() {
+//        return orderFoods;
+//    }
+//
+//    public void setOrderFoods(Set<OrderFoodDto> orderFoods) {
+//        this.orderFoods = orderFoods;
+//    }
+//
+//    public Long getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Long userId) {
+//        this.userId = userId;
+//    }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rockieslearning.crud.dto.CategoryDto;
 import com.rockieslearning.crud.dto.FoodDto;
 import com.rockieslearning.crud.dto.FoodImageDto;
+import com.rockieslearning.crud.entity.FoodStatusName;
 import com.rockieslearning.crud.service.FoodService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ public class FoodControllerTest {
     private static ObjectMapper mapper = new ObjectMapper();
 
 
-    FoodDto mockFoodDto = new FoodDto(1, "name", 100000.0, 100, "AVAILABLE",  "description", 3);
+    FoodDto mockFoodDto = new FoodDto(1, "name", 100000.0, 100, FoodStatusName.AVAILABLE,  "description", 3);
 
     List<FoodDto> mockFoodDtos = new ArrayList<>();
 

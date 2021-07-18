@@ -3,10 +3,14 @@ package com.rockieslearning.crud.controller;
 import com.rockieslearning.crud.dto.OrderDto;
 import com.rockieslearning.crud.entity.*;
 import com.rockieslearning.crud.entity.Order;
+import com.rockieslearning.crud.helper.SortDirection;
 import com.rockieslearning.crud.service.FoodService;
 import com.rockieslearning.crud.service.OrderService;
 import com.rockieslearning.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -32,10 +36,29 @@ public class OrderController {
 
 
     @GetMapping("")
-    public ResponseEntity<List<OrderDto>> getAllOrder() {
+    public ResponseEntity<List<OrderDto>> getAllOrder(@RequestParam(required = false) String id,
+                                                      @RequestParam(defaultValue = "0") int page,
+                                                      @RequestParam(defaultValue = "6") int size,
+                                                      @RequestParam(defaultValue = "CANCELLED")  OrderStatusName statusName,
+                                                      @RequestParam(defaultValue = "orderId,desc") String[] sort) {
 
         List<OrderDto> orderDtos = new ArrayList<>();
-        orderDtos = orderService.retrieveOrders();
+
+        SortDirection sortDirection = new SortDirection();
+        List<Sort.Order> orders;
+        orders = sortDirection.getSortOrders(sort);
+        Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
+
+
+
+        if (id == null) {
+            orderDtos = orderService.retrieveOrders(statusName, pagingSort);
+        } else {
+            orderDtos = orderService.retrieveOrderById(id, pagingSort);
+        }
+
+
+        //orderDtos = orderService.retrieveOrders();
         return new ResponseEntity<>(orderDtos, HttpStatus.OK);
     }
 

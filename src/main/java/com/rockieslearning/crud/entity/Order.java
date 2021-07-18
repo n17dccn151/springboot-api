@@ -2,12 +2,15 @@ package com.rockieslearning.crud.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.hibernate.annotations.UpdateTimestamp;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,8 +18,12 @@ import java.util.Set;
 /**
  * Created by TanVOD on Jun, 2021
  */
+
+
+@Getter
+@Setter
 @Entity
-@Table(name = "ORDERS")
+@Table(name = "ORDERS", indexes = @Index(name = "fn_order_index", columnList = "user_id"))
 public class Order {
 
     @Id
@@ -27,8 +34,10 @@ public class Order {
 //    @Column(name = "order_amount")
 //    private Integer amount;
 
+    @Enumerated(EnumType.STRING)
+    @NaturalId
     @Column(name = "order_status")
-    private String status;
+    private OrderStatusName status;
 
 //    @Column(name = "order_price")
 //    private Double price;
@@ -52,10 +61,14 @@ public class Order {
     private User user;
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private UserDetail userDetail;
+
+
     public Order() {
     }
 
-    public Order(Integer orderId, String status, Date createdDate, Date updatedDate, Set<OrderFood> orderFoods, User user) {
+    public Order(Integer orderId, OrderStatusName status, Date createdDate, Date updatedDate, Set<OrderFood> orderFoods, User user) {
         this.orderId = orderId;
         this.status = status;
         this.createdDate = createdDate;
@@ -64,53 +77,53 @@ public class Order {
         this.user = user;
     }
 
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-    public Set<OrderFood> getOrderFoods() {
-        return orderFoods;
-    }
-
-    public void setOrderFoods(Set<OrderFood> orderFoods) {
-        this.orderFoods = orderFoods;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    public Integer getOrderId() {
+//        return orderId;
+//    }
+//
+//    public void setOrderId(Integer orderId) {
+//        this.orderId = orderId;
+//    }
+//
+//
+//    public String getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(String status) {
+//        this.status = status;
+//    }
+//
+//
+//    public Date getCreatedDate() {
+//        return createdDate;
+//    }
+//
+//    public void setCreatedDate(Date createdDate) {
+//        this.createdDate = createdDate;
+//    }
+//
+//    public Date getUpdatedDate() {
+//        return updatedDate;
+//    }
+//
+//    public void setUpdatedDate(Date updatedDate) {
+//        this.updatedDate = updatedDate;
+//    }
+//
+//    public Set<OrderFood> getOrderFoods() {
+//        return orderFoods;
+//    }
+//
+//    public void setOrderFoods(Set<OrderFood> orderFoods) {
+//        this.orderFoods = orderFoods;
+//    }
+//
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 }

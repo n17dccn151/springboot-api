@@ -95,6 +95,22 @@ public class CartServiceImpl implements CartService {
         if (cart == null)
             throw new ResourceNotFoundException("Cart not found ");
 
+
+        cart.getCartFoods().forEach(e->{
+            if(e.getFood().getQuantity() < e.getAmount()){
+                e.setHistAmount(e.getAmount());
+                e.setAmount(e.getFood().getQuantity());
+                cartFoodRepository.save(e);
+            }else{
+                if(e.getHistAmount()!=null && e.getHistAmount()<e.getFood().getQuantity()){
+                    e.setAmount(e.getHistAmount());
+                    e.setHistAmount(null);
+                    cartFoodRepository.save(e);
+                }
+            }
+
+            System.out.println(e.getFood().getQuantity());
+        });
         return new CartDto().toDto(cart);
     }
 
@@ -114,14 +130,26 @@ public class CartServiceImpl implements CartService {
 
 
         if (cartFood == null) {
+            //
+            if(food.getQuantity() < cartFoodDto.getAmount()){
+                throw new BadRequestException("Quantity invalid");
+            }
+
             cartFoodRepository.save(new CartFood(cart, food, cartFoodDto.getAmount()));
         } else {
 
             if (cartFoodDto.getAmount() == 0) {
-                cartFoodRepository.deleteById(cartFood.getId());
+                //cartFoodRepository.deleteById(cartFood.getId());
 
             } else {
-                cartFood.setAmount(cartFoodDto.getAmount());
+
+                System.out.println("food: "+ food.getQuantity());
+                System.out.println("cartFoodDto: "+ cartFoodDto.getAmount());
+
+                if(food.getQuantity() < (cartFoodDto.getAmount()+ cartFood.getAmount())){
+                    throw new BadRequestException("Quantity invalid");
+                }
+                cartFood.setAmount(cartFood.getAmount()+ cartFoodDto.getAmount());
                 cartFoodRepository.save(cartFood);
 
             }

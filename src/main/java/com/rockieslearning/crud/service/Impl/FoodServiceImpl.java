@@ -10,9 +10,12 @@ import com.rockieslearning.crud.repository.FoodImageRepository;
 import com.rockieslearning.crud.repository.FoodRepository;
 import com.rockieslearning.crud.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,8 +44,39 @@ public class FoodServiceImpl implements FoodService {
 
 
     @Override
-    public List<FoodDto> retrieveFoods() {
+    public List<FoodDto> retrieveFoods() throws BadRequestException{
         List<Food> foods = repository.findAll();
+        return new FoodDto().toListDto(foods);
+    }
+
+    @Override
+    public List<FoodDto> retrieveFoods(Pageable pageable) throws BadRequestException{
+        List<Food> foods =  new ArrayList<>();
+        Page<Food> pageFoods;
+        try {
+            pageFoods = repository.findAll(pageable);
+        }catch (Exception e){
+            throw new BadRequestException("invalid Request " + e.getMessage());
+        }
+
+        foods = pageFoods.getContent();
+        return new FoodDto().toListDto(foods);
+    }
+
+    @Override
+    public List<FoodDto> getFoodByName(String name, Pageable pageable) {
+        List<Food> foods =  new ArrayList<>();
+        Page<Food> pageFoods;
+
+        try {
+            pageFoods = repository.findByNameContaining(name, pageable);
+        }catch (Exception e){
+            throw new BadRequestException("invalid Request " + e.getMessage());
+        }
+
+
+
+        foods = pageFoods.getContent();
         return new FoodDto().toListDto(foods);
     }
 
@@ -62,7 +96,7 @@ public class FoodServiceImpl implements FoodService {
         ;
         ;
         food.setCategory(category);
-        food.setFoodStatusName(FoodStatusName.AVAILABLE.toString());
+        food.setFoodStatusName(FoodStatusName.AVAILABLE);
         try {
 
             food = repository.save(food);

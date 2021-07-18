@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.rockieslearning.crud.entity.FoodImage;
 import com.rockieslearning.crud.entity.FoodRating;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -14,6 +16,10 @@ import java.util.List;
 /**
  * Created by TanVOD on Jul, 2021
  */
+
+
+@Getter
+@Setter
 public class FoodRatingDto {
 
     @JsonView(View.FoodWithImageComment.class)
@@ -95,51 +101,51 @@ public class FoodRatingDto {
     public FoodRatingDto() {
     }
 
-    public Integer getFoodId() {
-        return foodId;
-    }
-
-    public void setFoodId(Integer foodId) {
-        this.foodId = foodId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName.substring(0, 7).concat("xxx");
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Integer getRating() {
-        return rating;
-    }
-
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
+//    public Integer getFoodId() {
+//        return foodId;
+//    }
+//
+//    public void setFoodId(Integer foodId) {
+//        this.foodId = foodId;
+//    }
+//
+//    public Long getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Long userId) {
+//        this.userId = userId;
+//    }
+//
+//    public String getUserName() {
+//        return userName;
+//    }
+//
+//    public void setUserName(String userName) {
+//        this.userName = userName.substring(0, 7).concat("xxx");
+//    }
+//
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+//
+//    public String getComment() {
+//        return comment;
+//    }
+//
+//    public void setComment(String comment) {
+//        this.comment = comment;
+//    }
+//
+//    public Integer getRating() {
+//        return rating;
+//    }
+//
+//    public void setRating(Integer rating) {
+//        this.rating = rating;
+//    }
 }

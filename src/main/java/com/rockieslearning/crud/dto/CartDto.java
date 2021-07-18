@@ -1,6 +1,8 @@
 package com.rockieslearning.crud.dto;
 
 import com.rockieslearning.crud.entity.Cart;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,6 +13,9 @@ import java.util.Set;
  * Created by TanVOD on Jun, 2021
  */
 
+
+@Getter
+@Setter
 public class CartDto {
 
 
@@ -70,28 +75,28 @@ public class CartDto {
         this.userId = userId;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-
-    public Set<CartFoodDto> getCartFoods() {
-        return cartFoods;
-    }
-
-    public void setCartFoods(Set<CartFoodDto> cartFoods) {
-        this.cartFoods = cartFoods;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+//    public Integer getId() {
+//        return id;
+//    }
+//
+//    public void setId(Integer id) {
+//        this.id = id;
+//    }
+//
+//
+//    public Set<CartFoodDto> getCartFoods() {
+//        return cartFoods;
+//    }
+//
+//    public void setCartFoods(Set<CartFoodDto> cartFoods) {
+//        this.cartFoods = cartFoods;
+//    }
+//
+//    public Long getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Long userId) {
+//        this.userId = userId;
+//    }
 }

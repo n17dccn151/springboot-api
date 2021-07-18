@@ -4,6 +4,8 @@ package com.rockieslearning.crud.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -13,8 +15,11 @@ import java.util.Set;
  * Created by TanVOD on Jun, 2021
  */
 
+
+@Getter
+@Setter
 @Entity
-@Table(name = "CATEGORIES")
+@Table(name = "CATEGORIES", indexes = @Index(name = "fn_category_index", columnList = "category_name"))
 public class Category {
 
     @Id
@@ -47,43 +52,43 @@ public class Category {
     }
 
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Set<Food> getFoods() {
-        return foods;
-    }
-
-    public void setFoods(Set<Food> foods) {
-        this.foods = foods;
-    }
+//    public Integer getCategoryId() {
+//        return categoryId;
+//    }
+//
+//    public void setCategoryId(Integer categoryId) {
+//        this.categoryId = categoryId;
+//    }
+//
+//    public String getName() {
+//        return name;
+//    }
+//
+//    public void setName(String name) {
+//        this.name = name;
+//    }
+//
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
+//
+//    public String getImage() {
+//        return image;
+//    }
+//
+//    public void setImage(String image) {
+//        this.image = image;
+//    }
+//
+//    public Set<Food> getFoods() {
+//        return foods;
+//    }
+//
+//    public void setFoods(Set<Food> foods) {
+//        this.foods = foods;
+//    }
 }

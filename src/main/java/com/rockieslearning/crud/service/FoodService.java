@@ -7,6 +7,7 @@ import com.rockieslearning.crud.entity.Category;
 import com.rockieslearning.crud.entity.Food;
 import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
+import org.springframework.data.domain.Pageable;
 
 import java.text.ParseException;
 import java.util.List;
@@ -19,6 +20,12 @@ public interface FoodService {
     public FoodDto saveFood(FoodDto foodDto) throws BadRequestException;
 
     public List<FoodDto> retrieveFoods();
+
+    public List<FoodDto> retrieveFoods(Pageable pageable) throws BadRequestException;
+
+
+    public List<FoodDto> getFoodByName(String name, Pageable pageable) throws BadRequestException;
+
 
     public FoodDto getFoodById(int id) throws ResourceNotFoundException;
 

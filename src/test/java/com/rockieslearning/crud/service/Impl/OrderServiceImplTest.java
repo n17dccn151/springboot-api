@@ -106,7 +106,7 @@ public class OrderServiceImplTest {
 
         food = new Food();
         food.setFoodId(1);
-        food.setFoodStatusName("AVAILABLE");
+        food.setFoodStatusName(FoodStatusName.AVAILABLE);
         food.setQuantity(100);
         food.setImages(null);
         food.setPrice(100000D);
@@ -135,7 +135,7 @@ public class OrderServiceImplTest {
         order = new Order();
         order.setOrderFoods(orderFoods);
         order.setUser(user);
-        order.setStatus("ORDERED");
+        order.setStatus(OrderStatusName.ORDERED);
         orders = new ArrayList<>();
         orders.add(order);
 

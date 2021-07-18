@@ -5,6 +5,7 @@ import com.rockieslearning.crud.dto.CartDto;
 import com.rockieslearning.crud.dto.CartFoodDto;
 import com.rockieslearning.crud.dto.OrderDto;
 import com.rockieslearning.crud.dto.OrderFoodDto;
+import com.rockieslearning.crud.entity.OrderStatusName;
 import com.rockieslearning.crud.service.CartService;
 import com.rockieslearning.crud.service.OrderService;
 import com.rockieslearning.crud.service.UserService;
@@ -45,7 +46,7 @@ public class OrderControllerTest {
 
 
 
-    OrderDto mockOrderDto = new OrderDto(Long.valueOf(1),"ORDERED",1);
+    OrderDto mockOrderDto = new OrderDto(Long.valueOf(1), OrderStatusName.ORDERED,1);
 
     OrderFoodDto mockOrderFoodDto = new OrderFoodDto(1, 10, 20000.0, "name", "image");
 

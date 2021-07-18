@@ -3,6 +3,8 @@ package com.rockieslearning.crud.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -17,16 +19,19 @@ import java.util.Set;
  * Created by TanVOD on Jun, 2021
  */
 
-
+@Getter
+@Setter
 @Entity
-@Table(name = "USERS", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-                "phone_number"
-        }),
-        @UniqueConstraint(columnNames = {
-                "email"
-        })
-})
+
+// uniqueConstraints = {
+//@UniqueConstraint(columnNames = {
+//        "phone_number"
+//}),
+//@UniqueConstraint(columnNames = {
+//        "email"
+//}
+
+@Table(name = "USERS", indexes = @Index(name = "fn_user_index", columnList = "phone_number"))
 public class User {
 
 
@@ -100,76 +105,76 @@ public class User {
     }
 
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public Set<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Set<Order> orders) {
-        this.orders = orders;
-    }
-
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
-
-    public Set<FoodRating> getRatings() {
-        return ratings;
-    }
-
-    public void setRatings(Set<FoodRating> ratings) {
-        this.ratings = ratings;
-    }
-
-    public Set<UserDetail> getDetails() {
-        return details;
-    }
-
-    public void setDetails(Set<UserDetail> details) {
-        this.details = details;
-    }
+//    public Long getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Long userId) {
+//        this.userId = userId;
+//    }
+//
+//    public String getPhone() {
+//        return phone;
+//    }
+//
+//    public void setPhone(String phone) {
+//        this.phone = phone;
+//    }
+//
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
+//
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
+//
+//    public Set<Role> getRoles() {
+//        return roles;
+//    }
+//
+//    public void setRoles(Set<Role> roles) {
+//        this.roles = roles;
+//    }
+//
+//    public Set<Order> getOrders() {
+//        return orders;
+//    }
+//
+//    public void setOrders(Set<Order> orders) {
+//        this.orders = orders;
+//    }
+//
+//    public Cart getCart() {
+//        return cart;
+//    }
+//
+//    public void setCart(Cart cart) {
+//        this.cart = cart;
+//    }
+//
+//
+//    public Set<FoodRating> getRatings() {
+//        return ratings;
+//    }
+//
+//    public void setRatings(Set<FoodRating> ratings) {
+//        this.ratings = ratings;
+//    }
+//
+//    public Set<UserDetail> getDetails() {
+//        return details;
+//    }
+//
+//    public void setDetails(Set<UserDetail> details) {
+//        this.details = details;
+//    }
 }

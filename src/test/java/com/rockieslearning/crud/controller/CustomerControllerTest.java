@@ -2,6 +2,7 @@ package com.rockieslearning.crud.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rockieslearning.crud.dto.*;
+import com.rockieslearning.crud.entity.OrderStatusName;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.service.CartService;
 import com.rockieslearning.crud.service.CategoryService;
@@ -69,7 +70,7 @@ public class CustomerControllerTest {
 
 
 
-    OrderDto mockOrderDto = new OrderDto(Long.valueOf(1),"ORDERED",1);
+    OrderDto mockOrderDto = new OrderDto(Long.valueOf(1), OrderStatusName.ORDERED,1);
 
     OrderFoodDto mockOrderFoodDto = new OrderFoodDto(1, 10, 20000.0, "name", "image");
 
