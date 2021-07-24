@@ -33,7 +33,7 @@ public interface OrderService {
 
     public OrderDto updateOrder(Integer orderId, OrderDto orderDto) throws ResourceNotFoundException, BadRequestException;
 
-    public OrderDto createNewOrder(Long userId, OrderFoodDto orderFoodDto) throws BadRequestException;
+    public OrderDto createNewOrder(Long userId, OrderDto orderDto) throws BadRequestException;
 
     public List<OrderDto> getListOrderByUserId(Long id);
 

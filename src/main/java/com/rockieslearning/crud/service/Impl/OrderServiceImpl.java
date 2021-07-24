@@ -52,6 +52,8 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     CartFoodRepository cartFoodRepository;
 
+    @Autowired
+    UserDetailRepository userDetailRepository;
 
     public OrderServiceImpl(OrderRepository repository, UserRepository userRepository, FoodRepository foodRepository, OrderFoodRepository orderFoodRepository, CartRepository cartRepository, CartFoodRepository cartFoodRepository) {
         this.repository = repository;
@@ -193,7 +195,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public OrderDto createNewOrder(Long userId, OrderFoodDto orderFoodDto) throws ResourceNotFoundException, BadRequestException {
+    public OrderDto createNewOrder(Long userId, OrderDto orderDto) throws ResourceNotFoundException, BadRequestException {
 
 /*{
         "userId": 7,
@@ -204,44 +206,50 @@ public class OrderServiceImpl implements OrderService {
             }
         ]
 }*/
+
+
+        UserDetail userDetail = userDetailRepository.findById(orderDto.getDetailId()).orElseThrow(() -> new ResourceNotFoundException("detail not found for this id: "+ orderDto.getDetailId()));
         Order order = new Order();
         order.setStatus(OrderStatusName.ORDERED);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
         order.setUser(user);
+        order.setUserDetail(userDetail);
         Order saveOrder;
-
+        Cart cart = cartRepository.findByUser(user);
 
         try {
             saveOrder = repository.save(order);
 
 
-            //orderDto.getOrderFoods().forEach(e -> {
+            orderDto.getOrderFoods().forEach(e -> {
 
                 Food food = new Food();
-                food = foodRepository.findById(orderFoodDto.getId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
+                food = foodRepository.findById(e.getId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
 
-                if(food.getQuantity()< orderFoodDto.getAmount()){
+                if(food.getQuantity()< e.getAmount()){
                     food.setQuantity(food.getQuantity());
                 }
 
-                food.setQuantity(food.getQuantity() - orderFoodDto.getAmount());
+                food.setQuantity(food.getQuantity() - e.getAmount());
                 foodRepository.save(food);
 
                 OrderFood orderFood = new OrderFood();
                 orderFood.setOrder(saveOrder);
                 orderFood.setFood(food);
 
-                if(orderFoodDto.getAmount()>food.getQuantity()){
+                if(e.getAmount()>food.getQuantity()){
                     orderFood.setAmount(food.getQuantity());
                 }
 
 
-                orderFood.setAmount(orderFoodDto.getAmount());
+                orderFood.setAmount(e.getAmount());
                 orderFood.setPrice(food.getPrice());
                 orderFoodRepository.save(orderFood);
 
-            //});
+                cartFoodRepository.deleteByCartAndFood(cart,food);
+
+            });
 
 
         } catch (Exception e) {
@@ -287,7 +295,12 @@ public class OrderServiceImpl implements OrderService {
             }
             orderFood.setAmount(e.getAmount());
             orderFood.setPrice(food.getPrice());
+
+
+
             orderFoodRepository.save(orderFood);
+
+
         });
 
         cartFoodRepository.deleteAllByCart(cart);

@@ -1,12 +1,8 @@
 package com.rockieslearning.crud.controller;
 
 import com.rockieslearning.crud.dto.FoodDto;
-import com.rockieslearning.crud.dto.FoodImageDto;
-import com.rockieslearning.crud.entity.*;
-import com.rockieslearning.crud.entity.Food;
+import com.rockieslearning.crud.dto.ResponseList;
 import com.rockieslearning.crud.helper.SortDirection;
-import com.rockieslearning.crud.service.CategoryService;
-import com.rockieslearning.crud.service.FoodService;
 import com.rockieslearning.crud.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -14,12 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,10 +32,15 @@ public class FoodController {
 
     @GetMapping("")
     public ResponseEntity<List<FoodDto>> getAllFood(
+
+
             @RequestParam(required = false) String name,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "6") int size,
-            @RequestParam(defaultValue = "foodId,desc") String[] sort) {
+            @RequestParam(defaultValue = "9") int size,
+            @RequestParam(defaultValue = "foodId,desc") String[] sort
+
+
+    ) {
 
         SortDirection sortDirection = new SortDirection();
         List<Sort.Order> orders;
@@ -57,6 +56,9 @@ public class FoodController {
             foodDtos = foodService.getFoodByName(name, pagingSort);
         }
 
+
+        ResponseList responseList = new ResponseList();
+        responseList.setTotalItems(foodService.retrieveFoods().size());
         return new ResponseEntity<>(foodDtos, HttpStatus.OK);
     }
 

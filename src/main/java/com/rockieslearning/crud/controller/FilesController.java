@@ -59,6 +59,7 @@ public class FilesController {
             });
 
             message = "Uploaded the files successfully: " + fileNames;
+
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
             message = "Fail to upload files!";

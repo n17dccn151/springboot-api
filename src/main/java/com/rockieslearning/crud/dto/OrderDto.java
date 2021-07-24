@@ -44,6 +44,7 @@ public class OrderDto {
 
     private UserDetailDto userDetailDto;
 
+    private int detailId;
 
 //    @Size(min = 1, message
 //            = "About Me must be at least 1")

@@ -32,7 +32,7 @@ public class UserDto {
     @Email
     private String email;
 
-
+    @JsonIgnore
     private String password;
 
     private Set<String> roles;

@@ -162,7 +162,7 @@ public class CustomerControllerTest {
 
     @Test
     public void testGetCartByUserId() throws Exception {
-        Set<CartFoodDto> cartFoodDtoSet = new HashSet<>();
+        List<CartFoodDto> cartFoodDtoSet = new ArrayList<>();
 
         cartFoodDtoSet.add(mockCartFoodDto);
 
@@ -184,7 +184,7 @@ public class CustomerControllerTest {
 
     @Test
     public void testAddCartQty() throws Exception {
-        Set<CartFoodDto> cartFoodDtoSet = new HashSet<>();
+        List<CartFoodDto> cartFoodDtoSet = new ArrayList<>();
 
         cartFoodDtoSet.add(mockCartFoodDto);
 

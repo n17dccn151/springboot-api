@@ -53,7 +53,7 @@ public class CartControllerTest {
 
     @Test
     public void testGetAllCart() throws Exception {
-        Set<CartFoodDto> cartFoodDtoSet = new HashSet<>();
+        List<CartFoodDto> cartFoodDtoSet = new ArrayList<>();
 
         cartFoodDtoSet.add(mockCartFoodDto);
 

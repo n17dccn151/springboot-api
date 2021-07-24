@@ -92,6 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(LIST_SWAGGER).permitAll()
 
                 .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/uploads/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/foods/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/categories/**").permitAll()

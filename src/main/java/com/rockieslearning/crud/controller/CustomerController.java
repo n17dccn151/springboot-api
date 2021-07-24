@@ -123,6 +123,16 @@ public class CustomerController {
     }
 
 
+    @PutMapping("/cart")
+    public ResponseEntity<CartDto> editCartQty(HttpServletRequest request
+            , @RequestBody @Valid CartFoodDto cartFoodDto) {
+
+        Long userId = (Long) request.getAttribute("userId");
+        CartDto cartDto = cartService.updateCart(userId, cartFoodDto);
+        return new ResponseEntity<>(cartDto, HttpStatus.CREATED);
+    }
+
+
     @GetMapping("/orders")
     public ResponseEntity<List<OrderDto>> getOrderByUserId(HttpServletRequest request) {
 
@@ -135,14 +145,14 @@ public class CustomerController {
     @PostMapping("/orders")
     public ResponseEntity<OrderDto> addOrder(HttpServletRequest request,
                                              @RequestParam(required = false) boolean all,
-                                             @RequestBody(required = false) @Valid OrderFoodDto orderFoodDto) {
+                                             @RequestBody(required = false) @Valid OrderDto orderDto) {
 
         Long userId = (Long) request.getAttribute("userId");
         if (all) {
             OrderDto order = orderService.createNewOrderFromCart(userId);
             return new ResponseEntity<>(order, HttpStatus.CREATED);
         }
-        OrderDto order = orderService.createNewOrder(userId, orderFoodDto);
+        OrderDto order = orderService.createNewOrder(userId, orderDto);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 

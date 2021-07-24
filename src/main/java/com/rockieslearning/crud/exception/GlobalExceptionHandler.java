@@ -80,13 +80,13 @@ public class GlobalExceptionHandler {
 
 
 
-    @ExceptionHandler(Exception.class)
-    public Map<String, Object> globalExceptionHandler(Exception ex, WebRequest request) {
-        Map<String, Object> map = new HashMap<>();
-
-        map.put("message", ex.getMessage());
-        return map;
-    }
+//    @ExceptionHandler(Exception.class)
+//    public Map<String, Object> globalExceptionHandler(Exception ex, WebRequest request) {
+//        Map<String, Object> map = new HashMap<>();
+//
+//        map.put("message", ex.getMessage());
+//        return map;
+//    }
 
 
 }

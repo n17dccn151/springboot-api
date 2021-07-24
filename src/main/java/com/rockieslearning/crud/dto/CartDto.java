@@ -22,8 +22,9 @@ public class CartDto {
     private Integer id;
 
 
-    private Set<CartFoodDto> cartFoods = new HashSet<CartFoodDto>();
+//    private Set<CartFoodDto> cartFoods = new HashSet<CartFoodDto>();
 
+    private List<CartFoodDto> cartFoods = new ArrayList<>();
 
     private Long userId;
 
@@ -36,12 +37,21 @@ public class CartDto {
         dto.setUserId(entity.getUser().getUserId());
 
 
-        Set<CartFoodDto> cartFoodDtoSet = new HashSet<>();
+
+        List<CartFoodDto> cartFoodDtoSet = new ArrayList<>();
         entity.getCartFoods().forEach(e -> {
             cartFoodDtoSet.add(new CartFoodDto().toDto(e));
         });
 
         dto.setCartFoods(cartFoodDtoSet);
+
+
+//        Set<CartFoodDto> cartFoodDtoSet = new HashSet<>();
+//        entity.getCartFoods().forEach(e -> {
+//            cartFoodDtoSet.add(new CartFoodDto().toDto(e));
+//        });
+//
+//        dto.setCartFoods(cartFoodDtoSet);
 
 
         return dto;

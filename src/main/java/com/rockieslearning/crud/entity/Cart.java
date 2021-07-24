@@ -10,9 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by TanVOD on Jun, 2021
@@ -31,8 +29,10 @@ public class Cart {
 
     @JsonManagedReference(value = "cart-cartfood")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "cart", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Set<CartFood> cartFoods = new HashSet<CartFood>();
 
+//    private Set<CartFood> cartFoods = new HashSet<CartFood>();
+
+    private List<CartFood> cartFoods = new ArrayList<>();
 
     @OneToOne()
     @JoinColumn(name = "user_id")
@@ -48,7 +48,7 @@ public class Cart {
     }
 
 
-    public Cart(Integer cartId, Set<CartFood> cartFoods, User user) {
+    public Cart(Integer cartId, List<CartFood> cartFoods, User user) {
         this.cartId = cartId;
         this.cartFoods = cartFoods;
         this.user = user;

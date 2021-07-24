@@ -13,16 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by TanVOD on Jul, 2021
  */
 
 @Controller
-@RequestMapping("/api/test2")
+@RequestMapping("/api/uploads")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class ImageController {
 
@@ -32,25 +30,6 @@ public class ImageController {
 
     @PostMapping
     public ResponseEntity<ResponseMessage> create(@RequestParam(name = "files") MultipartFile[] files) {
-
-//        for (MultipartFile file : files) {
-//
-//            try {
-//
-//                String fileName = imageService.save(file);
-//
-//                String imageUrl = imageService.getImageUrl(fileName);
-//
-//                // do whatever you want with that
-//
-//            } catch (Exception e) {
-//                //  throw internal error;
-//            }
-//        }
-
-
-
-
 
         String message = "";
         try {
@@ -68,8 +47,10 @@ public class ImageController {
                 }
             });
 
-            message = "Uploaded the files successfully: " + fileNames;
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+            message = "Uploaded the files successfully: ";
+            Map<String, Object> map = new HashMap<>();
+            map.put("url",fileNames);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message, map));
         } catch (Exception e) {
             message = "Fail to upload files!" + e.getMessage();
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));

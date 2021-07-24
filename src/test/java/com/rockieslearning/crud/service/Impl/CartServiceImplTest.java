@@ -63,7 +63,7 @@ public class CartServiceImplTest {
     private CartDto cartDto;
     private List<CartDto> cartDtos;
     private User user;
-    private Set<CartFood> cartFoods;
+    private List<CartFood> cartFoods;
     private CartFood cartFood;
 
 
@@ -76,7 +76,7 @@ public class CartServiceImplTest {
     @BeforeEach
     public void setUp() {
 
-        cartFoods = new HashSet<>();
+        cartFoods = new ArrayList<>();
         user = new User();
         cart = new Cart();
         carts = new ArrayList<>();

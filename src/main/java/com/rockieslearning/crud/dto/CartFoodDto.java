@@ -22,7 +22,7 @@ public class CartFoodDto {
     @NotNull(message = "foodId cannot be null")
     private Integer id;
 
-    @Min(value = 0, message = "amount should not be less than 0")
+    @Min(value = -1, message = "amount should not be less than -1")
     private Integer amount;
 
 
