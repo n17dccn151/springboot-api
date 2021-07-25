@@ -12,6 +12,7 @@ import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class UserDetailDto {
 
     private Long userId;
 
-    @NotEmpty
+    @NotNull
     private UserDetailStatusName status;
 
 

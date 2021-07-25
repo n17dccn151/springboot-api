@@ -299,6 +299,8 @@ public class UserServiceImpl implements UserService {
         userDetail.setPhone(userDetailDto.getPhone());
         userDetail.setAddress(userDetailDto.getAddress());
         userDetail.setStatus(userDetailDto.getStatus());
+
+        System.out.println("---------------------------------------------"+ userDetail.getStatus());
         try {
             return new UserDetailDto().toDto(userDetailRepository.save(userDetail));
         } catch (Exception e) {

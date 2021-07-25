@@ -79,10 +79,13 @@ public class CustomerController {
                                                               @RequestBody @Valid UserDetailDto userDetailDto) {
 
 
+        UserDetailDto saveUserDetailDto = new UserDetailDto();
         if(status!= null){
-            UserDetailDto saveUserDetailDto = userService.updateUserDetailStatus(detailId, status);
+             saveUserDetailDto = userService.updateUserDetailStatus(detailId, status);
+        }else{
+             saveUserDetailDto = userService.updateUserDetail(detailId, userDetailDto);
         }
-        UserDetailDto saveUserDetailDto = userService.updateUserDetail(detailId, userDetailDto);
+
         return new ResponseEntity<>(saveUserDetailDto, HttpStatus.OK);
 
 

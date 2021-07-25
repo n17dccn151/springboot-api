@@ -37,7 +37,7 @@ public class UserDetail {
     private String address;
 
     @Enumerated(EnumType.STRING)
-    @NaturalId
+//    @NaturalId
     @Column(name = "status")
     private UserDetailStatusName status;
 
