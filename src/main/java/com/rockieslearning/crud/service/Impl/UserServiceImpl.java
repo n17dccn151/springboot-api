@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
 
         existUser.setEmail(userDto.getEmail());
         existUser.setPhone(userDto.getPhone());
-        existUser.setPassword(userDto.getPassword());
+//        existUser.setPassword(userDto.getPassword());
         //existUser.setRoles(userDto.getRoles());
 
         User user = new User();
@@ -221,8 +221,9 @@ public class UserServiceImpl implements UserService {
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
+                System.out.println("_________________"+ role);
                 switch (role.toLowerCase()) {
-                    case "admin":
+                    case "role_admin":
                         Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);

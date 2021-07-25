@@ -31,7 +31,7 @@ public class FoodController {
 
 
     @GetMapping("")
-    public ResponseEntity<List<FoodDto>> getAllFood(
+    public ResponseEntity<ResponseList> getAllFood(
 
 
             @RequestParam(required = false) String name,
@@ -57,9 +57,14 @@ public class FoodController {
         }
 
 
+
         ResponseList responseList = new ResponseList();
         responseList.setTotalItems(foodService.retrieveFoods().size());
-        return new ResponseEntity<>(foodDtos, HttpStatus.OK);
+        responseList.setData(foodDtos);
+        responseList.setSize(size);
+        responseList.setPage(page);
+
+        return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
 

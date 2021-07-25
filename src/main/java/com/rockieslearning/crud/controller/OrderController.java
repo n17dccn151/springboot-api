@@ -44,21 +44,21 @@ public class OrderController {
 
         List<OrderDto> orderDtos = new ArrayList<>();
 
-        SortDirection sortDirection = new SortDirection();
-        List<Sort.Order> orders;
-        orders = sortDirection.getSortOrders(sort);
-        Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
+//        SortDirection sortDirection = new SortDirection();
+//        List<Sort.Order> orders;
+//        orders = sortDirection.getSortOrders(sort);
+//        Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
+//
+//
+//
+//        if (id == null) {
+//            orderDtos = orderService.retrieveOrders(statusName, pagingSort);
+//        } else {
+//            orderDtos = orderService.retrieveOrderById(id, pagingSort);
+//        }
 
 
-
-        if (id == null) {
-            orderDtos = orderService.retrieveOrders(statusName, pagingSort);
-        } else {
-            orderDtos = orderService.retrieveOrderById(id, pagingSort);
-        }
-
-
-        //orderDtos = orderService.retrieveOrders();
+        orderDtos = orderService.retrieveOrders();
         return new ResponseEntity<>(orderDtos, HttpStatus.OK);
     }
 

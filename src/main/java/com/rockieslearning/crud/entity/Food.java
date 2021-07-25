@@ -46,7 +46,7 @@ public class Food {
 
 
     @Enumerated(EnumType.STRING)
-    @NaturalId
+    @NaturalId(mutable=true)
     @Column(name = "food_status")
     private FoodStatusName foodStatusName;
 

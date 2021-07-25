@@ -50,21 +50,23 @@ public class UserController {
                                                      @RequestParam(defaultValue = "ROLE_USER")  RoleName role,
                                                      @RequestParam(defaultValue = "userId,desc") String[] sort) {
 
-        SortDirection sortDirection = new SortDirection();
-        List<Sort.Order> orders;
-        orders = sortDirection.getSortOrders(sort);
-        Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
-
-
         List<UserDto> userDtos = new ArrayList<>();
+//        SortDirection sortDirection = new SortDirection();
+//        List<Sort.Order> orders;
+//        orders = sortDirection.getSortOrders(sort);
+//        Pageable pagingSort = PageRequest.of(page, size, Sort.by(orders));
+//
+//
+//        List<UserDto> userDtos = new ArrayList<>();
+//
+//        if (phone == null) {
+//            userDtos = userService.retrieveUsers(role, pagingSort);
+//        } else {
+//            userDtos = userService.getUserByPhone(role, phone, pagingSort);
+//        }
 
-        if (phone == null) {
-            userDtos = userService.retrieveUsers(role, pagingSort);
-        } else {
-            userDtos = userService.getUserByPhone(role, phone, pagingSort);
-        }
 
-
+        userDtos = userService.retrieveUsers();
         return new ResponseEntity<>(userDtos, HttpStatus.OK);
     }
 

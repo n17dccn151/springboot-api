@@ -45,7 +45,7 @@ public class User {
     private String phone;
 
     @Column(name = "email")
-    @NaturalId
+//    @NaturalId(mutable=true)
     @NotBlank
     @Size(max = 50)
     @Email
