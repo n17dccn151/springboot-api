@@ -10,6 +10,7 @@ import com.rockieslearning.crud.payload.request.LoginRequest;
 import com.rockieslearning.crud.payload.request.SignupRequest;
 import com.rockieslearning.crud.payload.response.JwtResponse;
 import com.rockieslearning.crud.payload.response.MessageResponse;
+import com.rockieslearning.crud.repository.CartRepository;
 import com.rockieslearning.crud.repository.RoleRepository;
 import com.rockieslearning.crud.repository.UserDetailRepository;
 import com.rockieslearning.crud.repository.UserRepository;
@@ -62,6 +63,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtUtils jwtUtils;
 
+    @Autowired
+    CartRepository cartRepository;
 
     public UserServiceImpl(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, UserDetailRepository userDetailRepository, PasswordEncoder encoder, JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
@@ -240,6 +243,9 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         User saveUser = userRepository.save(user);
 
+        Cart cart = new Cart();
+        cart.setUser(user);
+        cartRepository.save(cart);
         return new UserDto().toDto(saveUser);
     }
 

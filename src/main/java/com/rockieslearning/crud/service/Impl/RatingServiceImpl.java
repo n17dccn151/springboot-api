@@ -47,6 +47,8 @@ public class RatingServiceImpl implements RatingService {
             throw new BadRequestException("Invalid Request");
         }
 
+
+        System.out.println("---------------------");
         FoodRating foodRating = new FoodRatingDto().toEntity(foodRatingDto);
         foodRating.setFood(food);
         foodRating.setUser(user);

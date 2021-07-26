@@ -92,8 +92,11 @@ public class CartServiceImpl implements CartService {
         ;
 
         Cart cart = repository.findByUser(user);
-        if (cart == null)
+        if (cart == null){
+           
             throw new ResourceNotFoundException("Cart not found ");
+        }
+
 
 
         cart.getCartFoods().forEach(e -> {

@@ -91,6 +91,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(LIST_SWAGGER).permitAll()
 
+
+
+
+                .antMatchers("/**").permitAll()
+                .antMatchers("/hello/**").permitAll()
+                .antMatchers("/app/**").permitAll()
+                .antMatchers("/topic/**").permitAll()
+                .antMatchers("/gs-guide-websocket/**").permitAll()
+
+
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/uploads/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
@@ -99,6 +109,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
                 .antMatchers("/api/customers/**").hasRole("USER")
+                .antMatchers(HttpMethod.POST,"/api/rating").hasRole("USER")
                 .anyRequest().hasRole("ADMIN");
 
 
