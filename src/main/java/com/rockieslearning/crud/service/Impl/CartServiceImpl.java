@@ -93,7 +93,7 @@ public class CartServiceImpl implements CartService {
 
         Cart cart = repository.findByUser(user);
         if (cart == null){
-           
+
             throw new ResourceNotFoundException("Cart not found ");
         }
 
