@@ -92,11 +92,10 @@ public class CartServiceImpl implements CartService {
         ;
 
         Cart cart = repository.findByUser(user);
-        if (cart == null){
+        if (cart == null) {
 
             throw new ResourceNotFoundException("Cart not found ");
         }
-
 
 
         cart.getCartFoods().forEach(e -> {
@@ -106,12 +105,41 @@ public class CartServiceImpl implements CartService {
                 e.setAmount(e.getFood().getQuantity());
                 cartFoodRepository.save(e);
             } else {
-                if (e.getHistAmount() != null && e.getHistAmount() < e.getFood().getQuantity()) {
 
-                    e.setAmount(e.getHistAmount());
-                    e.setHistAmount(null);
-                    cartFoodRepository.save(e);
+
+//                if (e.getHistAmount() != null && e.getHistAmount() < e.getFood().getQuantity()) {
+//
+//                    e.setAmount(e.getHistAmount());
+//                    e.setHistAmount(null);
+//                    cartFoodRepository.save(e);
+//                }
+
+
+
+
+
+                if (e.getHistAmount() != null) {
+
+                    if (e.getHistAmount() == -1) {
+                        e.setHistAmount(null);
+                    } else {
+                        if (e.getHistAmount() < e.getFood().getQuantity()  && e.getFood().getQuantity()>0) {
+                            e.setAmount(e.getHistAmount());
+                            e.setHistAmount(-1);
+                            cartFoodRepository.save(e);
+                        }
+                        if (e.getHistAmount() > e.getFood().getQuantity()  && e.getFood().getQuantity()>0) {
+                            e.setAmount(e.getFood().getQuantity());
+                            e.setHistAmount(-1);
+                            cartFoodRepository.save(e);
+                        }
+                        
+                    }
+
+
                 }
+
+
             }
 
 //            System.out.println(e.getFood().getQuantity());
@@ -154,6 +182,15 @@ public class CartServiceImpl implements CartService {
                 if (food.getQuantity() < (cartFoodDto.getAmount() + cartFood.getAmount())) {
                     throw new BadRequestException("Quantity invalid");
                 }
+
+
+                if ((cartFoodDto.getAmount() + cartFood.getAmount()) <= 0) {
+                    cartFoodRepository.deleteById(cartFood.getId());
+                    Cart s = repository.findById(cart.getCartId()).orElseThrow(() -> new ResourceNotFoundException("Cart not found for this id: "));
+                    return new CartDto().toDto(s);
+                }
+
+
                 cartFood.setAmount(cartFood.getAmount() + cartFoodDto.getAmount());
                 cartFoodRepository.save(cartFood);
 
