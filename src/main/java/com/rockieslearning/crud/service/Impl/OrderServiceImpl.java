@@ -227,8 +227,13 @@ public class OrderServiceImpl implements OrderService {
                 Food food = new Food();
                 food = foodRepository.findById(e.getId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
 
-                if(food.getQuantity()< e.getAmount()){
-                    food.setQuantity(food.getQuantity());
+                if(food.getQuantity() < e.getAmount()){
+
+                    throw new BadRequestException("invalid Request");
+//                    food.setQuantity(food.getQuantity());
+
+
+
                 }
 
                 food.setQuantity(food.getQuantity() - e.getAmount());
@@ -238,9 +243,13 @@ public class OrderServiceImpl implements OrderService {
                 orderFood.setOrder(saveOrder);
                 orderFood.setFood(food);
 
-                if(e.getAmount()>food.getQuantity()){
-                    orderFood.setAmount(food.getQuantity());
-                }
+//                if(e.getAmount()>food.getQuantity()){
+//                    orderFood.setAmount(food.getQuantity());
+//                }
+
+
+
+
 
 
                 orderFood.setAmount(e.getAmount());

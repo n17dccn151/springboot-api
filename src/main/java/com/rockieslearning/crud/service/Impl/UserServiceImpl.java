@@ -1,6 +1,5 @@
 package com.rockieslearning.crud.service.Impl;
 
-import com.rockieslearning.crud.dto.FoodDto;
 import com.rockieslearning.crud.dto.UserDetailDto;
 import com.rockieslearning.crud.dto.UserDto;
 import com.rockieslearning.crud.entity.*;
@@ -9,18 +8,13 @@ import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.payload.request.LoginRequest;
 import com.rockieslearning.crud.payload.request.SignupRequest;
 import com.rockieslearning.crud.payload.response.JwtResponse;
-import com.rockieslearning.crud.payload.response.MessageResponse;
-import com.rockieslearning.crud.repository.CartRepository;
-import com.rockieslearning.crud.repository.RoleRepository;
-import com.rockieslearning.crud.repository.UserDetailRepository;
-import com.rockieslearning.crud.repository.UserRepository;
+import com.rockieslearning.crud.repository.*;
 import com.rockieslearning.crud.security.jwt.JwtUtils;
 import com.rockieslearning.crud.security.services.UserDetailsImpl;
 import com.rockieslearning.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -33,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -50,6 +45,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -169,7 +167,19 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("user not found for this id: " + userId));
 
         userDetails = userDetailRepository.findByUser(user);
-        return new UserDetailDto().toListDto(userDetails);
+
+        List<UserDetail> userDetailList = new ArrayList<>();
+
+        userDetails.forEach(userDetail -> {
+            if(userDetail.getStatus().equals(UserDetailStatusName.DELETED)){
+
+            }else{
+                userDetailList.add(userDetail);
+            }
+        });
+
+
+        return new UserDetailDto().toListDto(userDetailList);
     }
 
     @Override
@@ -217,14 +227,15 @@ public class UserServiceImpl implements UserService {
 
         Set<String> strRoles = signupRequest.getRole();
         Set<Role> roles = new HashSet<>();
-
+        AtomicBoolean checkForUserCart = new AtomicBoolean(false);
         if (strRoles == null) {
             Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);
+            checkForUserCart.set(true);
         } else {
             strRoles.forEach(role -> {
-                System.out.println("_________________"+ role);
+                System.out.println("_________________" + role);
                 switch (role.toLowerCase()) {
                     case "role_admin":
                         Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
@@ -233,9 +244,11 @@ public class UserServiceImpl implements UserService {
 
                         break;
                     default:
+                        checkForUserCart.set(true);
                         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(userRole);
+
                 }
             });
         }
@@ -243,9 +256,13 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
         User saveUser = userRepository.save(user);
 
-        Cart cart = new Cart();
-        cart.setUser(user);
-        cartRepository.save(cart);
+        if (checkForUserCart.get() == true) {
+            Cart cart = new Cart();
+            cart.setUser(user);
+            cartRepository.save(cart);
+        }
+
+
         return new UserDto().toDto(saveUser);
     }
 
@@ -300,13 +317,41 @@ public class UserServiceImpl implements UserService {
     public UserDetailDto updateUserDetail(Integer detailId, UserDetailDto userDetailDto) throws BadRequestException {
         UserDetail userDetail = userDetailRepository.findById(detailId)
                 .orElseThrow(() -> new ResourceNotFoundException("userdetail not found for this id: " + detailId));
-        userDetail.setFirstName(userDetailDto.getFirstName());
-        userDetail.setLastName(userDetailDto.getLastName());
-        userDetail.setPhone(userDetailDto.getPhone());
-        userDetail.setAddress(userDetailDto.getAddress());
-        userDetail.setStatus(userDetailDto.getStatus());
 
-        System.out.println("---------------------------------------------"+ userDetail.getStatus());
+        if (orderRepository.findByUserDetail(userDetail).size() >= 1) {
+
+            System.out.println("----------------------------CO dat ahfg-----------------" + userDetail.getStatus());
+
+
+            UserDetail userDetail1 = new UserDetail();
+            userDetail1.setFirstName(userDetailDto.getFirstName());
+            userDetail1.setLastName(userDetailDto.getLastName());
+            userDetail1.setPhone(userDetailDto.getPhone());
+            userDetail1.setAddress(userDetailDto.getAddress());
+            userDetail1.setStatus(userDetailDto.getStatus());
+            userDetail1.setUser(userDetail.getUser());
+            userDetailRepository.save(userDetail1);
+
+
+
+            //old
+            userDetail.setStatus(UserDetailStatusName.DELETED);
+//            userDetailRepository.save(userDetail);
+
+
+        }else{
+            System.out.println("---------------------------KO-CO dat ahfg-----------------" + userDetail.getStatus());
+
+            userDetail.setFirstName(userDetailDto.getFirstName());
+            userDetail.setLastName(userDetailDto.getLastName());
+            userDetail.setPhone(userDetailDto.getPhone());
+            userDetail.setAddress(userDetailDto.getAddress());
+            userDetail.setStatus(userDetailDto.getStatus());
+        }
+
+
+
+        System.out.println("---------------------------------------------" + userDetail.getStatus());
         try {
             return new UserDetailDto().toDto(userDetailRepository.save(userDetail));
         } catch (Exception e) {
@@ -320,14 +365,14 @@ public class UserServiceImpl implements UserService {
         UserDetail userDetail1 = userDetailRepository.findById(detailId)
                 .orElseThrow(() -> new ResourceNotFoundException("userdetail not found for this id: " + detailId));
 
-        if (userDetailRepository.findAll().size() == 1) {
+        if (userDetailRepository.findListUserDetailByStatusAndUser(UserDetailStatusName.DEFAULT, userDetail1.getUser()).size() < 1) {
             throw new BadRequestException("invalid request");
         }
 
         try {
 
-            if(userDetailStatusName.equals(UserDetailStatusName.UNDEFAULT)){
-                UserDetail userDetail = userDetailRepository.findUserDetailByStatus(UserDetailStatusName.DEFAULT);
+            if (userDetailStatusName.equals(UserDetailStatusName.DEFAULT)) {
+                UserDetail userDetail = userDetailRepository.findUserDetailByStatusAndUser(UserDetailStatusName.DEFAULT, userDetail1.getUser());
                 userDetail.setStatus(UserDetailStatusName.UNDEFAULT);
                 userDetailRepository.save(userDetail);
 
@@ -335,14 +380,44 @@ public class UserServiceImpl implements UserService {
                 userDetailRepository.save(userDetail1);
             }
 
-            if(userDetailStatusName.equals(UserDetailStatusName.DELETED)){
-                userDetail1.setStatus(UserDetailStatusName.DELETED);
-                userDetailRepository.save(userDetail1);
+            if (userDetailStatusName.equals(UserDetailStatusName.DELETED)) {
+
+
+                if (orderRepository.findByUserDetail(userDetail1).size() > 0) {
+
+
+                    if (userDetail1.getStatus().equals(UserDetailStatusName.DEFAULT)) {
+
+
+                        UserDetail userDetail = userDetailRepository.findListUserDetailByStatusAndUser(UserDetailStatusName.UNDEFAULT, userDetail1.getUser()).get(0);
+                        userDetail.setStatus(UserDetailStatusName.UNDEFAULT);
+                        userDetailRepository.save(userDetail);
+
+
+                    }
+
+                    userDetail1.setStatus(UserDetailStatusName.DELETED);
+                    userDetailRepository.save(userDetail1);
+
+                } else {
+                    if (userDetail1.getStatus().equals(UserDetailStatusName.DEFAULT)) {
+
+
+                        UserDetail userDetail = userDetailRepository.findListUserDetailByStatusAndUser(UserDetailStatusName.UNDEFAULT, userDetail1.getUser()).get(0);
+                        userDetail.setStatus(UserDetailStatusName.UNDEFAULT);
+                        userDetailRepository.save(userDetail);
+
+
+                    }
+                    userDetailRepository.delete(userDetail1);
+                }
+
+
             }
 
 
-        }catch (Exception e){
-            throw new BadRequestException("invalid request");
+        } catch (Exception e) {
+            throw new BadRequestException("invalid request" + e.getMessage());
         }
         return new UserDetailDto().toDto(userDetail1);
     }

@@ -120,20 +120,15 @@ public class CartServiceImpl implements CartService {
 
                 if (e.getHistAmount() != null) {
 
-                    if (e.getHistAmount() == -1) {
+                    if (e.getHistAmount() < e.getFood().getQuantity()  && e.getFood().getQuantity()>0) {
+                        e.setAmount(e.getHistAmount());
                         e.setHistAmount(null);
-                    } else {
-                        if (e.getHistAmount() < e.getFood().getQuantity()  && e.getFood().getQuantity()>0) {
-                            e.setAmount(e.getHistAmount());
-                            e.setHistAmount(-1);
-                            cartFoodRepository.save(e);
-                        }
-                        if (e.getHistAmount() > e.getFood().getQuantity()  && e.getFood().getQuantity()>0) {
-                            e.setAmount(e.getFood().getQuantity());
-                            e.setHistAmount(-1);
-                            cartFoodRepository.save(e);
-                        }
-                        
+                        cartFoodRepository.save(e);
+                    }
+                    if (e.getHistAmount() > e.getFood().getQuantity()  && e.getFood().getQuantity()>0) {
+                        e.setAmount(e.getFood().getQuantity());
+                        e.setHistAmount(null);
+                        cartFoodRepository.save(e);
                     }
 
 

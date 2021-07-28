@@ -18,6 +18,8 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     Page<Order> findOrdersByStatusAndOrderIdContaining( OrderStatusName statusName,String orderId, Pageable pageable);
 
+    List<Order> findByUserDetail(UserDetail userDetail);
+
     @Query("select o from Order o where CONCAT(o.orderId, '') like %?1%")
     Page<Order> findOrdersByStatusAndOrderIdContaining (String orderId, Pageable pageable);
 }

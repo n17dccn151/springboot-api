@@ -76,11 +76,12 @@ public class CustomerController {
     public ResponseEntity<UserDetailDto> updateUserDetailById(HttpServletRequest request,
                                                               @RequestParam(required = false) UserDetailStatusName status,
                                                               @PathVariable("detailId") Integer detailId,
-                                                              @RequestBody @Valid UserDetailDto userDetailDto) {
+                                                              @RequestBody(required = false)  @Valid UserDetailDto userDetailDto) {
 
 
         UserDetailDto saveUserDetailDto = new UserDetailDto();
         if(status!= null){
+            System.out.println("_____________________");
              saveUserDetailDto = userService.updateUserDetailStatus(detailId, status);
         }else{
              saveUserDetailDto = userService.updateUserDetail(detailId, userDetailDto);
