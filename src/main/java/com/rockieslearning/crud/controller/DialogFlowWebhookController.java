@@ -43,7 +43,7 @@ public class DialogFlowWebhookController {
 //        text.setText(Arrays.asList("Welcome to Spring Boot"));
 //        msg.setText(text);
         text.setText(Arrays.asList(request.getQueryResult().getFulfillmentText()));
-
+        System.out.println(Arrays.asList(request.getQueryResult().getFulfillmentText()));
         msg.setText(text);
         
 
