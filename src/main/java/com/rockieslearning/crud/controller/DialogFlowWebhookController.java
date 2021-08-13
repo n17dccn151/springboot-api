@@ -42,7 +42,7 @@ public class DialogFlowWebhookController {
         GoogleCloudDialogflowV2IntentMessageText text = new GoogleCloudDialogflowV2IntentMessageText();
 //        text.setText(Arrays.asList("Welcome to Spring Boot"));
 //        msg.setText(text);
-        text.setText(Arrays.asList(request.getQueryResult().getQueryText()));
+        text.setText(Arrays.asList(request.getQueryResult().getFulfillmentText()));
 
         msg.setText(text);
         
