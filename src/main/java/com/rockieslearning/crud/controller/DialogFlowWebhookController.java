@@ -114,7 +114,7 @@ public class DialogFlowWebhookController {
 
 
         ResponseBotCopy responseBotCopy = new ResponseBotCopy();
-        responseBotCopy.setBotcopy(botCopy);
+        responseBotCopy.setBotcopy(Arrays.asList(botCopy));
         ObjectMapper oMapper = new ObjectMapper();
 
         map = oMapper.convertValue(responseBotCopy, Map.class);
