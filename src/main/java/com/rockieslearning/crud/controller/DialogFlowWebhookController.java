@@ -51,7 +51,7 @@ public class DialogFlowWebhookController {
 
         GoogleCloudDialogflowV2IntentMessageCardButton cardButton = new GoogleCloudDialogflowV2IntentMessageCardButton();
         switch (displayName){
-            case "list_available_meal_category":
+            case "list_available_meal_categoryy":
 
                 List<CategoryDto> categoryDtoList  = categoryService.retrieveCategories();
                 text.setText(Arrays.asList("Hiện tại chúng tôi có "+ categoryDtoList.size() + " loại bạn muốn tìm loại nào?"));
@@ -88,6 +88,7 @@ public class DialogFlowWebhookController {
 
         GoogleCloudDialogflowV2WebhookResponse response = new GoogleCloudDialogflowV2WebhookResponse();
         response.setFulfillmentMessages(messages);
+
 
         ///
         Map<String, Object> map = new HashMap<>();
