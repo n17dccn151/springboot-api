@@ -94,6 +94,33 @@ public class DialogFlowWebhookController {
         jsonGenerator.serialize(response);
         jsonGenerator.flush();
 //        return stringWriter.toString();
+        String s = "{\n" +
+                "  \"botcopy\": [\n" +
+                "    {\n" +
+                "      \"suggestions\": [\n" +
+                "        {\n" +
+                "          \"action\": {\n" +
+                "            \"message\": {\n" +
+                "              \"command\": \"Pricing\",\n" +
+                "              \"type\": \"training\"\n" +
+                "            }\n" +
+                "          },\n" +
+                "          \"title\": \"Message Suggestion\"\n" +
+                "        },\n" +
+                "        {\n" +
+                "          \"action\": {\n" +
+                "            \"link\": {\n" +
+                "              \"target\": \"_blank\",\n" +
+                "              \"url\": \"https://botcopy.com\"\n" +
+                "            }\n" +
+                "          },\n" +
+                "          \"title\": \"Link Suggestion\"\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    }\n" +
+                "  ]\n" +
+                "}";
+        System.out.println(s);
         return "{\n" +
                 "  \"botcopy\": [\n" +
                 "    {\n" +
