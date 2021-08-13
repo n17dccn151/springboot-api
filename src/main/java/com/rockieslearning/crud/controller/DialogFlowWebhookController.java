@@ -35,11 +35,17 @@ public class DialogFlowWebhookController {
                 .parse(GoogleCloudDialogflowV2WebhookRequest.class);
 
         //Step 2. Process the request
+
+
         //Step 3. Build the response message
         GoogleCloudDialogflowV2IntentMessage msg = new GoogleCloudDialogflowV2IntentMessage();
         GoogleCloudDialogflowV2IntentMessageText text = new GoogleCloudDialogflowV2IntentMessageText();
-        text.setText(Arrays.asList("Welcome to Spring Boot"));
+//        text.setText(Arrays.asList("Welcome to Spring Boot"));
+//        msg.setText(text);
+        text.setText(Arrays.asList(request.getQueryResult().getQueryText()));
+
         msg.setText(text);
+        
 
         GoogleCloudDialogflowV2WebhookResponse response = new GoogleCloudDialogflowV2WebhookResponse();
         response.setFulfillmentMessages(Arrays.asList(msg));
