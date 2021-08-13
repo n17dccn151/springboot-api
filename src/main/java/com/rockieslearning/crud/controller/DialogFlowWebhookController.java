@@ -86,8 +86,9 @@ public class DialogFlowWebhookController {
 
 
 
-        GoogleCloudDialogflowV2WebhookResponse response = new GoogleCloudDialogflowV2WebhookResponse();
-        response.setFulfillmentMessages(messages);
+
+
+
 
 
         ///
@@ -120,8 +121,13 @@ public class DialogFlowWebhookController {
 
         map = oMapper.convertValue(responseBotCopy, Map.class);
 
-        response.setPayload(map);
+        messages.add(new GoogleCloudDialogflowV2IntentMessage().setPayload(map));
 
+
+
+
+        GoogleCloudDialogflowV2WebhookResponse response = new GoogleCloudDialogflowV2WebhookResponse();
+        response.setFulfillmentMessages(messages);
         ///
 
 
