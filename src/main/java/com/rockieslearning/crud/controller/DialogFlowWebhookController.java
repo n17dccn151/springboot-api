@@ -51,6 +51,8 @@ public class DialogFlowWebhookController {
         List<GoogleCloudDialogflowV2IntentMessageCard> cards = new ArrayList<>();
         GoogleCloudDialogflowV2IntentMessageCard card = new GoogleCloudDialogflowV2IntentMessageCard();
         List<GoogleCloudDialogflowV2IntentMessage> messages = new ArrayList<>();
+
+        GoogleCloudDialogflowV2IntentMessageCardButton cardButton = new GoogleCloudDialogflowV2IntentMessageCardButton();
         switch (displayName){
             case "list_available_meal_category":
 
@@ -61,13 +63,16 @@ public class DialogFlowWebhookController {
                     card.setImageUri(item.getImage());
                     card.setSubtitle(item.getDescription());
                     card.setTitle(item.getName());
+                    cardButton.setText("Xem");
+                    cardButton.setPostback("google.com");
+                    card.setButtons(Arrays.asList(cardButton));
                     msg.setCard(card);
 
                     messages.add(msg);
 
                 });
 
-                
+
         }
 
         //Step 3. Build the response message
