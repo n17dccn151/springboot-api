@@ -1,4 +1,5 @@
 package com.rockieslearning.crud.controller;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.dialogflow.v2beta1.model.*;
 import com.rockieslearning.crud.dto.CategoryDto;
@@ -116,7 +117,9 @@ public class DialogFlowWebhookController {
 
 
         System.out.println("________________"+botCopy.getSuggestions().get(0).getTitle());
-        map.put("botcopy", botCopy);
+        ObjectMapper oMapper = new ObjectMapper();
+
+        map = oMapper.convertValue(botCopy, Map.class);
 
         response.setPayload(map);
 
