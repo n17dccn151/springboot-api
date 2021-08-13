@@ -2,7 +2,10 @@ package com.rockieslearning.crud.controller;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.dialogflow.v2beta1.model.*;
 import com.rockieslearning.crud.dto.CategoryDto;
-import com.rockieslearning.crud.dto.dialogDto.ItemDto;
+import com.rockieslearning.crud.dto.dialogDto.Action;
+import com.rockieslearning.crud.dto.dialogDto.BotCopy;
+import com.rockieslearning.crud.dto.dialogDto.Link;
+import com.rockieslearning.crud.dto.dialogDto.Suggestion;
 import com.rockieslearning.crud.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,14 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.google.api.client.json.JsonGenerator;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by TanVOD on Aug, 2021
@@ -84,68 +83,49 @@ public class DialogFlowWebhookController {
 //        text.setText(Arrays.asList(request.getQueryResult().getFulfillmentText()));
 //        System.out.println(Arrays.asList(request.getQueryResult().getFulfillmentText()));
 //        msg.setText(text);
-        
+
+
+
+
 
         GoogleCloudDialogflowV2WebhookResponse response = new GoogleCloudDialogflowV2WebhookResponse();
         response.setFulfillmentMessages(messages);
+
+        ///
+        Map<String, Object> map = new HashMap<>();
+        BotCopy botCopy = new BotCopy();
+
+
+        Link link = new Link();
+        List<Suggestion> suggestions = new ArrayList<>();
+        Action action = new Action();
+        Suggestion suggestion = new Suggestion();
+
+
+
+        link.setTarget("_blank");
+        link.setUrl("https://botcopy.com");
+        action.setLink(link);
+
+        suggestion.setAction(action);
+        suggestion.setTitle("test");
+        suggestions.add(suggestion);
+
+
+        botCopy.setSuggestions(suggestions);
+
+        map.put("botcopy", botCopy);
+
+        response.setPayload(map);
+
+        ///
+
+
         StringWriter stringWriter = new StringWriter();
         JsonGenerator jsonGenerator = jacksonFactory.createJsonGenerator(stringWriter);
         jsonGenerator.enablePrettyPrint();
         jsonGenerator.serialize(response);
         jsonGenerator.flush();
-//        return stringWriter.toString();
-        String s = "{\n" +
-                "  \"botcopy\": [\n" +
-                "    {\n" +
-                "      \"suggestions\": [\n" +
-                "        {\n" +
-                "          \"action\": {\n" +
-                "            \"message\": {\n" +
-                "              \"command\": \"Pricing\",\n" +
-                "              \"type\": \"training\"\n" +
-                "            }\n" +
-                "          },\n" +
-                "          \"title\": \"Message Suggestion\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"action\": {\n" +
-                "            \"link\": {\n" +
-                "              \"target\": \"_blank\",\n" +
-                "              \"url\": \"https://botcopy.com\"\n" +
-                "            }\n" +
-                "          },\n" +
-                "          \"title\": \"Link Suggestion\"\n" +
-                "        }\n" +
-                "      ]\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
-        System.out.println(s);
-        return "{\n" +
-                "  \"botcopy\": [\n" +
-                "    {\n" +
-                "      \"suggestions\": [\n" +
-                "        {\n" +
-                "          \"action\": {\n" +
-                "            \"message\": {\n" +
-                "              \"command\": \"Pricing\",\n" +
-                "              \"type\": \"training\"\n" +
-                "            }\n" +
-                "          },\n" +
-                "          \"title\": \"Message Suggestion\"\n" +
-                "        },\n" +
-                "        {\n" +
-                "          \"action\": {\n" +
-                "            \"link\": {\n" +
-                "              \"target\": \"_blank\",\n" +
-                "              \"url\": \"https://botcopy.com\"\n" +
-                "            }\n" +
-                "          },\n" +
-                "          \"title\": \"Link Suggestion\"\n" +
-                "        }\n" +
-                "      ]\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}";
+        return stringWriter.toString();
     }
 }

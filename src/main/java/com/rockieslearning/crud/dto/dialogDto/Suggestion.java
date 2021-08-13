@@ -1,10 +1,14 @@
 package com.rockieslearning.crud.dto.dialogDto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Created by TanVOD on Aug, 2021
  */
-public class CardDto {
+@Getter
+@Setter
+public class Suggestion {
+    Action action;
     String title;
-    String subtitle;
-    String imageUri;
 }

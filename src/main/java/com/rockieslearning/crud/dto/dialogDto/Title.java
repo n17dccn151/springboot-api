@@ -1,9 +1,14 @@
 package com.rockieslearning.crud.dto.dialogDto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Created by TanVOD on Aug, 2021
  */
-public class ItemDto {
-    CardDto cardDto;
-    TextDto text;
+
+@Getter
+@Setter
+public class Title {
+
 }
