@@ -3,10 +3,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.dialogflow.v2beta1.model.*;
 import com.rockieslearning.crud.dto.CategoryDto;
-import com.rockieslearning.crud.dto.dialogDto.Action;
-import com.rockieslearning.crud.dto.dialogDto.BotCopy;
-import com.rockieslearning.crud.dto.dialogDto.Link;
-import com.rockieslearning.crud.dto.dialogDto.Suggestion;
+import com.rockieslearning.crud.dto.dialogDto.*;
 import com.rockieslearning.crud.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -116,10 +113,11 @@ public class DialogFlowWebhookController {
         botCopy.setSuggestions(suggestions);
 
 
-        System.out.println("________________"+botCopy.getSuggestions().get(0).getTitle());
+        ResponseBotCopy responseBotCopy = new ResponseBotCopy();
+        responseBotCopy.setBotcopy(botCopy);
         ObjectMapper oMapper = new ObjectMapper();
 
-        map = oMapper.convertValue(botCopy, Map.class);
+        map = oMapper.convertValue(responseBotCopy, Map.class);
 
         response.setPayload(map);
 
