@@ -92,7 +92,7 @@ public class DialogFlowWebhookController {
         response.setFulfillmentMessages(messages);
 
         ///
-        Map<String, BotCopy> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         BotCopy botCopy = new BotCopy();
 
 
@@ -114,6 +114,8 @@ public class DialogFlowWebhookController {
 
         botCopy.setSuggestions(suggestions);
 
+
+        System.out.println("________________"+botCopy.getSuggestions().get(0).getTitle());
         map.put("botcopy", botCopy);
 
         response.setPayload(map);
