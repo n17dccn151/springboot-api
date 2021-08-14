@@ -45,8 +45,7 @@ public class DialogFlowWebhookController {
         System.out.println("--------"+ request.getQueryResult().getParameters());
         System.out.println("--------"+ request.getQueryResult().getWebhookPayload());
         System.out.println("--------"+ request.getQueryResult().getFulfillmentText());
-        System.out.println("--------"+ request.getQueryResult().get());
-
+        
         String displayName = request.getQueryResult().getIntent().getDisplayName();
         GoogleCloudDialogflowV2IntentMessage msg = new GoogleCloudDialogflowV2IntentMessage();
         GoogleCloudDialogflowV2IntentMessageText text = new GoogleCloudDialogflowV2IntentMessageText();
