@@ -42,7 +42,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
                 Long userId = jwtUtils.getUserIdFromJwtToken(jwt);
                 request.setAttribute("userId", userId);
-
+                System.out.println("asdjashdjahsdjh"+ userId);
 
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
                 // TODO
