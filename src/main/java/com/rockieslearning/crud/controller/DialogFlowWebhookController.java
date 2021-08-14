@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.google.api.client.json.JsonGenerator;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.*;
@@ -33,7 +34,12 @@ public class DialogFlowWebhookController {
     }
 
     @PostMapping(value = "/dialogflow-webhook", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public String webhook(@RequestBody String rawData) throws IOException {
+    public String webhook(@RequestBody String rawData, HttpServletRequest rq) throws IOException {
+
+
+        Long userId = (Long) rq.getAttribute("userId");
+
+
         //Step 1. Parse the request
         GoogleCloudDialogflowV2WebhookRequest request = jacksonFactory
                 .createJsonParser(rawData)
@@ -114,7 +120,7 @@ public class DialogFlowWebhookController {
         action.setLink(link);
 
         suggestion.setAction(action);
-        suggestion.setTitle("test");
+        suggestion.setTitle("---"+userId);
         suggestions.add(suggestion);
 
 
