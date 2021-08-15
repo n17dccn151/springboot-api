@@ -3,8 +3,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.dialogflow.v2beta1.model.*;
 import com.rockieslearning.crud.dto.CategoryDto;
+import com.rockieslearning.crud.dto.FoodDto;
 import com.rockieslearning.crud.dto.dialogDto.*;
 import com.rockieslearning.crud.service.CategoryService;
+import com.rockieslearning.crud.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +31,9 @@ public class DialogFlowWebhookController {
     @Autowired
     CategoryService categoryService;
 
+    @Autowired
+    FoodService foodService;
+
     public DialogFlowWebhookController(JacksonFactory jacksonFactory) {
         this.jacksonFactory = jacksonFactory;
     }
@@ -47,16 +52,15 @@ public class DialogFlowWebhookController {
 
         //Step 2. Process the request
 
-        System.out.println("--------"+ rawData);
-        System.out.println("--------"+ request.getQueryResult().getFulfillmentMessages());
-        System.out.println("--------"+ request.getQueryResult().getParameters());
-        System.out.println("--------"+ request.getQueryResult().getWebhookPayload());
-        System.out.println("--------"+ request.getQueryResult().getFulfillmentText());
+        System.out.println("---rawData-----"+ rawData);
+        System.out.println("---getFulfillmentMessages()-----"+ request.getQueryResult().getFulfillmentMessages());
+        System.out.println("---getParameters()-----"+ request.getQueryResult().getParameters());
+        System.out.println("---getWebhookPayload()-----"+ request.getQueryResult().getWebhookPayload());
+        System.out.println("---getFulfillmentText()-----"+ request.getQueryResult().getFulfillmentText());
 
 
-        System.out.println("--- Payload-----"+ request.getOriginalDetectIntentRequest().getPayload());
-
-        System.out.println("--------"+ request.getQueryResult().getQueryText());
+        System.out.println("---Payload-----"+ request.getOriginalDetectIntentRequest().getPayload());
+        System.out.println("---getQueryText()---"+ request.getQueryResult().getQueryText());
 
         String displayName = request.getQueryResult().getIntent().getDisplayName();
         GoogleCloudDialogflowV2IntentMessage msg = new GoogleCloudDialogflowV2IntentMessage();
@@ -65,47 +69,34 @@ public class DialogFlowWebhookController {
         GoogleCloudDialogflowV2IntentMessageCard card = new GoogleCloudDialogflowV2IntentMessageCard();
         List<GoogleCloudDialogflowV2IntentMessage> messages = new ArrayList<>();
 
+
+
         GoogleCloudDialogflowV2IntentMessageCardButton cardButton = new GoogleCloudDialogflowV2IntentMessageCardButton();
         switch (displayName){
-            case "list_available_meal_categoryy":
+            case "list_available_food":
 
-                List<CategoryDto> categoryDtoList  = categoryService.retrieveCategories();
-                text.setText(Arrays.asList("Hiện tại chúng tôi có "+ categoryDtoList.size() + " loại bạn muốn tìm loại nào?"));
+                List<FoodDto> foodDtos  = foodService.retrieveFoods();
+                text.setText(Arrays.asList("Hiện tại chúng tôi có "+ foodDtos.size() + " loại bạn muốn tìm loại nào?"));
                 messages.add(new GoogleCloudDialogflowV2IntentMessage().setText(text));
-                categoryDtoList.forEach(item ->{
-                    card.setImageUri(item.getImage());
+                foodDtos.forEach(item ->{
+                    card.setImageUri(item.getImages().get(0).getUrl());
                     card.setSubtitle(item.getDescription());
                     card.setTitle(item.getName());
-                    cardButton.setText("Xem");
-                    cardButton.setPostback("google.com");
+                    cardButton.setText("Thêm vào giỏ hàng");
+                    cardButton.setPostback("/cart/"+item.getFoodId()+"?qty="+ 1);
                     card.setButtons(Arrays.asList(cardButton));
                     msg.setCard(card);
 
                     messages.add(msg);
 
                 });
+            case "request_food":
+                System.out.println("---hello-----"+ rawData);
+
+
 
 
         }
-
-        //Step 3. Build the response message
-
-//        text.setText(Arrays.asList("Welcome to Spring Boot"));
-//        msg.setText(text);
-
-
-//        text.setText(Arrays.asList(request.getQueryResult().getFulfillmentText()));
-//        System.out.println(Arrays.asList(request.getQueryResult().getFulfillmentText()));
-//        msg.setText(text);
-
-
-
-
-
-
-
-
-
 
         ///
         Map<String, Object> map = new HashMap<>();
