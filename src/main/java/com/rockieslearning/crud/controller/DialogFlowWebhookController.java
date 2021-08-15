@@ -52,7 +52,10 @@ public class DialogFlowWebhookController {
         System.out.println("--------"+ request.getQueryResult().getParameters());
         System.out.println("--------"+ request.getQueryResult().getWebhookPayload());
         System.out.println("--------"+ request.getQueryResult().getFulfillmentText());
-        System.out.println("--------"+ request.getQueryResult().toString());
+
+        
+        System.out.println("--- Payload-----"+ request.getOriginalDetectIntentRequest().getPayload());
+
         System.out.println("--------"+ request.getQueryResult().getQueryText());
 
         String displayName = request.getQueryResult().getIntent().getDisplayName();
