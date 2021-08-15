@@ -47,6 +47,7 @@ public class DialogFlowWebhookController {
 
         //Step 2. Process the request
 
+        System.out.println("--------"+ rawData);
         System.out.println("--------"+ request.getQueryResult().getFulfillmentMessages());
         System.out.println("--------"+ request.getQueryResult().getParameters());
         System.out.println("--------"+ request.getQueryResult().getWebhookPayload());
