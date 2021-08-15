@@ -125,11 +125,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 //        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "http://localhost:8000", "http://localhost:3001", "https://webhook-dialog-flow-spring-boo.herokuapp.com"));
-        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+//        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
 
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:3000", "http://localhost:8000", "http://localhost:3001", "https://webhook-dialog-flow-spring-boo.herokuapp.com"));
+
+        configuration.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "responseType", "Authorization"));
+
+//        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-//        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(true);
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**",configuration);
         return source;
