@@ -129,7 +129,7 @@ public class DialogFlowWebhookController {
 
 
                     Image image = new Image();
-                    image.setUrl(item.getImages().get(0).getUrl());
+                    image.setUrl("https://firebasestorage.googleapis.com/v0/b/nas-app-77.appspot.com/o/7d4b1a97-ef84-404a-93b4-0b4e1d812086jpg?alt=media");
                     card1.setImage(image);
 
                     carousel.add(card1);
