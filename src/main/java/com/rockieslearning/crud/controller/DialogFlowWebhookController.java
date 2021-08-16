@@ -104,7 +104,7 @@ public class DialogFlowWebhookController {
                 List<Card> carousel = new ArrayList<>();
 
 
-                System.out.println("---++++getParameters()-----"+ request.getQueryResult().getParameters().get("food").toString());
+                System.out.println("---++++getParameters()-----"+ request.getQueryResult().getParameters().get("food").toString().toLowerCase());
                 List<FoodDto> foods = foodService.getAllFoodByName(request.getQueryResult().getParameters().get("food").toString().toLowerCase());
 
 
