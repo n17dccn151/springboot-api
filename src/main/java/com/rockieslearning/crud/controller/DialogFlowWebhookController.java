@@ -70,6 +70,10 @@ public class DialogFlowWebhookController {
         List<GoogleCloudDialogflowV2IntentMessage> messages = new ArrayList<>();
 
 
+        Map<String, Object> map = new HashMap<>();
+        ObjectMapper oMapper = new ObjectMapper();
+        BotCopy botCopy = new BotCopy();
+
 
         GoogleCloudDialogflowV2IntentMessageCardButton cardButton = new GoogleCloudDialogflowV2IntentMessageCardButton();
         switch (displayName){
@@ -93,49 +97,73 @@ public class DialogFlowWebhookController {
             case "request_food":
                 System.out.println("---hello-----"+ rawData);
 
+            case "request_info_food":
+
+
+
+
+
+                Link link = new Link();
+                link.setTarget("_blank");
+                link.setUrl("/products/"+ 123);
+
+                Action action = new Action();
+                action.setLink(link);
+
+
+                Suggestion buttonB = new Suggestion();
+                action.setButtons(Arrays.asList(buttonB));
+                buttonB.setTitle("Xem chi tiết");
+
+                Card card1 = new Card();
+                card1.setAction(action);
+                card1.setTitle("Quýt nè");
+                card1.setSubtitle("10,000 đ");
+
+                Image image = new Image();
+                image.setUrl("https://firebasestorage.googleapis.com/v0/b/nas-app-77.appspot.com/o/1b93fbbe-e753-40e7-b364-6849d3f73d8djpg?alt=media");
+                card1.setImage(image);
+
+
+                botCopy.setCard(card1);
 
 
 
         }
 
-        ///
-        Map<String, Object> map = new HashMap<>();
-        BotCopy botCopy = new BotCopy();
-
-
-        Link link = new Link();
-        List<Suggestion> suggestions = new ArrayList<>();
-        Action action = new Action();
-        Suggestion suggestion = new Suggestion();
 
 
 
-        link.setTarget("_blank");
-        link.setUrl("https://botcopy.com");
-        action.setLink(link);
 
-        suggestion.setAction(action);
-        suggestion.setTitle("---"+userId);
-        suggestions.add(suggestion);
+//        Link link = new Link();
+//        List<Suggestion> suggestions = new ArrayList<>();
+//        Action action = new Action();
+//        Suggestion suggestion = new Suggestion();
+//
+//
+//
+//        link.setTarget("_blank");
+//        link.setUrl("https://botcopy.com");
+//        action.setLink(link);
+//
+//        suggestion.setAction(action);
+//        suggestion.setTitle("---"+userId);
+//        suggestions.add(suggestion);
 
 
-        botCopy.setSuggestions(suggestions);
+
 
 
         ResponseBotCopy responseBotCopy = new ResponseBotCopy();
         responseBotCopy.setBotcopy(Arrays.asList(botCopy));
-        ObjectMapper oMapper = new ObjectMapper();
+
+
+
 
         map = oMapper.convertValue(responseBotCopy, Map.class);
-
         messages.add(new GoogleCloudDialogflowV2IntentMessage().setPayload(map));
-
-
-
-
         GoogleCloudDialogflowV2WebhookResponse response = new GoogleCloudDialogflowV2WebhookResponse();
         response.setFulfillmentMessages(messages);
-        ///
 
 
         StringWriter stringWriter = new StringWriter();
