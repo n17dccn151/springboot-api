@@ -100,35 +100,46 @@ public class DialogFlowWebhookController {
             case "request_info_food":
 
 
+                List<BotCopy> botCopies = new ArrayList<>();
+                List<Card> carousel = new ArrayList<>();
+
 
                 System.out.println("---++++getParameters()-----"+ request.getQueryResult().getParameters().get("food").toString());
                 List<FoodDto> foods = foodService.getAllFoodByName(request.getQueryResult().getParameters().get("food").toString());
 
 
+                foods.forEach(item ->{
+                    Link link = new Link();
+                    link.setTarget("_blank");
+                    link.setUrl("/products/"+ item.getFoodId());
 
-                Link link = new Link();
-                link.setTarget("_blank");
-                link.setUrl("/products/"+ 123);
-
-                Action action = new Action();
-                action.setLink(link);
-
-
-                Suggestion buttonB = new Suggestion();
-                action.setButtons(Arrays.asList(buttonB));
-                buttonB.setTitle("Xem chi tiết");
-
-                Card card1 = new Card();
-                card1.setAction(action);
-                card1.setTitle("Quýt nè");
-                card1.setSubtitle("10,000 đ");
-
-                Image image = new Image();
-                image.setUrl("https://firebasestorage.googleapis.com/v0/b/nas-app-77.appspot.com/o/1b93fbbe-e753-40e7-b364-6849d3f73d8djpg?alt=media");
-                card1.setImage(image);
+                    Action action = new Action();
+                    action.setLink(link);
 
 
-                botCopy.setCard(card1);
+                    Suggestion buttonB = new Suggestion();
+                    action.setButtons(Arrays.asList(buttonB));
+                    buttonB.setTitle("Xem chi tiết");
+
+                    Card card1 = new Card();
+                    card1.setAction(action);
+                    card1.setTitle(item.getName());
+                    card1.setSubtitle(item.getPrice()+" đ");
+
+
+
+                    Image image = new Image();
+                    image.setUrl(item.getImages().get(0).getUrl());
+                    card1.setImage(image);
+
+                    carousel.add(card1);
+
+                });
+
+                botCopy.setCarousel(carousel);
+
+
+
 
 
 
