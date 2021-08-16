@@ -81,6 +81,26 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
+    public FoodDto getFoodByName(String name) {
+
+        Food food = repository.getFoodByName(name);
+        return new FoodDto().toDto(food);
+    }
+
+    @Override
+    public List<FoodDto> getAllFoodByName(String name) {
+        List<Food> foods =  new ArrayList<>();
+
+        try {
+            foods = repository.findByNameContaining(name);
+        }catch (Exception e){
+            throw new BadRequestException("invalid Request " + e.getMessage());
+        }
+
+        return new FoodDto().toListDto(foods);
+    }
+
+    @Override
     public FoodDto getFoodById(int id) throws ResourceNotFoundException {
         return new FoodDto().toDto(repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Food not found for this id: " + id)));

@@ -101,6 +101,9 @@ public class DialogFlowWebhookController {
 
 
 
+                System.out.println("---++++getParameters()-----"+ request.getQueryResult().getParameters().get("food").toString());
+                List<FoodDto> foods = foodService.getAllFoodByName(request.getQueryResult().getParameters().get("food").toString());
+
 
 
                 Link link = new Link();

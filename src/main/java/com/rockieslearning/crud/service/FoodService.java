@@ -23,17 +23,17 @@ public interface FoodService {
 
     public List<FoodDto> retrieveFoods(Pageable pageable) throws BadRequestException;
 
-
     public List<FoodDto> getFoodByName(String name, Pageable pageable) throws BadRequestException;
 
+    public FoodDto getFoodByName(String name);
+
+    public List<FoodDto> getAllFoodByName(String name);
 
     public FoodDto getFoodById(int id) throws ResourceNotFoundException;
-
 
     public String deleteFood(Integer foodId) throws ResourceNotFoundException;
 
     public FoodDto updateFood(Integer foodId, FoodDto foodDto) throws ResourceNotFoundException, BadRequestException;
-
 
     public List<FoodDto> getFoodByCategoryId(int id) throws ResourceNotFoundException;
 
