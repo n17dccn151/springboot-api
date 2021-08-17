@@ -339,7 +339,7 @@ public class OrderServiceImpl implements OrderService {
         UserDetail userDetail = userDetailRepository.findUserDetailByStatusAndUser(UserDetailStatusName.DEFAULT, user);
 
 
-        System.out.println("da dat hang----"+userDetail.getAddress());
+
 
         Order order = new Order();
         order.setStatus(OrderStatusName.ORDERED);
@@ -352,6 +352,8 @@ public class OrderServiceImpl implements OrderService {
         try {
             saveOrder = repository.save(order);
 
+
+            System.out.println("da dat hang----"+saveOrder.getStatus());
 
 
 
