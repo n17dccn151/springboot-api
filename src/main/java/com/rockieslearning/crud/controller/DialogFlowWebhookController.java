@@ -111,8 +111,7 @@ public class DialogFlowWebhookController {
 
                     Image image = new Image();
                     image.setUrl(foodsRequest.getImages().get(0).getUrl());
-
-
+                    
                     Card card1 = new Card();
                     card1.setAction(action);
                     card1.setBody("gia tien");
@@ -132,13 +131,9 @@ public class DialogFlowWebhookController {
                 BotCopy botCopy1 = new BotCopy();
 
                 Text text1 = new Text();
-                text1.setDisplayText("banj");
+                text1.setDisplayText(request.getQueryResult().getQueryText());
 
                 botCopy1.setText(Arrays.asList(text1));
-
-//
-//                botCopy.setText(text1);
-
 
                 botCopies.add(botCopy);
                 botCopies.add(botCopy1);
