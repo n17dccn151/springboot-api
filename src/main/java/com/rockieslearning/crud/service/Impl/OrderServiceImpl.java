@@ -363,7 +363,7 @@ public class OrderServiceImpl implements OrderService {
                 Food food = foodRepository.findByNameContaining(item.toLowerCase()).get(0);
                 System.out.println("da dat save----"+saveOrder.getStatus());
                 System.out.println("da dat food----"+food.getFoodId());
-                System.out.println("da dat num----"+numbers.get(t[0]));
+                System.out.println("da dat num----"+numbers.get(t[0]).intValue());
 
                 if(food.getQuantity() < numbers.get(t[0]).intValue()){
 
@@ -371,7 +371,7 @@ public class OrderServiceImpl implements OrderService {
 
                 }
 
-                food.setQuantity((int) (food.getQuantity() -numbers.get(t[0])));
+                food.setQuantity(food.getQuantity() - numbers.get(t[0]).intValue());
                 foodRepository.save(food);
 
                 OrderFood orderFood = new OrderFood();
@@ -380,7 +380,7 @@ public class OrderServiceImpl implements OrderService {
 
 
 
-                orderFood.setAmount((int)(numbers.get(t[0])+0));
+                orderFood.setAmount(numbers.get(t[0]).intValue());
                 orderFood.setPrice(food.getPrice());
                 orderFoodRepository.save(orderFood);
 
