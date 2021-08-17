@@ -334,72 +334,72 @@ public class OrderServiceImpl implements OrderService {
 
         System.out.println("da dat hangxxx----"+names.size());
 
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
-//
-//
-//        UserDetail userDetail = userDetailRepository.findUserDetailByStatusAndUser(UserDetailStatusName.DEFAULT, user);
-//
-//
-//
-//
-//        Order order = new Order();
-//        order.setStatus(OrderStatusName.ORDERED);
-//        order.setUser(user);
-//        order.setUserDetail(userDetail);
-//        Order saveOrder;
-//
-//
-//        try {
-//            saveOrder = repository.save(order);
-//
-//
-//            System.out.println("da dat hangxxx----"+names.size());
-//
-//            final int[] t = {0};
-//
-//            System.out.println("da dat hangxxxccc----"+saveOrder.getStatus());
-//            names.forEach(item ->{
-//                Food food = foodRepository.findByNameContaining(item.toLowerCase()).get(0);
-//
-//                System.out.println("da dat hangxxx----"+food.getFoodId());
-//
-//                if(food.getQuantity() < numbers.get(t[0])){
-//
-//                    throw new BadRequestException("invalid Request");
-//
-//                }
-//
-//                food.setQuantity(food.getQuantity() - numbers.get(t[0]).intValue());
-//                foodRepository.save(food);
-//
-//                OrderFood orderFood = new OrderFood();
-//                orderFood.setOrder(saveOrder);
-//                orderFood.setFood(food);
-//
-//
-//
-//                orderFood.setAmount(numbers.get(t[0]).intValue());
-//                orderFood.setPrice(food.getPrice());
-//                orderFoodRepository.save(orderFood);
-//
-//
-//                System.out.println("da dat hangxxx----"+t[0]);
-//                t[0]++;
-//
-//            });
-//
-//
-//
-//
-//        } catch (Exception e) {
-//            System.out.println("da dat invalid----"+e.toString()+ e.getStackTrace()+ e.getCause()+ e.fillInStackTrace());
-//            throw new BadRequestException("invalid Request");
-//        }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
 
-//        Order order1 = orderRepository.findById(saveOrder.getOrderId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
-//        return new OrderDto().toDto(order1);
-        return null;
+
+        UserDetail userDetail = userDetailRepository.findUserDetailByStatusAndUser(UserDetailStatusName.DEFAULT, user);
+
+
+
+
+        Order order = new Order();
+        order.setStatus(OrderStatusName.ORDERED);
+        order.setUser(user);
+        order.setUserDetail(userDetail);
+        Order saveOrder;
+
+
+        try {
+            saveOrder = repository.save(order);
+
+
+            System.out.println("da dat hangxxx----"+names.size());
+
+            final int[] t = {0};
+
+            System.out.println("da dat hangxxxccc----"+saveOrder.getStatus());
+            names.forEach(item ->{
+                Food food = foodRepository.findByNameContaining(item.toLowerCase()).get(0);
+
+                System.out.println("da dat hangxxx----"+food.getFoodId());
+
+                if(food.getQuantity() < numbers.get(t[0])){
+
+                    throw new BadRequestException("invalid Request");
+
+                }
+
+                food.setQuantity(food.getQuantity() - numbers.get(t[0]).intValue());
+                foodRepository.save(food);
+
+                OrderFood orderFood = new OrderFood();
+                orderFood.setOrder(saveOrder);
+                orderFood.setFood(food);
+
+
+
+                orderFood.setAmount(numbers.get(t[0]).intValue());
+                orderFood.setPrice(food.getPrice());
+                orderFoodRepository.save(orderFood);
+
+
+                System.out.println("da dat hangxxx----"+t[0]);
+                t[0]++;
+
+            });
+
+
+
+
+        } catch (Exception e) {
+            System.out.println("da dat invalid----"+e.toString()+ e.getStackTrace()+ e.getCause()+ e.fillInStackTrace());
+            throw new BadRequestException("invalid Request");
+        }
+
+        Order order1 = orderRepository.findById(saveOrder.getOrderId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
+        return new OrderDto().toDto(order1);
+
     }
 
 }
