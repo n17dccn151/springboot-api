@@ -353,13 +353,13 @@ public class OrderServiceImpl implements OrderService {
             saveOrder = repository.save(order);
 
 
-            System.out.println("da dat hang----"+saveOrder.getStatus());
+
 
 
 
             final int[] t = {0};
             names.forEach(item ->{
-                Food food = foodRepository.findByNameContaining(item.toString().toLowerCase()).get(0);
+                Food food = foodRepository.findByNameContaining(item.toLowerCase()).get(0);
 
 
                 if(food.getQuantity() < numbers.get(t[0])){
@@ -382,6 +382,7 @@ public class OrderServiceImpl implements OrderService {
                 orderFoodRepository.save(orderFood);
 
 
+                System.out.println("da dat hang----"+t[0]);
                 t[0]++;
 
             });
