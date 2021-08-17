@@ -334,31 +334,26 @@ public class OrderServiceImpl implements OrderService {
 
         System.out.println("da dat hangxxx----"+names.size());
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
-
-
-        UserDetail userDetail = userDetailRepository.findUserDetailByStatusAndUser(UserDetailStatusName.DEFAULT, user);
-
-
-
-
-        Order order = new Order();
-        order.setStatus(OrderStatusName.ORDERED);
-
-        order.setUser(user);
-        order.setUserDetail(userDetail);
-        Order saveOrder;
-
-
-        try {
-            saveOrder = repository.save(order);
-
-
-
-
-
-
+//        User user = userRepository.findById(userId)
+//                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
+//
+//
+//        UserDetail userDetail = userDetailRepository.findUserDetailByStatusAndUser(UserDetailStatusName.DEFAULT, user);
+//
+//
+//
+//
+//        Order order = new Order();
+//        order.setStatus(OrderStatusName.ORDERED);
+//        order.setUser(user);
+//        order.setUserDetail(userDetail);
+//        Order saveOrder;
+//
+//
+//        try {
+//            saveOrder = repository.save(order);
+//
+//
 //            System.out.println("da dat hangxxx----"+names.size());
 //
 //            final int[] t = {0};
@@ -394,16 +389,17 @@ public class OrderServiceImpl implements OrderService {
 //
 //            });
 //
+//
+//
+//
+//        } catch (Exception e) {
+//            System.out.println("da dat invalid----"+e.toString()+ e.getStackTrace()+ e.getCause()+ e.fillInStackTrace());
+//            throw new BadRequestException("invalid Request");
+//        }
 
-
-
-        } catch (Exception e) {
-            System.out.println("da dat invalid----"+e.toString()+ e.getStackTrace()+ e.getCause()+ e.fillInStackTrace());
-            throw new BadRequestException("invalid Request");
-        }
-
-        Order order1 = orderRepository.findById(saveOrder.getOrderId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
-        return new OrderDto().toDto(order1);
+//        Order order1 = orderRepository.findById(saveOrder.getOrderId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
+//        return new OrderDto().toDto(order1);
+        return null;
     }
 
 }
