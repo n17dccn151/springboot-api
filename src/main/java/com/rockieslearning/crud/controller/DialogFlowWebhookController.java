@@ -102,18 +102,20 @@ public class DialogFlowWebhookController {
 
                 List<Card> items = new ArrayList<>();
 
-                List<FoodDto> foodsRequest = foodService.getAllFoodByName(request.getQueryResult().getParameters().get("food").toString().toLowerCase());
 
-                foodsRequest.forEach(item ->{
+                ((ArrayList)request.getQueryResult().getParameters().get("food")).forEach(item ->{
+                    FoodDto foodsRequest = foodService.getAllFoodByName(item.toString().toLowerCase()).get(0);
+
+
                     Link link = new Link();
                     link.setTarget("_blank");
-                    link.setUrl("/products/"+ item.getFoodId());
+                    link.setUrl("/products/"+ foodsRequest.getFoodId());
 
                     Action action = new Action();
                     action.setLink(link);
 
                     Image image = new Image();
-                    image.setUrl(item.getImages().get(0).getUrl());
+                    image.setUrl(foodsRequest.getImages().get(0).getUrl());
 
 
                     Card card1 = new Card();
