@@ -329,7 +329,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public OrderDto createNewOrderFromBot(Long userId,List<Float> numbers, List<String> names) throws ResourceNotFoundException, BadRequestException {
+    public OrderDto createNewOrderFromBot(Long userId,List<Integer> numbers, List<String> names) throws ResourceNotFoundException, BadRequestException {
 
 
         System.out.println("da dat hangxxx----"+names.size());
@@ -363,15 +363,15 @@ public class OrderServiceImpl implements OrderService {
                 Food food = foodRepository.findByNameContaining(item.toLowerCase()).get(0);
                 System.out.println("da dat save----"+saveOrder.getStatus());
                 System.out.println("da dat food----"+food.getFoodId());
-                System.out.println("da dat num----"+numbers.get(t[0]).intValue());
+                System.out.println("da dat num----"+numbers.get(t[0]));
 
-                if(food.getQuantity() < numbers.get(t[0]).intValue()){
+                if(food.getQuantity() < numbers.get(t[0])){
 
                     throw new BadRequestException("invalid Request");
 
                 }
 
-                food.setQuantity(food.getQuantity() - numbers.get(t[0]).intValue());
+                food.setQuantity(food.getQuantity() - numbers.get(t[0]));
                 foodRepository.save(food);
 
                 OrderFood orderFood = new OrderFood();
@@ -380,7 +380,7 @@ public class OrderServiceImpl implements OrderService {
 
 
 
-                orderFood.setAmount(numbers.get(t[0]).intValue());
+                orderFood.setAmount(numbers.get(t[0]));
                 orderFood.setPrice(food.getPrice());
                 orderFoodRepository.save(orderFood);
 
