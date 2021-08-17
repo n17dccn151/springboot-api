@@ -122,7 +122,7 @@ public class DialogFlowWebhookController {
                     card1.setAction(action);
                     card1.setBody("gia tien");
                     card1.setImage(image);
-                    card1.setTitle(item.getName());
+                    card1.setTitle(foodsRequest.getName());
 
 
 
