@@ -96,17 +96,11 @@ public class DialogFlowWebhookController {
                 });
             case "request_food":
 
-
-                System.out.println("---xxxxxxxxxxgetParameters()-----"+ (ArrayList)request.getQueryResult().getParameters().get("food"));
-
-
                 List<Card> items = new ArrayList<>();
 
 
                 ((ArrayList)request.getQueryResult().getParameters().get("food")).forEach(item ->{
                     FoodDto foodsRequest = foodService.getAllFoodByName(item.toString().toLowerCase()).get(0);
-                    System.out.println("---xxxxxxxxxxgetParameters()-----"+ foodsRequest.getFoodId());
-
 
                     Link link = new Link();
                     link.setTarget("_blank");
@@ -126,31 +120,25 @@ public class DialogFlowWebhookController {
                     card1.setTitle(foodsRequest.getName());
 
 
-
                     items.add(card1);
 
                 });
                 botCopy.setTitle("Danh sách sản phẩm");
                 botCopy.setCarousel(items);
-                BotCopy botCopy1 = new BotCopy();
+
                 Text text1 = new Text();
                 text1.setDisplayText("Bạn muốn đặt hàng không ?");
-                botCopy1.setText(text1);
-
-
+                botCopy.setText(text1);
                 botCopies.add(botCopy);
-                botCopies.add(botCopy1);
+
                 break;
+
+
             case "request_info_food":
-
-
 
                 List<Card> carousel = new ArrayList<>();
 
-
-                System.out.println("---++++getParameters()-----"+ request.getQueryResult().getParameters().get("food").toString().toLowerCase());
                 List<FoodDto> foods = foodService.getAllFoodByName(request.getQueryResult().getParameters().get("food").toString().toLowerCase());
-                System.out.println("______sizeeeeeeeeee__"+foodService.getAllFoodByName(request.getQueryResult().getParameters().get("food").toString().toLowerCase()).size());
 
                 foods.forEach(item ->{
                     Link link = new Link();
@@ -170,7 +158,6 @@ public class DialogFlowWebhookController {
                     card1.setSubtitle(item.getPrice()+" đ");
 
                     Image image = new Image();
-//                    image.setUrl("https://firebasestorage.googleapis.com/v0/b/nas-app-77.appspot.com/o/7d4b1a97-ef84-404a-93b4-0b4e1d812086jpg?alt=media");
                     image.setUrl(item.getImages().get(0).getUrl());
                     card1.setImage(image);
 
@@ -222,32 +209,8 @@ public class DialogFlowWebhookController {
         }
 
 
-
-
-
-//        Link link = new Link();
-//        List<Suggestion> suggestions = new ArrayList<>();
-//        Action action = new Action();
-//        Suggestion suggestion = new Suggestion();
-//
-//
-//
-//        link.setTarget("_blank");
-//        link.setUrl("https://botcopy.com");
-//        action.setLink(link);
-//
-//        suggestion.setAction(action);
-//        suggestion.setTitle("---"+userId);
-//        suggestions.add(suggestion);
-
-
-
-
-
         ResponseBotCopy responseBotCopy = new ResponseBotCopy();
         responseBotCopy.setBotcopy(botCopies);
-
-
 
 
         map = oMapper.convertValue(responseBotCopy, Map.class);
