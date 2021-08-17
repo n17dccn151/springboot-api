@@ -190,7 +190,7 @@ public class DialogFlowWebhookController {
 
 
                 System.out.println("da dat hang----");
-                List<Integer> num = (ArrayList) request.getQueryResult().getOutputContexts().get(0).getParameters().get("number");
+                ArrayList<Integer> num = (ArrayList) request.getQueryResult().getOutputContexts().get(0).getParameters().get("number");
                 List<String> name = (ArrayList) request.getQueryResult().getOutputContexts().get(0).getParameters().get("food");
                 System.out.println("da dat getOutputContexts: " + request.getQueryResult().getOutputContexts().get(0).getParameters());
 
