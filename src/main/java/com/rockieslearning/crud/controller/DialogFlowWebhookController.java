@@ -105,6 +105,7 @@ public class DialogFlowWebhookController {
 
                 ((ArrayList)request.getQueryResult().getParameters().get("food")).forEach(item ->{
                     FoodDto foodsRequest = foodService.getAllFoodByName(item.toString().toLowerCase()).get(0);
+                    System.out.println("---xxxxxxxxxxgetParameters()-----"+ foodsRequest.getFoodId());
 
 
                     Link link = new Link();
@@ -129,6 +130,7 @@ public class DialogFlowWebhookController {
                     items.add(card1);
 
                 });
+                botCopy.setTitle("Danh sách sản phẩm");
                 botCopy.setCarousel(items);
                 BotCopy botCopy1 = new BotCopy();
                 Text text1 = new Text();

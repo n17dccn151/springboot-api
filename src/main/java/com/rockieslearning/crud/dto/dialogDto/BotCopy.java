@@ -19,4 +19,5 @@ public class BotCopy {
     Form form;
     ListB list;
     Text text;
+    String title;
 }
