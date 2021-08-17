@@ -190,14 +190,14 @@ public class DialogFlowWebhookController {
 
 
                 System.out.println("da dat hang----");
-                List<Float> num = (ArrayList) request.getQueryResult().getOutputContexts().get(0).getParameters().get("number");
+                List<Integer> num = (ArrayList) request.getQueryResult().getOutputContexts().get(0).getParameters().get("number");
                 List<String> name = (ArrayList) request.getQueryResult().getOutputContexts().get(0).getParameters().get("food");
                 System.out.println("da dat getOutputContexts: " + request.getQueryResult().getOutputContexts().get(0).getParameters());
 
                 System.out.println("da dat getOutputContexts: " + request.getQueryResult().getOutputContexts().get(0).getParameters().get("number"));
                 System.out.println("da dat getOutputContexts: " + request.getQueryResult().getOutputContexts().get(0).getParameters().get("food"));
 
-                OrderDto orderDto = orderService.createNewOrderFromBot(userId, num, name);
+//                OrderDto orderDto = orderService.createNewOrderFromBot(userId, num, name);
                 System.out.println("da dat hangrrrrrrrrrrr: " + num.size() + "_____" + name.size());
 
 
