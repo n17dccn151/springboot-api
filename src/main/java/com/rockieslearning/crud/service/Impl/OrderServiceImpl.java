@@ -339,6 +339,8 @@ public class OrderServiceImpl implements OrderService {
         UserDetail userDetail = userDetailRepository.findUserDetailByStatusAndUser(UserDetailStatusName.DEFAULT, user);
 
 
+        System.out.println("da dat hang----"+userDetail.getAddress());
+
         Order order = new Order();
         order.setStatus(OrderStatusName.ORDERED);
 
