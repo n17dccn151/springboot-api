@@ -18,6 +18,6 @@ public class BotCopy {
     List<Card> carousel;
     Form form;
     ListB list;
-    Text text;
-    String title;
+    List<Text> text;
+
 }

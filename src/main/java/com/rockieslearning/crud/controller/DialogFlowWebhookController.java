@@ -129,13 +129,19 @@ public class DialogFlowWebhookController {
                 listB.setTitle("Danh sách sản phẩm");
                 botCopy.setList(listB);
 
-//                Text text1 = new Text();
-//                text1.setDisplayText("banj");
+                BotCopy botCopy1 = new BotCopy();
+
+                Text text1 = new Text();
+                text1.setDisplayText("banj");
+
+                botCopy1.setText(Arrays.asList(text1));
+
 //
 //                botCopy.setText(text1);
 
 
                 botCopies.add(botCopy);
+                botCopies.add(botCopy1);
 
                 break;
 
