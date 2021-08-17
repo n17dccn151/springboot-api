@@ -97,8 +97,9 @@ public class DialogFlowWebhookController {
             case "request_food":
 
                 List<Card> items = new ArrayList<>();
+                List<Float> slls = (ArrayList)request.getQueryResult().getParameters().get("number");
 
-
+                final int[] t = {0};
                 ((ArrayList)request.getQueryResult().getParameters().get("food")).forEach(item ->{
                     FoodDto foodsRequest = foodService.getAllFoodByName(item.toString().toLowerCase()).get(0);
 
@@ -111,15 +112,19 @@ public class DialogFlowWebhookController {
 
                     Image image = new Image();
                     image.setUrl(foodsRequest.getImages().get(0).getUrl());
-                    
+
                     Card card1 = new Card();
                     card1.setAction(action);
-                    card1.setBody("gia tien");
+
+
+                    card1.setBody(slls.get(t[0])+"x"+ foodsRequest.getPrice());
+
                     card1.setImage(image);
                     card1.setTitle(foodsRequest.getName());
 
 
                     items.add(card1);
+                    t[0]++;
 
                 });
 
@@ -131,7 +136,7 @@ public class DialogFlowWebhookController {
                 BotCopy botCopy1 = new BotCopy();
 
                 Text text1 = new Text();
-                text1.setDisplayText(request.getQueryResult().getQueryText());
+                text1.setDisplayText( request.getQueryResult().getFulfillmentText());
 
                 botCopy1.setText(Arrays.asList(text1));
 
