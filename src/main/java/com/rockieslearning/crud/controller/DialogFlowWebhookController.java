@@ -1,4 +1,5 @@
 package com.rockieslearning.crud.controller;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.dialogflow.v2beta1.model.*;
@@ -57,15 +58,15 @@ public class DialogFlowWebhookController {
 
         //Step 2. Process the request
 
-        System.out.println("---rawData-----"+ rawData);
-        System.out.println("---getFulfillmentMessages()-----"+ request.getQueryResult().getFulfillmentMessages());
-        System.out.println("---getParameters()-----"+ request.getQueryResult().getParameters());
-        System.out.println("---getWebhookPayload()-----"+ request.getQueryResult().getWebhookPayload());
-        System.out.println("---getFulfillmentText()-----"+ request.getQueryResult().getFulfillmentText());
+        System.out.println("---rawData-----" + rawData);
+        System.out.println("---getFulfillmentMessages()-----" + request.getQueryResult().getFulfillmentMessages());
+        System.out.println("---getParameters()-----" + request.getQueryResult().getParameters());
+        System.out.println("---getWebhookPayload()-----" + request.getQueryResult().getWebhookPayload());
+        System.out.println("---getFulfillmentText()-----" + request.getQueryResult().getFulfillmentText());
 
 
-        System.out.println("---Payload-----"+ request.getOriginalDetectIntentRequest().getPayload());
-        System.out.println("---getQueryText()---"+ request.getQueryResult().getQueryText());
+        System.out.println("---Payload-----" + request.getOriginalDetectIntentRequest().getPayload());
+        System.out.println("---getQueryText()---" + request.getQueryResult().getQueryText());
 
         String displayName = request.getQueryResult().getIntent().getDisplayName();
         GoogleCloudDialogflowV2IntentMessage msg = new GoogleCloudDialogflowV2IntentMessage();
@@ -81,18 +82,18 @@ public class DialogFlowWebhookController {
         List<BotCopy> botCopies = new ArrayList<>();
 
         GoogleCloudDialogflowV2IntentMessageCardButton cardButton = new GoogleCloudDialogflowV2IntentMessageCardButton();
-        switch (displayName){
+        switch (displayName) {
             case "list_available_food":
 
-                List<FoodDto> foodDtos  = foodService.retrieveFoods();
-                text.setText(Arrays.asList("Hiện tại chúng tôi có "+ foodDtos.size() + " loại bạn muốn tìm loại nào?"));
+                List<FoodDto> foodDtos = foodService.retrieveFoods();
+                text.setText(Arrays.asList("Hiện tại chúng tôi có " + foodDtos.size() + " loại bạn muốn tìm loại nào?"));
                 messages.add(new GoogleCloudDialogflowV2IntentMessage().setText(text));
-                foodDtos.forEach(item ->{
+                foodDtos.forEach(item -> {
                     card.setImageUri(item.getImages().get(0).getUrl());
                     card.setSubtitle(item.getDescription());
                     card.setTitle(item.getName());
                     cardButton.setText("Thêm vào giỏ hàng");
-                    cardButton.setPostback("/cart/"+item.getFoodId()+"?qty="+ 1);
+                    cardButton.setPostback("/cart/" + item.getFoodId() + "?qty=" + 1);
                     card.setButtons(Arrays.asList(cardButton));
                     msg.setCard(card);
 
@@ -102,15 +103,15 @@ public class DialogFlowWebhookController {
             case "request_food":
 
                 List<Card> items = new ArrayList<>();
-                List<Float> slls = (ArrayList)request.getQueryResult().getParameters().get("number");
+                List<Float> slls = (ArrayList) request.getQueryResult().getParameters().get("number");
 
                 final int[] t = {0};
-                ((ArrayList)request.getQueryResult().getParameters().get("food")).forEach(item ->{
+                ((ArrayList) request.getQueryResult().getParameters().get("food")).forEach(item -> {
                     FoodDto foodsRequest = foodService.getAllFoodByName(item.toString().toLowerCase()).get(0);
 
                     Link link = new Link();
                     link.setTarget("_blank");
-                    link.setUrl("/products/"+ foodsRequest.getFoodId());
+                    link.setUrl("/products/" + foodsRequest.getFoodId());
 
                     Action action = new Action();
                     action.setLink(link);
@@ -122,7 +123,7 @@ public class DialogFlowWebhookController {
                     card1.setAction(action);
 
 
-                    card1.setBody(slls.get(t[0])+"x"+ foodsRequest.getPrice());
+                    card1.setBody(slls.get(t[0]) + "x" + foodsRequest.getPrice());
 
                     card1.setImage(image);
                     card1.setTitle(foodsRequest.getName());
@@ -133,7 +134,7 @@ public class DialogFlowWebhookController {
 
                 });
 
-                ListB listB  = new ListB();
+                ListB listB = new ListB();
                 listB.setItems(items);
                 listB.setTitle("Danh sách sản phẩm");
                 botCopy.setList(listB);
@@ -141,7 +142,7 @@ public class DialogFlowWebhookController {
                 BotCopy botCopy1 = new BotCopy();
 
                 Text text1 = new Text();
-                text1.setDisplayText( request.getQueryResult().getFulfillmentText());
+                text1.setDisplayText(request.getQueryResult().getFulfillmentText());
 
                 botCopy1.setText(Arrays.asList(text1));
 
@@ -157,10 +158,10 @@ public class DialogFlowWebhookController {
 
                 List<FoodDto> foods = foodService.getAllFoodByName(request.getQueryResult().getParameters().get("food").toString().toLowerCase());
 
-                foods.forEach(item ->{
+                foods.forEach(item -> {
                     Link link = new Link();
                     link.setTarget("_blank");
-                    link.setUrl("/products/"+ item.getFoodId());
+                    link.setUrl("/products/" + item.getFoodId());
 
                     Action action = new Action();
                     action.setLink(link);
@@ -172,7 +173,7 @@ public class DialogFlowWebhookController {
                     Card card1 = new Card();
                     card1.setAction(action);
                     card1.setTitle(item.getName());
-                    card1.setSubtitle(item.getPrice()+" đ");
+                    card1.setSubtitle(item.getPrice() + " đ");
 
                     Image image = new Image();
                     image.setUrl(item.getImages().get(0).getUrl());
@@ -189,15 +190,15 @@ public class DialogFlowWebhookController {
 
 
                 System.out.println("da dat hang----");
-                List<Float> num = (ArrayList)request.getQueryResult().getOutputContexts().get(0).getParameters().get("number");
-                List<String> name = (ArrayList)request.getQueryResult().getOutputContexts().get(0).getParameters().get("food");
-                System.out.println("da dat getOutputContexts: "+request.getQueryResult().getOutputContexts().get(0).getParameters());
+                List<Float> num = (ArrayList) request.getQueryResult().getOutputContexts().get(0).getParameters().get("number");
+                List<String> name = (ArrayList) request.getQueryResult().getOutputContexts().get(0).getParameters().get("food");
+                System.out.println("da dat getOutputContexts: " + request.getQueryResult().getOutputContexts().get(0).getParameters());
 
-                System.out.println("da dat getOutputContexts: "+request.getQueryResult().getOutputContexts().get(0).getParameters().get("number"));
-                System.out.println("da dat getOutputContexts: "+request.getQueryResult().getOutputContexts().get(0).getParameters().get("food"));
+                System.out.println("da dat getOutputContexts: " + request.getQueryResult().getOutputContexts().get(0).getParameters().get("number"));
+                System.out.println("da dat getOutputContexts: " + request.getQueryResult().getOutputContexts().get(0).getParameters().get("food"));
 
-                //                OrderDto orderDto = orderService.createNewOrderFromBot(userId,num, name);
-                System.out.println("da dat hangrrrrrrrrrrr: "+num.size()+"_____" +name.size());
+                OrderDto orderDto = orderService.createNewOrderFromBot(userId, num, name);
+                System.out.println("da dat hangrrrrrrrrrrr: " + num.size() + "_____" + name.size());
 
 
                 Text text2 = new Text();

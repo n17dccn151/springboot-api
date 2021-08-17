@@ -361,8 +361,9 @@ public class OrderServiceImpl implements OrderService {
             System.out.println("da dat hangxxxccc----"+saveOrder.getStatus());
             names.forEach(item ->{
                 Food food = foodRepository.findByNameContaining(item.toLowerCase()).get(0);
-
-                System.out.println("da dat hangxxx----"+food.getFoodId());
+                System.out.println("da dat save----"+saveOrder.getStatus());
+                System.out.println("da dat food----"+food.getFoodId());
+                System.out.println("da dat num----"+numbers.get(t[0]));
 
                 if(food.getQuantity() < numbers.get(t[0])){
 
@@ -384,7 +385,6 @@ public class OrderServiceImpl implements OrderService {
                 orderFoodRepository.save(orderFood);
 
 
-                System.out.println("da dat hangxxx----"+t[0]);
                 t[0]++;
 
             });
