@@ -73,7 +73,7 @@ public class DialogFlowWebhookController {
         Map<String, Object> map = new HashMap<>();
         ObjectMapper oMapper = new ObjectMapper();
         BotCopy botCopy = new BotCopy();
-
+        List<BotCopy> botCopies = new ArrayList<>();
 
         GoogleCloudDialogflowV2IntentMessageCardButton cardButton = new GoogleCloudDialogflowV2IntentMessageCardButton();
         switch (displayName){
@@ -95,6 +95,9 @@ public class DialogFlowWebhookController {
 
                 });
             case "request_food":
+
+
+                System.out.println("---xxxxxxxxxxgetParameters()-----"+ (ArrayList)request.getQueryResult().getParameters().get("food"));
 
 
                 List<Card> items = new ArrayList<>();
@@ -125,11 +128,19 @@ public class DialogFlowWebhookController {
 
                 });
                 botCopy.setCarousel(items);
+                BotCopy botCopy1 = new BotCopy();
+                Text text1 = new Text();
+                text1.setDisplayText("Bạn muốn đặt hàng không ?");
+                botCopy1.setText(text1);
+
+
+                botCopies.add(botCopy);
+                botCopies.add(botCopy1);
 
             case "request_info_food":
 
 
-                List<BotCopy> botCopies = new ArrayList<>();
+
                 List<Card> carousel = new ArrayList<>();
 
 
@@ -163,6 +174,7 @@ public class DialogFlowWebhookController {
 
                 });
                 botCopy.setCarousel(carousel);
+                botCopies.add(botCopy);
 
             case "request_food.request_food-yes":
 
@@ -229,7 +241,7 @@ public class DialogFlowWebhookController {
 
 
         ResponseBotCopy responseBotCopy = new ResponseBotCopy();
-        responseBotCopy.setBotcopy(Arrays.asList(botCopy));
+        responseBotCopy.setBotcopy(botCopies);
 
 
 
