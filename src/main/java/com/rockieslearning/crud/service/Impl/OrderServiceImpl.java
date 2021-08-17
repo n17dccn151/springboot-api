@@ -332,6 +332,8 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto createNewOrderFromBot(Long userId,List<Float> numbers, List<String> names) throws ResourceNotFoundException, BadRequestException {
 
 
+        System.out.println("da dat hangxxx----"+names.size());
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
 
@@ -354,12 +356,14 @@ public class OrderServiceImpl implements OrderService {
 
 
 
-            System.out.println("da dat hangxxxccc----"+saveOrder.getStatus());
+
 
 
             System.out.println("da dat hangxxx----"+names.size());
 
             final int[] t = {0};
+
+            System.out.println("da dat hangxxxccc----"+saveOrder.getStatus());
             names.forEach(item ->{
                 Food food = foodRepository.findByNameContaining(item.toLowerCase()).get(0);
 
@@ -394,7 +398,7 @@ public class OrderServiceImpl implements OrderService {
 
 
         } catch (Exception e) {
-            System.out.println("da dat invalid----"+e.toString()+ e.getStackTrace()+ e.getCause());
+            System.out.println("da dat invalid----"+e.toString()+ e.getStackTrace()+ e.getCause()+ e.fillInStackTrace());
             throw new BadRequestException("invalid Request");
         }
 
