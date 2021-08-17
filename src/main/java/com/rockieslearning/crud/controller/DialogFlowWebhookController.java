@@ -123,12 +123,18 @@ public class DialogFlowWebhookController {
                     items.add(card1);
 
                 });
-                botCopy.setTitle("Danh sách sản phẩm");
-                botCopy.setCarousel(items);
+
+                ListB listB  = new ListB();
+                listB.setItems(items);
+                listB.setTitle("Danh sách sản phẩm");
+                botCopy.setList(listB);
 
                 Text text1 = new Text();
-                text1.setDisplayText("Bạn muốn đặt hàng không ?");
+                text1.setDisplayText("banj");
+
                 botCopy.setText(text1);
+
+
                 botCopies.add(botCopy);
 
                 break;
@@ -224,6 +230,7 @@ public class DialogFlowWebhookController {
         jsonGenerator.enablePrettyPrint();
         jsonGenerator.serialize(response);
         jsonGenerator.flush();
+
         return stringWriter.toString();
     }
 }
