@@ -371,7 +371,7 @@ public class OrderServiceImpl implements OrderService {
 
                 }
 
-                food.setQuantity(food.getQuantity() - numbers.get(t[0]).intValue());
+                food.setQuantity((int) (food.getQuantity() -numbers.get(t[0])));
                 foodRepository.save(food);
 
                 OrderFood orderFood = new OrderFood();
@@ -380,7 +380,7 @@ public class OrderServiceImpl implements OrderService {
 
 
 
-                orderFood.setAmount(numbers.get(t[0]).intValue());
+                orderFood.setAmount((int)(numbers.get(t[0])+0));
                 orderFood.setPrice(food.getPrice());
                 orderFoodRepository.save(orderFood);
 
