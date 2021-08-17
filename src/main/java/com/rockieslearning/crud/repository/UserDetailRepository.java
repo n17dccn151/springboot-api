@@ -13,8 +13,6 @@ import java.util.List;
 public interface UserDetailRepository extends JpaRepository<UserDetail, Integer> {
     List<UserDetail> findByUser(User user);
 
-
-
     UserDetail findUserDetailByStatusAndUser(UserDetailStatusName statusName, User user);
 
     List<UserDetail> findListUserDetailByStatusAndUser(UserDetailStatusName statusName, User user);

@@ -1,12 +1,18 @@
 package com.rockieslearning.crud.service.Impl;
 
+import com.rockieslearning.crud.dto.FoodDto;
 import com.rockieslearning.crud.dto.OrderDto;
 import com.rockieslearning.crud.dto.OrderFoodDto;
 import com.rockieslearning.crud.dto.UserDto;
+import com.rockieslearning.crud.dto.dialogDto.Action;
+import com.rockieslearning.crud.dto.dialogDto.Card;
+import com.rockieslearning.crud.dto.dialogDto.Image;
+import com.rockieslearning.crud.dto.dialogDto.Link;
 import com.rockieslearning.crud.entity.*;
 import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.repository.*;
+import com.rockieslearning.crud.service.FoodService;
 import com.rockieslearning.crud.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -54,6 +60,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     UserDetailRepository userDetailRepository;
+
+    @Autowired
+    FoodService foodService;
 
     public OrderServiceImpl(OrderRepository repository, UserRepository userRepository, FoodRepository foodRepository, OrderFoodRepository orderFoodRepository, CartRepository cartRepository, CartFoodRepository cartFoodRepository) {
         this.repository = repository;
@@ -317,5 +326,71 @@ public class OrderServiceImpl implements OrderService {
         return new OrderDto().toDto(orderRepository.getById(saveOrder.getOrderId()));
     }
 
+
+
+    @Override
+    public OrderDto createNewOrderFromBot(Long userId,List<Float> numbers, List<String> names) throws ResourceNotFoundException, BadRequestException {
+
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
+
+
+        UserDetail userDetail = userDetailRepository.findUserDetailByStatusAndUser(UserDetailStatusName.DEFAULT, user);
+
+
+        Order order = new Order();
+        order.setStatus(OrderStatusName.ORDERED);
+
+        order.setUser(user);
+        order.setUserDetail(userDetail);
+        Order saveOrder;
+
+
+        try {
+            saveOrder = repository.save(order);
+
+
+
+
+            final int[] t = {0};
+            names.forEach(item ->{
+                Food food = foodRepository.findByNameContaining(item.toString().toLowerCase()).get(0);
+
+
+                if(food.getQuantity() < numbers.get(t[0])){
+
+                    throw new BadRequestException("invalid Request");
+
+                }
+
+                food.setQuantity(food.getQuantity() - numbers.get(t[0]).intValue());
+                foodRepository.save(food);
+
+                OrderFood orderFood = new OrderFood();
+                orderFood.setOrder(saveOrder);
+                orderFood.setFood(food);
+
+
+
+                orderFood.setAmount(numbers.get(t[0]).intValue());
+                orderFood.setPrice(food.getPrice());
+                orderFoodRepository.save(orderFood);
+
+
+                t[0]++;
+
+            });
+
+
+
+
+        } catch (Exception e) {
+            throw new BadRequestException("invalid Request");
+        }
+
+        Order order1 = orderRepository.findById(saveOrder.getOrderId()).orElseThrow(() -> new ResourceNotFoundException("not found for this id: "));
+        return new OrderDto().toDto(order1);
+    }
 
 }

@@ -38,4 +38,7 @@ public interface OrderService {
     public List<OrderDto> getListOrderByUserId(Long id);
 
     OrderDto createNewOrderFromCart(Long userId);
+
+    public OrderDto createNewOrderFromBot(Long userId, List<Float> numbers, List<String> names);
+
 }

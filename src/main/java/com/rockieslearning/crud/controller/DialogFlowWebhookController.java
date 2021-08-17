@@ -4,9 +4,11 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.dialogflow.v2beta1.model.*;
 import com.rockieslearning.crud.dto.CategoryDto;
 import com.rockieslearning.crud.dto.FoodDto;
+import com.rockieslearning.crud.dto.OrderDto;
 import com.rockieslearning.crud.dto.dialogDto.*;
 import com.rockieslearning.crud.service.CategoryService;
 import com.rockieslearning.crud.service.FoodService;
+import com.rockieslearning.crud.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,6 +35,9 @@ public class DialogFlowWebhookController {
 
     @Autowired
     FoodService foodService;
+
+    @Autowired
+    OrderService orderService;
 
     public DialogFlowWebhookController(JacksonFactory jacksonFactory) {
         this.jacksonFactory = jacksonFactory;
@@ -181,41 +186,19 @@ public class DialogFlowWebhookController {
 
             case "request_food.request_food-yes":
 
+                List<Float> num = (ArrayList)request.getQueryResult().getParameters().get("number");
+                List<String> name = (ArrayList)request.getQueryResult().getParameters().get("food");
+                OrderDto orderDto = orderService.createNewOrderFromBot(userId,num, name);
 
-//                List<BotCopy> botCopies = new ArrayList<>();
-//                List<Card> carousel = new ArrayList<>();
-//
-//
-//                System.out.println("---++++getParameters()-----"+ request.getQueryResult().getParameters().get("food").toString().toLowerCase());
-//                List<FoodDto> foods = foodService.getAllFoodByName(request.getQueryResult().getParameters().get("food").toString().toLowerCase());
-//                System.out.println("______sizeeeeeeeeee__"+foodService.getAllFoodByName(request.getQueryResult().getParameters().get("food").toString().toLowerCase()).size());
-//
-//                foods.forEach(item ->{
-//                    Link link = new Link();
-//                    link.setTarget("_blank");
-//                    link.setUrl("/products/"+ item.getFoodId());
-//
-//                    Action action = new Action();
-//                    action.setLink(link);
-//
-//                    Suggestion buttonB = new Suggestion();
-//                    action.setButtons(Arrays.asList(buttonB));
-//                    buttonB.setTitle("Xem chi tiết");
-//
-//                    Card card1 = new Card();
-//                    card1.setAction(action);
-//                    card1.setTitle(item.getName());
-//                    card1.setSubtitle(item.getPrice()+" đ");
-//
-//                    Image image = new Image();
-//                    image.setUrl(item.getImages().get(0).getUrl());
-//                    card1.setImage(image);
-//
-//                    carousel.add(card1);
-//
-//                });
-//
-//                botCopy.setCarousel(carousel);
+
+
+                Text text2 = new Text();
+                text2.setDisplayText(request.getQueryResult().getFulfillmentText());
+
+                botCopy.setText(Arrays.asList(text2));
+
+                botCopies.add(botCopy);
+
 
 
         }
