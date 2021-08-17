@@ -354,7 +354,7 @@ public class OrderServiceImpl implements OrderService {
 
 
 
-
+            System.out.println("da dat hangxxxccc----"+saveOrder.getStatus());
 
 
             System.out.println("da dat hangxxx----"+names.size());
@@ -394,7 +394,7 @@ public class OrderServiceImpl implements OrderService {
 
 
         } catch (Exception e) {
-            System.out.println("da dat invalid----"+e.getMessage());
+            System.out.println("da dat invalid----"+e.toString()+ e.getStackTrace()+ e.getCause());
             throw new BadRequestException("invalid Request");
         }
 
