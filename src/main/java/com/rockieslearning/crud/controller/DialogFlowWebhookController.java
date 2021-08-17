@@ -192,7 +192,7 @@ public class DialogFlowWebhookController {
                 List<Float> num = (ArrayList)request.getQueryResult().getParameters().get("number");
                 List<String> name = (ArrayList)request.getQueryResult().getParameters().get("food");
                 OrderDto orderDto = orderService.createNewOrderFromBot(userId,num, name);
-                System.out.println("da dat hang: ");
+                System.out.println("da dat hangrrrrrrrrrrr: ");
 
 
                 Text text2 = new Text();
