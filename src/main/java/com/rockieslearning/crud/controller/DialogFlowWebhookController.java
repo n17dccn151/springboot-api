@@ -183,8 +183,9 @@ public class DialogFlowWebhookController {
                 });
                 botCopy.setCarousel(carousel);
                 botCopies.add(botCopy);
+                break;
 
-            case "request_food.request_food-yes":
+            case "request_food - yes":
 
                 List<Float> num = (ArrayList)request.getQueryResult().getParameters().get("number");
                 List<String> name = (ArrayList)request.getQueryResult().getParameters().get("food");
@@ -199,7 +200,7 @@ public class DialogFlowWebhookController {
 
                 botCopies.add(botCopy);
 
-
+                break;
 
         }
 
