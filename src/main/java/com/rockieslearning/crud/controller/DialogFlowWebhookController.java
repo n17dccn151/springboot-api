@@ -95,7 +95,36 @@ public class DialogFlowWebhookController {
 
                 });
             case "request_food":
-                System.out.println("---hello-----"+ rawData);
+
+
+                List<Card> items = new ArrayList<>();
+
+                List<FoodDto> foodsRequest = foodService.getAllFoodByName(request.getQueryResult().getParameters().get("food").toString().toLowerCase());
+
+                foodsRequest.forEach(item ->{
+                    Link link = new Link();
+                    link.setTarget("_blank");
+                    link.setUrl("/products/"+ item.getFoodId());
+
+                    Action action = new Action();
+                    action.setLink(link);
+
+                    Image image = new Image();
+                    image.setUrl(item.getImages().get(0).getUrl());
+
+
+                    Card card1 = new Card();
+                    card1.setAction(action);
+                    card1.setBody("gia tien");
+                    card1.setImage(image);
+                    card1.setTitle(item.getName());
+
+
+
+                    items.add(card1);
+
+                });
+                botCopy.setCarousel(items);
 
             case "request_info_food":
 
@@ -116,7 +145,6 @@ public class DialogFlowWebhookController {
                     Action action = new Action();
                     action.setLink(link);
 
-
                     Suggestion buttonB = new Suggestion();
                     action.setButtons(Arrays.asList(buttonB));
                     buttonB.setTitle("Xem chi tiết");
@@ -126,21 +154,53 @@ public class DialogFlowWebhookController {
                     card1.setTitle(item.getName());
                     card1.setSubtitle(item.getPrice()+" đ");
 
-
-
                     Image image = new Image();
-                    image.setUrl("https://firebasestorage.googleapis.com/v0/b/nas-app-77.appspot.com/o/7d4b1a97-ef84-404a-93b4-0b4e1d812086jpg?alt=media");
+//                    image.setUrl("https://firebasestorage.googleapis.com/v0/b/nas-app-77.appspot.com/o/7d4b1a97-ef84-404a-93b4-0b4e1d812086jpg?alt=media");
+                    image.setUrl(item.getImages().get(0).getUrl());
                     card1.setImage(image);
 
                     carousel.add(card1);
 
                 });
-
                 botCopy.setCarousel(carousel);
 
+            case "request_food.request_food-yes":
 
 
-
+//                List<BotCopy> botCopies = new ArrayList<>();
+//                List<Card> carousel = new ArrayList<>();
+//
+//
+//                System.out.println("---++++getParameters()-----"+ request.getQueryResult().getParameters().get("food").toString().toLowerCase());
+//                List<FoodDto> foods = foodService.getAllFoodByName(request.getQueryResult().getParameters().get("food").toString().toLowerCase());
+//                System.out.println("______sizeeeeeeeeee__"+foodService.getAllFoodByName(request.getQueryResult().getParameters().get("food").toString().toLowerCase()).size());
+//
+//                foods.forEach(item ->{
+//                    Link link = new Link();
+//                    link.setTarget("_blank");
+//                    link.setUrl("/products/"+ item.getFoodId());
+//
+//                    Action action = new Action();
+//                    action.setLink(link);
+//
+//                    Suggestion buttonB = new Suggestion();
+//                    action.setButtons(Arrays.asList(buttonB));
+//                    buttonB.setTitle("Xem chi tiết");
+//
+//                    Card card1 = new Card();
+//                    card1.setAction(action);
+//                    card1.setTitle(item.getName());
+//                    card1.setSubtitle(item.getPrice()+" đ");
+//
+//                    Image image = new Image();
+//                    image.setUrl(item.getImages().get(0).getUrl());
+//                    card1.setImage(image);
+//
+//                    carousel.add(card1);
+//
+//                });
+//
+//                botCopy.setCarousel(carousel);
 
 
         }
