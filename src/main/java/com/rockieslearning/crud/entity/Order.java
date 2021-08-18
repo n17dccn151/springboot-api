@@ -35,7 +35,7 @@ public class Order {
 //    private Integer amount;
 
 //    @Enumerated(EnumType.STRING)
-//    @NaturalId(mutable=true)
+    @NaturalId(mutable=true)
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status")
     private OrderStatusName status;
