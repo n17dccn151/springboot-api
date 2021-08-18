@@ -44,6 +44,16 @@ public class GreetingController {
 	}
 
 
+	@MessageMapping("/sendMessageToAdmin/{userId}")
+	public void sendMessageFromUser(@Payload MessageDto message,
+							@DestinationVariable long userId){
+		System.out.println("received: "+ message.toString());
+		simpMessagingTemplate.convertAndSend("/topic/reciveMessage", message);
+	}
+
+
+
+
 	@MessageMapping("/hello")
 	@SendTo("/topic/greetings")
 	public Greeting greeting(HelloMessage message) throws Exception {
