@@ -36,6 +36,7 @@ public class Order {
 
 //    @Enumerated(EnumType.STRING)
 //    @NaturalId(mutable=true)
+    @Enumerated(EnumType.STRING)
     @Column(name = "order_status")
     private OrderStatusName status;
 
