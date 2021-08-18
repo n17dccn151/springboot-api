@@ -330,7 +330,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public OrderDto createNewOrderFromBot(Long userId,List<Integer> numbers, List<String> names) throws ResourceNotFoundException, BadRequestException {
+    public OrderDto createNewOrderFromBot(Long userId,List<BigInteger> numbers, List<String> names) throws ResourceNotFoundException, BadRequestException {
 
 
         System.out.println("da dat hangxxx----"+names.size());
@@ -366,13 +366,15 @@ public class OrderServiceImpl implements OrderService {
                 System.out.println("da dat food----"+food.getFoodId());
                 System.out.println("da dat num----"+numbers.get(t[0]));
 
-                if(food.getQuantity() < ((BigInteger) numbers.get(t[0])).intValue()  ){
+
+                Integer amuont = ((BigInteger) numbers.get(t[0])).intValue();
+                if(food.getQuantity() <  amuont ){
 
                     throw new BadRequestException("invalid Request");
 
                 }
 
-                food.setQuantity(food.getQuantity() - (int)(Math.round( numbers.get(t[0]))));
+                food.setQuantity(food.getQuantity() - amuont);
                 foodRepository.save(food);
 
                 OrderFood orderFood = new OrderFood();
@@ -381,7 +383,7 @@ public class OrderServiceImpl implements OrderService {
 
 
 
-                orderFood.setAmount((int)(Math.round( numbers.get(t[0]))));
+                orderFood.setAmount(amuont);
                 orderFood.setPrice(food.getPrice());
                 orderFoodRepository.save(orderFood);
 
