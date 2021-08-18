@@ -365,13 +365,13 @@ public class OrderServiceImpl implements OrderService {
                 System.out.println("da dat food----"+food.getFoodId());
                 System.out.println("da dat num----"+numbers.get(t[0]));
 
-                if(food.getQuantity() < numbers.get(t[0])){
+                if(food.getQuantity() <  (int)(Math.round( numbers.get(t[0])))){
 
                     throw new BadRequestException("invalid Request");
 
                 }
 
-                food.setQuantity(food.getQuantity() - numbers.get(t[0]));
+                food.setQuantity(food.getQuantity() - (int)(Math.round( numbers.get(t[0]))));
                 foodRepository.save(food);
 
                 OrderFood orderFood = new OrderFood();
@@ -380,7 +380,7 @@ public class OrderServiceImpl implements OrderService {
 
 
 
-                orderFood.setAmount(numbers.get(t[0]));
+                orderFood.setAmount((int)(Math.round( numbers.get(t[0]))));
                 orderFood.setPrice(food.getPrice());
                 orderFoodRepository.save(orderFood);
 
