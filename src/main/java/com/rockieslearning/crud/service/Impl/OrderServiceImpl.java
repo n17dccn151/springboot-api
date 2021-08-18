@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springfox.documentation.schema.Enums;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -330,7 +331,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public OrderDto createNewOrderFromBot(Long userId,List<BigInteger> numbers, List<String> names) throws ResourceNotFoundException, BadRequestException {
+    public OrderDto createNewOrderFromBot(Long userId, List<BigDecimal> numbers, List<String> names) throws ResourceNotFoundException, BadRequestException {
 
 
         System.out.println("da dat hangxxx----"+names.size());
@@ -367,7 +368,7 @@ public class OrderServiceImpl implements OrderService {
                 System.out.println("da dat num----"+numbers.get(t[0]));
 
 
-                Integer amuont = ((BigInteger) numbers.get(t[0])).intValue();
+                Integer amuont = numbers.get(t[0]).intValue();
                 if(food.getQuantity() <  amuont ){
 
                     throw new BadRequestException("invalid Request");

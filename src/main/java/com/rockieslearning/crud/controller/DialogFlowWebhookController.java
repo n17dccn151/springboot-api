@@ -20,6 +20,7 @@ import com.google.api.client.json.JsonGenerator;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 
@@ -191,7 +192,7 @@ public class DialogFlowWebhookController {
 
 
                 System.out.println("da dat hang----");
-                List<BigInteger> num = (ArrayList) request.getQueryResult().getOutputContexts().get(0).getParameters().get("number");
+                List<BigDecimal> num = (ArrayList) request.getQueryResult().getOutputContexts().get(0).getParameters().get("number");
                 List<String> name = (ArrayList) request.getQueryResult().getOutputContexts().get(0).getParameters().get("food");
                 System.out.println("da dat getOutputContexts: " + request.getQueryResult().getOutputContexts().get(0).getParameters());
 

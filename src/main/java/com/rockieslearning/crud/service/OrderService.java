@@ -10,6 +10,7 @@ import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import org.springframework.data.domain.Pageable;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.List;
@@ -40,6 +41,6 @@ public interface OrderService {
 
     OrderDto createNewOrderFromCart(Long userId);
 
-    public OrderDto createNewOrderFromBot(Long userId, List<BigInteger> numbers, List<String> names);
+    public OrderDto createNewOrderFromBot(Long userId, List<BigDecimal> numbers, List<String> names);
 
 }
