@@ -39,6 +39,6 @@ public interface OrderService {
 
     OrderDto createNewOrderFromCart(Long userId);
 
-    public OrderDto createNewOrderFromBot(Long userId, List<Integer> numbers, List<String> names);
+    public OrderDto createNewOrderFromBot(Long userId, List<BigInteger> numbers, List<String> names);
 
 }

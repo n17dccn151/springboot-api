@@ -197,15 +197,13 @@ public class DialogFlowWebhookController {
                 System.out.println("da dat getOutputContexts: " + request.getQueryResult().getOutputContexts().get(0).getParameters().get("number"));
                 System.out.println("da dat getOutputContexts: " + request.getQueryResult().getOutputContexts().get(0).getParameters().get("food"));
 
-//                OrderDto orderDto = orderService.createNewOrderFromBot(userId, num, name);
-                System.out.println("da dat hangrrrrrrrrrrr: " + (int)(Math.round(num.get(0))) + "_____" + name.size());
+                OrderDto orderDto = orderService.createNewOrderFromBot(userId, num, name);
+                System.out.println("da dat hangrrrrrrrrrrr: " + num.get(0) + "_____" + name.size());
 
 
                 Text text2 = new Text();
                 text2.setDisplayText(request.getQueryResult().getFulfillmentText());
-
                 botCopy.setText(Arrays.asList(text2));
-
                 botCopies.add(botCopy);
 
                 break;

@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import springfox.documentation.schema.Enums;
 
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -365,7 +366,7 @@ public class OrderServiceImpl implements OrderService {
                 System.out.println("da dat food----"+food.getFoodId());
                 System.out.println("da dat num----"+numbers.get(t[0]));
 
-                if(food.getQuantity() <  (int)(Math.round( numbers.get(t[0])))){
+                if(food.getQuantity() < ((BigInteger) numbers.get(t[0])).intValue()  ){
 
                     throw new BadRequestException("invalid Request");
 
