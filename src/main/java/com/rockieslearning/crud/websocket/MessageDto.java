@@ -12,7 +12,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MessageDto {
+public class    MessageDto {
     String name;
     String message;
     String urlImage;
