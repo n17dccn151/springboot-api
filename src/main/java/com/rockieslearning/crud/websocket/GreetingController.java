@@ -40,6 +40,7 @@ public class GreetingController {
 								@DestinationVariable long userId){
 		System.out.println("received: "+ message.toString());
 		simpMessagingTemplate.convertAndSend("/topic/reciveMessage/"+userId, message);
+		simpMessagingTemplate.convertAndSend("/topic/reciveMySelftMessage/"+userId, message);
 
 	}
 
@@ -49,6 +50,7 @@ public class GreetingController {
 							@DestinationVariable long userId){
 		System.out.println("received: "+ message.toString());
 		simpMessagingTemplate.convertAndSend("/topic/reciveMessage", message);
+		simpMessagingTemplate.convertAndSend("/topic/reciveMySelftMessageToAdmin/"+userId, message);
 	}
 
 
