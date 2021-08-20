@@ -81,7 +81,6 @@ public class CustomerController {
 
         UserDetailDto saveUserDetailDto = new UserDetailDto();
         if(status!= null){
-            System.out.println("_____________________");
              saveUserDetailDto = userService.updateUserDetailStatus(detailId, status);
         }else{
              saveUserDetailDto = userService.updateUserDetail(detailId, userDetailDto);
