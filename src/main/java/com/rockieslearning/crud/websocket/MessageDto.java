@@ -18,6 +18,6 @@ import java.util.List;
 public class    MessageDto {
     String name;
     String message;
-    List<String> urlImage;
+    String urlImage;
     Date date;
 }
