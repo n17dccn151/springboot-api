@@ -60,8 +60,9 @@ public class AuthController {
     @PostMapping("/signupv2")
     public ResponseEntity<UserDto> registerUserV2(@Valid @RequestBody SignupRequestV2 signUpRequest) {
 
+        UserDto userDto = new UserDto();
         try{
-            UserDto userDto = userService.signUpV2(signUpRequest);
+             userDto = userService.signUpV2(signUpRequest);
         }catch (Exception e){
             System.out.println(e.getMessage() + e.getCause()+ e.getStackTrace()+ e.getLocalizedMessage());
         }
