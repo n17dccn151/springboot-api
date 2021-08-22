@@ -11,6 +11,7 @@ import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.payload.request.LoginRequest;
 import com.rockieslearning.crud.payload.request.SignupRequest;
+import com.rockieslearning.crud.payload.request.SignupRequestV2;
 import com.rockieslearning.crud.payload.response.JwtResponse;
 import com.rockieslearning.crud.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,8 @@ public interface UserService {
     public JwtResponse signIn(LoginRequest loginRequest);
 
     public UserDto signUp(SignupRequest signupRequest);
+
+    public UserDto signUpV2(SignupRequestV2 signupRequest);
 
 
     public List<UserDetailDto> getListDetailByUserId(Long userId) throws ResourceNotFoundException;

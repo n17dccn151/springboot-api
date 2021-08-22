@@ -7,6 +7,7 @@ import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
 import com.rockieslearning.crud.payload.request.LoginRequest;
 import com.rockieslearning.crud.payload.request.SignupRequest;
+import com.rockieslearning.crud.payload.request.SignupRequestV2;
 import com.rockieslearning.crud.payload.response.JwtResponse;
 import com.rockieslearning.crud.repository.*;
 import com.rockieslearning.crud.security.jwt.JwtUtils;
@@ -255,6 +256,75 @@ public class UserServiceImpl implements UserService {
 
         user.setRoles(roles);
         User saveUser = userRepository.save(user);
+
+        if (checkForUserCart.get() == true) {
+            Cart cart = new Cart();
+            cart.setUser(user);
+            cartRepository.save(cart);
+        }
+
+
+        return new UserDto().toDto(saveUser);
+    }
+
+    @Override
+    public UserDto signUpV2(SignupRequestV2 signupRequest) {
+        if (userRepository.existsByPhone(signupRequest.getPhone())) {
+            throw new BadRequestException("Error: Phone is already taken!");
+        }
+
+        if (userRepository.existsByEmail(signupRequest.getEmail())) {
+            throw new BadRequestException("Error: Email is already in use!");
+        }
+
+        // Create new user's account
+        User user = new User(signupRequest.getPhone(), signupRequest.getEmail(),
+                encoder.encode(signupRequest.getPassword()));
+
+
+        Set<String> strRoles = signupRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+        AtomicBoolean checkForUserCart = new AtomicBoolean(false);
+        if (strRoles == null) {
+            Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+            checkForUserCart.set(true);
+        } else {
+            strRoles.forEach(role -> {
+                System.out.println("_________________" + role);
+                switch (role.toLowerCase()) {
+                    case "role_admin":
+                        Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(adminRole);
+
+                        break;
+                    default:
+                        checkForUserCart.set(true);
+                        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(userRole);
+
+                }
+            });
+        }
+
+        user.setRoles(roles);
+        User saveUser = userRepository.save(user);
+
+
+
+        UserDetail userDetail1 = new UserDetail();
+        userDetail1.setFirstName(signupRequest.getFirstName());
+        userDetail1.setLastName(signupRequest.getLastName());
+        userDetail1.setPhone(signupRequest.getPhone());
+        userDetail1.setAddress(signupRequest.getAddress());
+        userDetail1.setStatus(UserDetailStatusName.DEFAULT);
+        userDetail1.setUser(saveUser);
+        userDetailRepository.save(userDetail1);
+
+
 
         if (checkForUserCart.get() == true) {
             Cart cart = new Cart();

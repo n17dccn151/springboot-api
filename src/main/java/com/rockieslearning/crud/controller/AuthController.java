@@ -7,6 +7,7 @@ import com.rockieslearning.crud.entity.RoleName;
 import com.rockieslearning.crud.entity.User;
 import com.rockieslearning.crud.payload.request.LoginRequest;
 import com.rockieslearning.crud.payload.request.SignupRequest;
+import com.rockieslearning.crud.payload.request.SignupRequestV2;
 import com.rockieslearning.crud.payload.response.JwtResponse;
 import com.rockieslearning.crud.payload.response.MessageResponse;
 import com.rockieslearning.crud.repository.RoleRepository;
@@ -50,6 +51,15 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<UserDto> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         UserDto userDto = userService.signUp(signUpRequest);
+
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
+
+
+    @PostMapping("/signupv2")
+    public ResponseEntity<UserDto> registerUserV2(@Valid @RequestBody SignupRequestV2 signUpRequest) {
+        UserDto userDto = userService.signUpV2(signUpRequest);
 
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
