@@ -3,12 +3,14 @@ package com.rockieslearning.crud.service.Impl;
 import com.rockieslearning.crud.dto.CategoryDto;
 
 import com.rockieslearning.crud.entity.Category;
+import com.rockieslearning.crud.entity.Food;
 import com.rockieslearning.crud.entity.User;
 import com.rockieslearning.crud.exception.BadRequestException;
 import com.rockieslearning.crud.exception.ResourceNotFoundException;
 
 
 import com.rockieslearning.crud.repository.CategoryRepository;
+import com.rockieslearning.crud.repository.FoodRepository;
 import com.rockieslearning.crud.service.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,10 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository repository;
+
+
+    @Autowired
+    private FoodRepository foodRepository;
 
 
     @Override
@@ -60,6 +66,12 @@ public class CategoryServiceImpl implements CategoryService {
     public String deleteCategory(Integer categoryId) throws ResourceNotFoundException {
         Category category = repository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found for this id: " + categoryId));
+
+        List<Food> foodList = foodRepository.findByCategory(category);
+        if(foodList.size()>0){
+            throw new BadRequestException("Category have food, can not delete");
+        }
+
         repository.delete(category);
         return "deleted";
     }
