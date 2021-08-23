@@ -152,31 +152,40 @@ public class UserServiceImpl implements UserService {
         //existUser.setRoles(userDto.getRoles());
 
 
-
         Set<Role> roles = new HashSet<>();
         userDto.getRoles().forEach(role -> {
 
-            switch (role.toLowerCase()) {
-                case "role_admin":
-                    Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(adminRole);
-                case "role_user":
-                    Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                    roles.add(userRole);
+            if (role.toLowerCase().equals("role_admin")) {
+
+                Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(adminRole);
 
             }
-        });
-        existUser.setRoles(roles);
-        
-        try {
-            User user = user = userRepository.save(existUser);
-            return new UserDto().toDto(user);
-        } catch (Exception e) {
-            throw new BadRequestException("invalid Request");
+            if (role.toLowerCase().equals("role_user")) {
+
+                Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                        .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                roles.add(userRole);
+
+            }
         }
+    );
+        existUser.setRoles(roles);
+
+        try
+
+    {
+        User user = user = userRepository.save(existUser);
+        return new UserDto().toDto(user);
+    } catch(
+    Exception e)
+
+    {
+        throw new BadRequestException("invalid Request");
     }
+
+}
 
     @Override
     public List<UserDetailDto> getListDetailByUserId(Long userId) throws ResourceNotFoundException {
@@ -190,9 +199,9 @@ public class UserServiceImpl implements UserService {
         List<UserDetail> userDetailList = new ArrayList<>();
 
         userDetails.forEach(userDetail -> {
-            if(userDetail.getStatus().equals(UserDetailStatusName.DELETED)){
+            if (userDetail.getStatus().equals(UserDetailStatusName.DELETED)) {
 
-            }else{
+            } else {
                 userDetailList.add(userDetail);
             }
         });
@@ -332,7 +341,6 @@ public class UserServiceImpl implements UserService {
         User saveUser = userRepository.save(user);
 
 
-
         UserDetail userDetail1 = new UserDetail();
         userDetail1.setFirstName(signupRequest.getFirstName());
         userDetail1.setLastName(signupRequest.getLastName());
@@ -341,7 +349,6 @@ public class UserServiceImpl implements UserService {
         userDetail1.setStatus(UserDetailStatusName.DEFAULT);
         userDetail1.setUser(saveUser);
         userDetailRepository.save(userDetail1);
-
 
 
         if (checkForUserCart.get() == true) {
@@ -421,13 +428,12 @@ public class UserServiceImpl implements UserService {
             userDetailRepository.save(userDetail1);
 
 
-
             //old
             userDetail.setStatus(UserDetailStatusName.DELETED);
 //            userDetailRepository.save(userDetail);
 
 
-        }else{
+        } else {
             System.out.println("---------------------------KO-CO dat ahfg-----------------" + userDetail.getStatus());
 
             userDetail.setFirstName(userDetailDto.getFirstName());
@@ -436,7 +442,6 @@ public class UserServiceImpl implements UserService {
             userDetail.setAddress(userDetailDto.getAddress());
             userDetail.setStatus(userDetailDto.getStatus());
         }
-
 
 
         System.out.println("---------------------------------------------" + userDetail.getStatus());
