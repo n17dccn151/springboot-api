@@ -85,23 +85,23 @@ public class DialogFlowWebhookController {
 
         GoogleCloudDialogflowV2IntentMessageCardButton cardButton = new GoogleCloudDialogflowV2IntentMessageCardButton();
         switch (displayName) {
-            case "list_available_food":
-
-                List<FoodDto> foodDtos = foodService.retrieveFoods();
-                text.setText(Arrays.asList("Hiện tại chúng tôi có " + foodDtos.size() + " loại bạn muốn tìm loại nào?"));
-                messages.add(new GoogleCloudDialogflowV2IntentMessage().setText(text));
-                foodDtos.forEach(item -> {
-                    card.setImageUri(item.getImages().get(0).getUrl());
-                    card.setSubtitle(item.getDescription());
-                    card.setTitle(item.getName());
-                    cardButton.setText("Thêm vào giỏ hàng");
-                    cardButton.setPostback("/cart/" + item.getFoodId() + "?qty=" + 1);
-                    card.setButtons(Arrays.asList(cardButton));
-                    msg.setCard(card);
-
-                    messages.add(msg);
-
-                });
+//            case "list_available_food":
+//
+//                List<FoodDto> foodDtos = foodService.retrieveFoods();
+//                text.setText(Arrays.asList("Hiện tại chúng tôi có " + foodDtos.size() + " loại bạn muốn tìm loại nào?"));
+//                messages.add(new GoogleCloudDialogflowV2IntentMessage().setText(text));
+//                foodDtos.forEach(item -> {
+//                    card.setImageUri(item.getImages().get(0).getUrl());
+//                    card.setSubtitle(item.getDescription());
+//                    card.setTitle(item.getName());
+//                    cardButton.setText("Thêm vào giỏ hàng");
+//                    cardButton.setPostback("/cart/" + item.getFoodId() + "?qty=" + 1);
+//                    card.setButtons(Arrays.asList(cardButton));
+//                    msg.setCard(card);
+//
+//                    messages.add(msg);
+//
+//                });
             case "request_food":
 
                 List<Card> items = new ArrayList<>();
@@ -211,6 +211,7 @@ public class DialogFlowWebhookController {
                 break;
 
         }
+
 
 
         ResponseBotCopy responseBotCopy = new ResponseBotCopy();

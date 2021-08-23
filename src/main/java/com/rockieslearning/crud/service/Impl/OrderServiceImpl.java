@@ -336,6 +336,11 @@ public class OrderServiceImpl implements OrderService {
 
         System.out.println("da dat hangxxx----"+names.size());
 
+
+        if(names.size() != numbers.size()){
+            throw new BadRequestException("invalid Request");
+        }
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found for this id: " + userId));
 
