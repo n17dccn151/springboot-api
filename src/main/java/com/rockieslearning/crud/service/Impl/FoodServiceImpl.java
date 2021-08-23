@@ -165,6 +165,7 @@ public class FoodServiceImpl implements FoodService {
         food.setFoodId(foodId);
         food.setName(foodDto.getName());
         food.setQuantity(foodDto.getQuantity());
+        food.setPrice(food.getPrice());
         food.setDescription((foodDto.getDescription()));
 
         for (Object s : FoodStatusName.values()) {
