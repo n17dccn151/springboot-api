@@ -151,9 +151,27 @@ public class UserServiceImpl implements UserService {
 //        existUser.setPassword(userDto.getPassword());
         //existUser.setRoles(userDto.getRoles());
 
-        User user = new User();
+
+
+        Set<Role> roles = new HashSet<>();
+        userDto.getRoles().forEach(role -> {
+
+            switch (role.toLowerCase()) {
+                case "role_admin":
+                    Role adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(adminRole);
+                case "role_user":
+                    Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
+                            .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    roles.add(userRole);
+
+            }
+        });
+        existUser.setRoles(roles);
+        
         try {
-            user = userRepository.save(existUser);
+            User user = user = userRepository.save(existUser);
             return new UserDto().toDto(user);
         } catch (Exception e) {
             throw new BadRequestException("invalid Request");
