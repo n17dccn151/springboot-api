@@ -49,7 +49,7 @@ public class GreetingController {
 	public void sendMessageFromUser(@Payload MessageDto message,
 							@DestinationVariable long userId){
 		System.out.println("received: "+ message.toString());
-		simpMessagingTemplate.convertAndSend("/topic/reciveMessage", message);
+		simpMessagingTemplate.convertAndSend("/topic/reciveMessageFromUser/"+userId, message);
 		simpMessagingTemplate.convertAndSend("/topic/reciveMySelftMessageToAdmin/"+userId, message);
 	}
 
