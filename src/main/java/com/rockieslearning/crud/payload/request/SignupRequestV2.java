@@ -29,12 +29,12 @@ public class SignupRequestV2 {
 
 
     @NotBlank
-    @Size(min = 6, max = 40)
+    @Size(min = 1, max = 40)
     private String firstName;
 
 
     @NotBlank
-    @Size(min = 6, max = 40)
+    @Size(min = 1, max = 40)
     private String lastName;
 
     @NotBlank
