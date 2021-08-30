@@ -31,7 +31,7 @@ public class FoodDto {
     private Double price;
 
     @JsonView(View.Food.class)
-    @Min(value = 100, message = "quantity should not be less than 100")
+//    @Min(value = 100, message = "quantity should not be less than 100")
     private Integer quantity;
 
 
